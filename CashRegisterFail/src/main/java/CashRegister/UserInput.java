@@ -29,9 +29,17 @@ public class UserInput {
     }
 
     // Returns a String
-    public String readString(String input, String error)  {
-        setStrings(input, error);
-        return readIn.nextLine();
+    public String readString(String askInput, String error)  {
+        String userInput;
+        setStrings(askInput, error);
+
+        do {
+            System.out.print(this.askUserFor);
+            userInput = readIn.nextLine();
+            if(userInput == null || userInput.isBlank() || userInput.isEmpty())
+                System.out.println(this.informUserError);
+        } while(userInput == null || userInput.isBlank() || userInput.isEmpty());
+        return userInput;
     }
 
     // Returns a double
@@ -46,7 +54,7 @@ public class UserInput {
         do {
             System.out.print(this.askUserFor);
             input = readIn.nextLine();
-            if(!isNumber(input))
+            if(isNumber(input) == false)
                 System.out.println(this.informUserError);
         } while(isNumber(input) == false);
         return input;

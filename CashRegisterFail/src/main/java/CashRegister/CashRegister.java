@@ -16,7 +16,8 @@ public class CashRegister {
     static void runProgram()    {
         printMenu = new SystemOutput();
         readIn = new UserInput();
-        int option;
+        shop = new ItemOptions();
+        int menuChoice;
 
 
         // Menu will loop until program closes
@@ -25,9 +26,9 @@ public class CashRegister {
             printMenu.mainMenu();
 
             // Ask user to select an option
-            option = readIn.getUserOption(3, "Enter an option: ", "Invalid input!");
+            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid input!");
 
-            switch(option)  {
+            switch(menuChoice)  {
                 case 0:
                     exitProgram();
                     break;
@@ -43,35 +44,41 @@ public class CashRegister {
                 default:
                     callError();
             }
-        }while(option != 0);
+        }while(menuChoice != 0);
 
     }
 
     static void itemOptions()   {
-        int option;
+        int menuChoice;
         do {
-            // Print main menu
             printMenu.itemMenu();
-
-            // Ask user to select an option
-            option = readIn.getUserOption(5, "Enter an option: ", "Invalid input!");
-
-            switch(option)  {
-                case 0:
+            menuChoice = readIn.getUserOption(6,"Enter an option: ", "Incorrect value!");
+            switch(menuChoice)  {
+                case 0: // returns to main menu
                     break;
                 case 1:
-                    itemOptions();
+                    shop.addItem();
                     break;
                 case 2:
+                    shop.delItem();
                     break;
                 case 3:
-                    TransacHistory transactions = new TransacHistory();
-                    transactions.printHello();
+                    shop.printItems();
+                    break;
+                case 4:
+                    shop.buyItem();
+                    break;
+                case 5:
+                    shop.newItemName();
+                    break;
+                case 6:
+                    shop.newItemPrice();
                     break;
                 default:
                     callError();
+                    break;
             }
-        } while(option != 0);
+        } while(menuChoice != 0);
     }
 
     static void TransacHistory()   {

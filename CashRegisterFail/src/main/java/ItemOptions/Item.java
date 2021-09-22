@@ -6,9 +6,9 @@ public class Item {
     int price;
     int id;
 
-    public Item(String name, int price, int id)   {
+    public Item(int id, String name, int price)   {
+        this.id = id;
         this.name = name;
         this.price = price;
-        this.id = id;
     }
 }
