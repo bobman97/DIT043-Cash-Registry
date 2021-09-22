@@ -32,7 +32,7 @@ public class CashRegister {
                     exitProgram();
                     break;
                 case 1:
-                    itemOptions();
+                    itemOptions(); // This calls the item options menu
                     break;
                 case 2:
                     break;
@@ -71,7 +71,7 @@ public class CashRegister {
                 default:
                     callError();
             }
-        }while(option != 0);
+        } while(option != 0);
     }
 
     static void TransacHistory()   {
