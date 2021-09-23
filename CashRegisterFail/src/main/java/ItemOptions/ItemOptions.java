@@ -19,53 +19,161 @@ public class ItemOptions {
 
     public void addItem() {
         int id;
-        int price;
+        double price;
         String name;
         String error;
-        error = "Incorrect entry!";
+        String input;
 
-        // Gets details
-        id = readIn.readInt("Enter items ID: ", error);
+        error = "Invalid data for item.";
+        input = "Enter items ID: ";
+
+        // Asks user for an ID and checks if duplicate.
+        id = lookUpItem(input, error);
+
+        // Reads the name of Item
         name = readIn.readString("Enter items name: ", error);
-        price = readIn.readInt("Enter items price: ", error);
 
-        // Adds item
+        // Reads the price of Item
+        price = readIn.readDouble("Enter items price: ", error);
+        price = roundDecimal(price);
+
+        // Adds item to our ArrayList
         items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
+        System.out.println("Item " + id + " was registered successfully.");
     }
 
     public void delItem() {
         int searchQuery;
+        int index;
 
-        searchQuery = readIn.readInt("Enter the item's ID: ", "Incorrect input!");
-        int index = findItem(searchQuery);
+        // Ask user for ID
+        searchQuery = readIn.readInt("Specify the ID of the item: ", "Invalid data for item.");
+        // Lookup if ID exists
+        index = findItem(searchQuery);
+
         if(index != -1) {
-            System.out.println("Found: " + items.get(index).name + " and deleted it");
+            System.out.println("Item " + items.get(index).id + " was successfully removed.");
             items.remove(index);
         }
         else
-            System.out.println("Found nothing.");
+            System.out.println("Item " + searchQuery + " could not be removed.");
     }
 
     public void printItems() {
+        String headline = (items.isEmpty() ? "No items registered yet." : "All registered items: ");
+        String itemInfo;
+        System.out.println(headline);
+        if(items.isEmpty() == false)    {
+            for(int i = 0; i < items.size(); i++)   {
+                itemInfo = items.get(i).id + ": " + items.get(i).name + ". " + items.get(i).price + " SEK.";
+                System.out.println(itemInfo);
+            }
+        }
     }
 
     public void buyItem() {
+        int quantity, id, index, discounted;
+        double totalPrice, itemPrice;
+
+        // can't use lookUpItem since we need a returned value -1 according to specifications :(
+        //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
+        id = readIn.readInt("Enter ID of item: ", "Invalid data for item.");
+        index = findItem(id);
+        if(index != -1) {
+            quantity = readIn.readInt("Enter quantity of item: ", "Invalid data for item.");
+            itemPrice = items.get(index).price;
+
+            if (quantity > 4) {
+                discounted = quantity - 4;
+                quantity = 4;
+            } else {
+                discounted = 0;
+            }
+            totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
+            System.out.println("Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + totalPrice + " SEK.");
+        }
+        else    {
+            System.out.println("The purchase was not successful.");
+        }
     }
 
     public void newItemName() {
+        changeItem(1);
+        System.out.println("Item's name was updated successfully.");
     }
 
     public void newItemPrice() {
+        changeItem(2);
+        System.out.println("Item's price was updated successfully.");
     }
 
-    public int findItem(int searchQuery)  {
+    // 1 == name, 2 == price
+    private void changeItem(int property)    {
+        double price;
+        int index, id;
+        String input, error, name;
+
+        input = "Enter a new value: ";
+        error = "Invalid data for item.";
+
+        if(items.isEmpty() == true) {
+            System.out.println("No items registered");
+        }
+        else {
+            // Gets ID
+            id = readIn.readInt("Enter ID of item: ", "Invalid data for item.");
+            // Gets index of ID
+            index = findItem(id);
+
+            switch (property) {
+                case 1:
+                    name = readIn.readString(input, error);
+                    items.get(index).name = name;
+                    break;
+                case 2:
+                    price = readIn.readDouble(input, error);
+                    items.get(index).price = price;
+                    break;
+                default:
+                    System.exit(1);
+            }
+        }
+    }
+
+    // This method will check if id exists then return the index of item in list.
+    private int findItem(int searchQuery)  {
         int index;
         index = -1;
         for(int i = 0; i < items.size(); i++)   {
-            if(items.get(i).id == searchQuery)
+            if(items.get(i).id == searchQuery) {
                 return i;
+            }
         }
         return index;
+    }
+
+    // This method asks for and ID as input and checks if it's a duplicate
+    private int lookUpItem(String input, String error)    {
+        int id;
+        boolean checkDuplicate;
+
+        do {
+            id = readIn.readInt(input, error);
+
+            if(items.isEmpty() == false && findItem(id) != -1) { // If list is not empty, then check if ID is duplicate:
+                System.out.println(error);
+                checkDuplicate = true;
+            }
+            else    { // If list is empty or ID is not duplicate:
+                checkDuplicate = false;
+            }
+        } while(checkDuplicate == true);
+        return id;
+    }
+
+    // Removes any decimals over #.00.
+    public double roundDecimal(double value)  {
+        return (double)((long)(value * 100))/100;
     }
 
     /*

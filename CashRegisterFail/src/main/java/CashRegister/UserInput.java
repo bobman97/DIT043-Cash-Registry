@@ -22,7 +22,7 @@ public class UserInput {
     ***********************
     */
 
-    // Returns an integer
+    // Returns a positive integer
     public int readInt(String input, String error)    {
         setStrings(input, error);
         return Integer.parseInt(getNumber());
@@ -42,7 +42,7 @@ public class UserInput {
         return userInput;
     }
 
-    // Returns a double
+    // Returns a positive double
     public double readDouble(String input, String error) {
         setStrings(input, error);
         return Double.parseDouble(getNumber());
@@ -60,13 +60,15 @@ public class UserInput {
         return input;
     }
 
-    // Checks if input is a number
+    // Checks if input is a positive number
     boolean isNumber(String number)   {
         if(number == null) {
             return false;
         } // skipping else since return would stop the method.
         try {
             double stringToDouble = Double.parseDouble(number);
+            if(stringToDouble < 0)
+                return false;
         }
         catch(NumberFormatException error)  {
             return false;

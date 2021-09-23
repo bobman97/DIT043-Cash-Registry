@@ -4,6 +4,8 @@ package CashRegister;
 import ItemOptions.ItemOptions;
 import TransacHistory.TransacHistory;
 
+import java.util.Scanner;
+
 public class CashRegister {
     static UserInput readIn;
     static ItemOptions shop;
