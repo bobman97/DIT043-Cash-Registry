@@ -9,12 +9,14 @@ public class Reviews {
     public int grade;
     public double meanGrade;
     public double allMeanGrades;
+    public int id;
 
-    public Reviews(String comment, int grade, double meanGrade, double allMeanGrades) {
-this.comment = comment;
-this.grade = grade;
-this.meanGrade = meanGrade;
-this.allMeanGrades = allMeanGrades;
+    public Reviews(String comment, int grade, double meanGrade, double allMeanGradesItem, int id) {
+    this.id = id;
+    this.comment = comment;
+    this.grade = grade;
+    this.meanGrade = meanGrade;
+    this.allMeanGrades = allMeanGradesItem;
 
     }
 }

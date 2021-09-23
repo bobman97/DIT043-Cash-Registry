@@ -9,13 +9,14 @@ public class TransacHistory {
     SystemOutput sout;
     UserInput choice;
     ArrayList <Transaction> historyList;
-    ItemOptions itemsData;
+    public ItemOptions itemsData;
 
 
     public TransacHistory(){
         sout = new SystemOutput();
         choice = new UserInput();
         historyList = new ArrayList<Transaction>();
+
 
     }
 
@@ -48,16 +49,116 @@ public class TransacHistory {
     }
 
     public void printHistory(int id){
+        String itemName="";
+        double price = 0;
+        int transactionTotal = 0;
+        boolean exist = false;
+        for (int i=0; i<itemsData.items.size();i++){
+            if(id==itemsData.items.get(i).id){
 
+            }else{
+                System.out.println("Item "+id+"was not registered yet.");
+            }
+        }
         for(int i=0; i<historyList.size();i++){
             if(id==historyList.get(i).ID){
-                System.out.println(historyList.get(i).ID+": "+historyList.get(i)+ "item(s)" );
+                transactionTotal=i;
+                itemName = itemsData.items.get(i).name;
+                price = itemsData.items.get(i).price;
+                exist=true;
+            }
 
+        }
+        if(!exist){
+            System.out.println("Transactions for item: " + id +":"+itemName+". "+price+ " SEK");
+            System.out.println("No transactions have been registered for item" +id+" yet.");
+        }
+        else {
+            System.out.println("Transactions for item: " + id + ":" + itemName + ". " + price + " SEK");
+            System.out.println("");
+
+            for (int i = 0; i < historyList.size(); i++) {
+                if (id == historyList.get(i).ID) {
+                    System.out.println(historyList.get(i).ID + ": " + historyList.get(i).quantity + "item(s). " + historyList.get(i).totalPrice + " SEK");
+                }
             }
         }
     }
 
 
+    public void allHistory(){
+        int unitsSold = 0;
+        double totPurchase = 0;
+        int regTrans = 0;
 
+        for(int i = 0; i<historyList.size();i++){
+            regTrans=i;
+            totPurchase+=historyList.get(i).totalPrice;
+            unitsSold+=historyList.get(i).quantity;
+        }
+        if(regTrans==0){
+            System.out.println("0");
+        }else {
+            System.out.println("Sum of all item purchases: "+totPurchase);
+            System.out.println("Total units sold: "+unitsSold);
+            System.out.println("Total registered transactions: "+regTrans);
+        }
+    }
+
+    public void printAllTransac(){
+        int unitsSold = 0;
+        double totPurchase = 0.00;
+        int regTrans = 0;
+
+
+        for(int i = 0; i<historyList.size();i++){
+            regTrans=i;
+            totPurchase+=historyList.get(i).totalPrice;
+            unitsSold+=historyList.get(i).quantity;
+
+        }
+
+            System.out.println("All purchases made:");
+            System.out.println("Total profit: "+totPurchase+ " SEK" );
+            System.out.println("Total items sold: "+ unitsSold+ " units");
+            System.out.println("Total purchases made: "+ regTrans+ " transactions");
+
+
+            for (int i = 0; i<historyList.size();i++){
+                System.out.println(historyList.get(i).ID+" "+historyList.get(i).quantity+"  item(s)."+ historyList.get(i).totalPrice+" SEK");
+            }
+            System.out.println("------------------------------------");
+
+    }
+
+    public void mostProfit(){
+
+        double highestProfit= 00;
+        int id= 0;
+
+
+
+        for(int i = 0; i<itemsData.items.size();i++){
+            double sold = 0.00;
+            for(int y = 0; y<historyList.size();y++){
+                double totSold = 0.00;
+                if(historyList.get(y).ID==itemsData.items.get(i).id){
+                    totSold+=historyList.get(y).totalPrice;
+                }
+                if(totSold>sold){
+                    sold=totSold;
+                    id=historyList.get(y).ID;
+                }
+            }
+            if(sold>highestProfit){
+                highestProfit=sold;
+            }
+
+        }
+
+        System.out.println("Most profitable items: ");
+        System.out.println("Total profit: "+highestProfit+ " SEK");
+
+    }
 
 }

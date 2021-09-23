@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ItemOptions {
     SystemOutput sysOut;
     UserInput readIn;
-    ArrayList<Item> items;
+    public ArrayList<Item> items;
     TransacHistory saveTransaction;
 
 
@@ -18,6 +18,14 @@ public class ItemOptions {
         readIn = new UserInput();
         items = new ArrayList<Item>();
         this.saveTransaction = transactionHistory;
+        String[] tempItems = {"Pants", "Hat", "Legs", "Burak", "John", "Car", "Dental insurance", "Windows"};
+        for(int i = 0; i < 8; i++) {
+            items.add(new Item(i,tempItems[i], roundDecimal(Math.random() * 15000)));
+        }
+        for(int i = 0; i < Math.random() * 20; i++) {
+            int tempID = (int) (Math.random() * items.size());
+            saveTransaction.purchaseSave((int)(Math.random() * 20)+1, tempID, items.get(findItem(tempID)).price);
+        }
     }
 
     public void addItem() {
@@ -147,7 +155,7 @@ public class ItemOptions {
     }
 
     // This method will check if id exists then return the index of item in list.
-    private int findItem(int searchQuery)  {
+    public int findItem(int searchQuery)  {
         int index;
         index = -1;
         for(int i = 0; i < items.size(); i++)   {

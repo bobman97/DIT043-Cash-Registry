@@ -23,9 +23,10 @@ public class CashRegister {
         readIn = new UserInput();
         trans = new TransacHistory();
         shop = new ItemOptions(trans);
-        int menuChoice;
-
         reviews = new ReviewOptions(shop);
+        // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
+        trans.itemsData = shop;
+        int menuChoice;
 
         /*
         ***************
@@ -52,7 +53,7 @@ public class CashRegister {
                     reviewOptions(); // This calls the review options menu
                     break;
                 case 3:
-
+                    TransacHistory();
                     break;
                 default:
                     callError();
@@ -94,7 +95,7 @@ public class CashRegister {
     }
 
     static void reviewOptions(){
-        int menuInput;
+        /*int menuInput;
                 do {
                     printMenu.reviewMenu();
                     menuInput = readIn.getUserOption(10,"Enter an option: ", "Incorrect value!");
@@ -106,19 +107,19 @@ public class CashRegister {
                             reviews.createReview();
                             break;
                         case 2:
-                            reviews.printReview();
+                            reviews.printSpecificReview();
                             break;
                         case 3:
                             reviews.printAllRevItem();
                             break;
                         case 4:
-                            reviews.printMeanGrade();
+                            reviews.printMeanGradeItem();
                             break;
                         case 5:
                             reviews.printAllCommentsItem();
                             break;
                         case 6:
-                            reviews.printAllRegRev();
+                            reviews.printAllRegisteredRev();
                             break;
                         case 7:
                             reviews.printMostRevs();
@@ -136,40 +137,36 @@ public class CashRegister {
                             callError();
                             break;
                     }
-                }while (menuInput != 0);
+                }while (menuInput != 0);*/
     }
 
     static void TransacHistory()   {
         int choice;
-        do{printMenu.transacMenu();
+        do{
+            printMenu.transacMenu();
+            choice=readIn.getUserOption(6,"Enter an option!","You geh");
             switch (choice){
                 case 0:
-                    trans.
                     break;
                 case 1:
-                    trans.
+
                     break;
                 case 2:
-                    trans.
+
                     break;
                 case 3:
-                    trans.
+
                     break;
                 case 4:
-                    trans.
+                    trans.printAllTransac();
                     break;
                 case 5:
-                    trans.
+
                     break;
                 case 6:
-                    trans.
+                    trans.mostProfit();
                     break;
-                case 7:
-                    trans.
-                    break;
-                case 8:
-                    trans.
-                    break;
+
             }
         } while(choice!=0);
 
