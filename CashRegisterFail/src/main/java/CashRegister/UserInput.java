@@ -1,7 +1,7 @@
 package CashRegister;
 import java.util.Scanner;
 public class UserInput {
-    Scanner readIn = new Scanner(System.in);
+    public Scanner readIn = new Scanner(System.in);
     String askUserFor; // This will be output before the user input.
     String informUserError; // This will be output if user did something wrong.
 
@@ -90,5 +90,9 @@ public class UserInput {
     public void setStrings(String input, String error)  {
         this.askUserFor = input;
         this.informUserError = error;
+    }
+
+    public void closeScanner()   {
+        readIn.close();
     }
 }

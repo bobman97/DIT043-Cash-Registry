@@ -2,13 +2,16 @@ package CashRegister;
 
 
 import ItemOptions.ItemOptions;
+import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
 
-import java.util.Scanner;
+
 
 public class CashRegister {
     static UserInput readIn;
     static ItemOptions shop;
+    static ReviewOptions reviews;
+    static TransacHistory trans;
     static SystemOutput printMenu;
 
     public static void main(String[] args) {
@@ -18,9 +21,17 @@ public class CashRegister {
     static void runProgram()    {
         printMenu = new SystemOutput();
         readIn = new UserInput();
-        shop = new ItemOptions();
+        trans = new TransacHistory();
+        shop = new ItemOptions(trans);
         int menuChoice;
 
+        reviews = new ReviewOptions(shop);
+
+        /*
+        ***************
+        *  Main Menu  *
+        ***************
+        */
 
         // Menu will loop until program closes
         do {
@@ -38,16 +49,15 @@ public class CashRegister {
                     itemOptions(); // This calls the item options menu
                     break;
                 case 2:
+                    reviewOptions(); // This calls the review options menu
                     break;
                 case 3:
-                    TransacHistory transactions = new TransacHistory();
-                    transactions.printHello();
+
                     break;
                 default:
                     callError();
             }
         }while(menuChoice != 0);
-
     }
 
     static void itemOptions()   {
@@ -83,8 +93,86 @@ public class CashRegister {
         } while(menuChoice != 0);
     }
 
+    static void reviewOptions(){
+        int menuInput;
+                do {
+                    printMenu.reviewMenu();
+                    menuInput = readIn.getUserOption(10,"Enter an option: ", "Incorrect value!");
+                    switch (menuInput) {
+                        case 0:
+                            // main menu return
+                            break;
+                        case 1:
+                            reviews.createReview();
+                            break;
+                        case 2:
+                            reviews.printReview();
+                            break;
+                        case 3:
+                            reviews.printAllRevItem();
+                            break;
+                        case 4:
+                            reviews.printMeanGrade();
+                            break;
+                        case 5:
+                            reviews.printAllCommentsItem();
+                            break;
+                        case 6:
+                            reviews.printAllRegRev();
+                            break;
+                        case 7:
+                            reviews.printMostRevs();
+                            break;
+                        case 8:
+                            reviews.printLeastRevs();
+                            break;
+                        case 9:
+                            reviews.printBestMeanGrade();
+                            break;
+                        case 10:
+                            reviews.printWorstMeanGrade();
+                            break;
+                        default:
+                            callError();
+                            break;
+                    }
+                }while (menuInput != 0);
+    }
+
     static void TransacHistory()   {
-        System.out.println("You opened the item options menu");
+        int choice;
+        do{printMenu.transacMenu();
+            switch (choice){
+                case 0:
+                    trans.
+                    break;
+                case 1:
+                    trans.
+                    break;
+                case 2:
+                    trans.
+                    break;
+                case 3:
+                    trans.
+                    break;
+                case 4:
+                    trans.
+                    break;
+                case 5:
+                    trans.
+                    break;
+                case 6:
+                    trans.
+                    break;
+                case 7:
+                    trans.
+                    break;
+                case 8:
+                    trans.
+                    break;
+            }
+        } while(choice!=0);
+
     }
 
     static void callError() {
@@ -93,6 +181,7 @@ public class CashRegister {
     }
     static void exitProgram()   {
         System.out.println("Thank you, com again!");
+        readIn.closeScanner();
         System.exit(0);
     }
 }

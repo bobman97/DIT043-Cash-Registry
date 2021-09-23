@@ -1,20 +1,23 @@
 package ItemOptions;
 import CashRegister.SystemOutput;
 import CashRegister.UserInput;
+import TransacHistory.TransacHistory;
+
 import java.util.ArrayList;
 
 public class ItemOptions {
     SystemOutput sysOut;
     UserInput readIn;
     ArrayList<Item> items;
+    TransacHistory saveTransaction;
 
 
     // Constructor
-    public ItemOptions() {
+    public ItemOptions(TransacHistory transactionHistory) {
         sysOut = new SystemOutput();
         readIn = new UserInput();
         items = new ArrayList<Item>();
-        int input;
+        this.saveTransaction = transactionHistory;
     }
 
     public void addItem() {
@@ -91,11 +94,14 @@ public class ItemOptions {
             }
             totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
             System.out.println("Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + totalPrice + " SEK.");
+            saveTransaction.purchaseSave(id, quantity, totalPrice);
         }
         else    {
             System.out.println("The purchase was not successful.");
         }
     }
+
+
 
     public void newItemName() {
         changeItem(1);
@@ -178,7 +184,7 @@ public class ItemOptions {
 
     /*
      ***********************
-     *       METHODS       *
+     *    BURAKS METHODS   *
      ***********************
      */
 
