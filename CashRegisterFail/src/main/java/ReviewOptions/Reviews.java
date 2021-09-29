@@ -5,14 +5,18 @@ import ItemOptions.ItemOptions;
 
 public class Reviews {
 
+    String name;
     String comment;
-    public int grade;
-    public int reviewID;
+    int grade;
+    double price;
+    int id;
 
-    public Reviews(String comment, int grade, int reviewID) {
+    public Reviews(String name, String comment, int grade, double price, int id) {
+    this.name = name;
     this.comment = comment;
     this.grade = grade;
-    this.reviewID = reviewID;
+    this.price = price;
+    this.id= id;
 
 
     }

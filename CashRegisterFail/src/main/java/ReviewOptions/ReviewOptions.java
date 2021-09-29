@@ -45,8 +45,8 @@ public class ReviewOptions {
         ArrayList<Item> items = itemRegistry.copyItems();
         int index;
         index = -1;
-        for(int i = 0; i < itemRegistry.items.size(); i++)   {
-            if(itemRegistry.get(i).id== searchQuery) {
+        for(int i = 0; i < items.size(); i++)   {
+            if(items.get(i).id == searchQuery) {
                 return i;
             }
         }
