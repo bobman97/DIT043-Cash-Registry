@@ -2,7 +2,6 @@ package ReviewOptions;
 
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
-import ItemOptions.Item;
 import ItemOptions.ItemOptions;
 import ReviewOptions.Reviews;
 
@@ -40,7 +39,7 @@ public class ReviewOptions {
 
     }
 
-    public int FindItem(int searchQuery)  {
+    public int findItem(int searchQuery)  {
         int index;
         index = -1;
         for(int i = 0; i < itemRegistry.items.size(); i++)   {
@@ -72,9 +71,12 @@ public class ReviewOptions {
     public void createReview() {
         String comment;
         int grade;
-        int reviewID;
+        int id;
+        int index;
 
-        takeIn.readInt("Enter item ID: ", "Item" + "<" + itemRegistry.+ "> was not registered yet.");
+
+        id = takeIn.readInt("Enter item ID: ", "Item" + "<" + itemRegistry.+ "> was not registered yet.");
+        index = findItem(id);
 
         grade = takeIn.getUserOption(5, "Enter item grade: ", "Grade values must be between 1 and 5.");
 
@@ -82,9 +84,9 @@ public class ReviewOptions {
         comment = takeIn.readIn.nextLine();
         if (comment.isBlank() == true) {
             System.out.println("Your item review was registered successfully.");
-            reviewsList.add(new Reviews(i, grade));
+            reviewsList.add(new Reviews(grade));
         } else {
-            reviewsList.add(new Reviews(reviewID, grade, comment));
+            reviewsList.add(new Reviews(grade, comment));
             System.out.println("Item comment added. Your item review was registered successfully.");
         }
     }
