@@ -33,7 +33,7 @@ public class ItemOptions {
         }
     }
 
-    public void addItem() {
+    public void addItem(String itemId, String itemName, double itemPrice) {
         int id;
         double price;
         String name;

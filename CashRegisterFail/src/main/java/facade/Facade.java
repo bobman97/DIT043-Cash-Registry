@@ -1,6 +1,8 @@
 package facade;
 
 import ItemOptions.ItemOptions;
+import ReviewOptions.ReviewOptions;
+import TransacHistory.TransacHistory;
 
 import java.util.List;
 
@@ -9,13 +11,18 @@ public class Facade {
     // This class only has the skeleton of the methods used by the test.
     // You must fill in this class with your own code. You can (and should) create more classes
     // that implement the functionalities listed in the Facade and in the Test Cases.
+    TransacHistory trans;
     ItemOptions shop;
+    ReviewOptions reviews;
     public Facade(){
-
-        shop = new ItemOptions();
+        trans = new TransacHistory();
+        shop = new ItemOptions(trans);
+        reviews = new ReviewOptions(shop);
     }
 
-    public String createItem(String itemID, String itemName, double unitPrice){return "";}
+    public String createItem(String itemID, String itemName, double unitPrice){
+        shop.addItem(itemID, itemName, unitPrice);
+    }
 
     public String printItem(String itemID) {
         return "";
