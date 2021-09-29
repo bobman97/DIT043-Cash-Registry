@@ -21,7 +21,8 @@ public class Facade {
     }
 
     public String createItem(String itemID, String itemName, double unitPrice){
-        shop.addItem(itemID, itemName, unitPrice);
+        //shop.addItem(itemID, itemName, unitPrice);
+        return "";
     }
 
     public String printItem(String itemID) {

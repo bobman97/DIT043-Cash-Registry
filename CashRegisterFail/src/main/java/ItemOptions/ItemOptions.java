@@ -29,11 +29,12 @@ public class ItemOptions {
         for(int i = 0; i < Math.random() * 20; i++) {
             int tempID = (int) (Math.random() * items.size());
             int quantity = (int)(Math.random() * 20)+1;
-            saveTransaction.purchaseSave(quantity, tempID, items.get(findItem(tempID)).price);
+            //saveTransaction.purchaseSave(quantity, tempID, items.get(findItem(tempID)).price);
         }
     }
 
-    public void addItem(String itemId, String itemName, double itemPrice) {
+    //public void addItem(String itemId, String itemName, double itemPrice) {
+    public void addItem() {
         int id;
         double price;
         String name;
@@ -110,7 +111,7 @@ public class ItemOptions {
             }
             totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
             System.out.println("Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + totalPrice + " SEK.");
-            saveTransaction.purchaseSave(id, quantity, totalPrice);
+            //saveTransaction.purchaseSave(id, quantity, totalPrice);
         }
         else    {
             System.out.println("The purchase was not successful.");
