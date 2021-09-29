@@ -4,6 +4,8 @@ package CashRegister;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
+/*import ReviewOptions.ReviewOptions;
+import TransacHistory.TransacHistory;*/
 
 
 
@@ -25,7 +27,7 @@ public class CashRegister {
         shop = new ItemOptions(trans);
         reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
-        trans.itemsData = shop;
+        //trans.itemsData = shop;
         int menuChoice;
 
         /*
@@ -158,13 +160,13 @@ public class CashRegister {
 
                     break;
                 case 4:
-                    trans.printAllTransac();
+                    //trans.printAllTransac();
                     break;
                 case 5:
 
                     break;
                 case 6:
-                    trans.mostProfit();
+                    //trans.mostProfit();
                     break;
 
             }

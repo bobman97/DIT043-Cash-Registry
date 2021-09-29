@@ -18,16 +18,22 @@ public class ItemOptions {
         readIn = new UserInput();
         items = new ArrayList<Item>();
         this.saveTransaction = transactionHistory;
+
+
+        // Adds a bunch of items and randomizes up to 20 transactions.
         String[] tempItems = {"Pants", "Hat", "Legs", "Burak", "John", "Car", "Dental insurance", "Windows"};
         for(int i = 0; i < 8; i++) {
-            items.add(new Item(i,tempItems[i], roundDecimal(Math.random() * 15000)));
+            double price = (Math.random() * 1000) + 1;
+            items.add(new Item(i,tempItems[i], roundDecimal(price)));
         }
         for(int i = 0; i < Math.random() * 20; i++) {
             int tempID = (int) (Math.random() * items.size());
-            saveTransaction.purchaseSave((int)(Math.random() * 20)+1, tempID, items.get(findItem(tempID)).price);
+            int quantity = (int)(Math.random() * 20)+1;
+            //saveTransaction.purchaseSave(quantity, tempID, items.get(findItem(tempID)).price);
         }
     }
 
+    //public void addItem(String itemId, String itemName, double itemPrice) {
     public void addItem() {
         int id;
         double price;
@@ -56,6 +62,7 @@ public class ItemOptions {
     public void delItem() {
         int searchQuery;
         int index;
+        int id;
 
         // Ask user for ID
         searchQuery = readIn.readInt("Specify the ID of the item: ", "Invalid data for item.");
@@ -63,11 +70,13 @@ public class ItemOptions {
         index = findItem(searchQuery);
 
         if(index != -1) {
-            System.out.println("Item " + items.get(index).id + " was successfully removed.");
+            id = items.get(index).id;
+            System.out.println("Item " + id + " was successfully removed.");
             items.remove(index);
         }
-        else
+        else {
             System.out.println("Item " + searchQuery + " could not be removed.");
+        }
     }
 
     public void printItems() {
@@ -102,7 +111,7 @@ public class ItemOptions {
             }
             totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
             System.out.println("Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + totalPrice + " SEK.");
-            saveTransaction.purchaseSave(id, quantity, totalPrice);
+            //saveTransaction.purchaseSave(id, quantity, totalPrice);
         }
         else    {
             System.out.println("The purchase was not successful.");
@@ -190,9 +199,14 @@ public class ItemOptions {
         return (double)((long)(value * 100))/100;
     }
 
+    public ArrayList<Item> copyItems()  {
+        ArrayList<Item> itemsCopy = items;
+        return itemsCopy;
+    }
+
     /*
      ***********************
-     *    BURAKS METHODS   *
+     *    METHODS   *
      ***********************
      */
 
