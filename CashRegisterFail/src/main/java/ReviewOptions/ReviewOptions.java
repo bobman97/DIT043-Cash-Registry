@@ -42,7 +42,7 @@ public class ReviewOptions {
     }
 
     public int findItem(int searchQuery)  {
-        ItemOptions.copyItems();
+        ArrayList<Item> items = itemRegistry.copyItems();
         int index;
         index = -1;
         for(int i = 0; i < itemRegistry.items.size(); i++)   {

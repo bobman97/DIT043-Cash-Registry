@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class ItemOptions {
     SystemOutput sysOut;
     UserInput readIn;
-    public ArrayList<Item> items;
+    private ArrayList<Item> items;
     TransacHistory saveTransaction;
 
 
@@ -206,7 +206,7 @@ public class ItemOptions {
      */
 
     public ArrayList<Item> copyItems()  {
-        ArrayList<Item> itemsCopy = new ArrayList<Item>();
+        ArrayList<Item> itemsCopy;
         itemsCopy = items;
         return itemsCopy;
     }
