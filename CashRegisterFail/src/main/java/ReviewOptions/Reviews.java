@@ -7,16 +7,13 @@ public class Reviews {
 
     String comment;
     public int grade;
-    public double meanGrade;
-    public double allMeanGrades;
-    public int id;
+    public int reviewID;
 
-    public Reviews(String comment, int grade, double meanGrade, double allMeanGradesItem, int id) {
-    this.id = id;
+    public Reviews(String comment, int grade, int reviewID) {
     this.comment = comment;
     this.grade = grade;
-    this.meanGrade = meanGrade;
-    this.allMeanGrades = allMeanGradesItem;
+    this.reviewID = reviewID;
+
 
     }
 }
