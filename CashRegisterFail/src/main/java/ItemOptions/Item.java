@@ -1,6 +1,6 @@
 package ItemOptions;
 
-class Item {
+public class Item {
     // This will be the objects that stores the information about all the items in the shop.
     protected final int id;
     protected String name;

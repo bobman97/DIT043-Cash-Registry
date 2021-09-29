@@ -4,6 +4,8 @@ import CashRegister.UserInput;
 import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
 import ReviewOptions.Reviews;
+import ItemOptions.Item;
+
 
 import java.util.ArrayList;
 
@@ -40,10 +42,11 @@ public class ReviewOptions {
     }
 
     public int findItem(int searchQuery)  {
+        ItemOptions.copyItems();
         int index;
         index = -1;
         for(int i = 0; i < itemRegistry.items.size(); i++)   {
-            if(itemRegistry.items.get(i).id == searchQuery) {
+            if(itemRegistry.get(i).id== searchQuery) {
                 return i;
             }
         }
