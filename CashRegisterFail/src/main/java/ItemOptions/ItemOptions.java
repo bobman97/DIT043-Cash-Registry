@@ -199,17 +199,16 @@ public class ItemOptions {
         return (double)((long)(value * 100))/100;
     }
 
-    public ArrayList<Item> copyItems()  {
-        ArrayList<Item> itemsCopy = items;
-        return itemsCopy;
-    }
-
     /*
      ***********************
      *    METHODS   *
      ***********************
      */
 
-
+    public ArrayList<Item> copyItems()  {
+        ArrayList<Item> itemsCopy = new ArrayList<Item>();
+        itemsCopy = items;
+        return itemsCopy;
+    }
 
 }
