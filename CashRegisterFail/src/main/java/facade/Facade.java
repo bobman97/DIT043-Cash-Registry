@@ -149,7 +149,7 @@ public class Facade {
     }
 
     public String printAllItems() {
-        return "";
+        return shop.printAllItems();
     }
 
     public String printMostProfitableItems() {

@@ -64,7 +64,11 @@ public class UserInput {
     public boolean isNumber(String number)   {
         if(number == null) {
             return false;
-        } // skipping else since return would stop the method.
+        }
+        else if(number.startsWith("ID")) {
+            number = number.substring(2, number.length());
+        }
+        // skipping else since return would stop the method.
         try {
             double stringToDouble = Double.parseDouble(number);
             if(stringToDouble < 0)
