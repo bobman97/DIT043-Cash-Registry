@@ -97,7 +97,7 @@ public class CashRegister {
     }
 
     static void reviewOptions(){
-        int menuInput;
+        /*int menuInput;
                 do {
                     printMenu.reviewMenu();
                     menuInput = readIn.getUserOption(10,"Enter an option: ", "Incorrect value!");
@@ -139,7 +139,7 @@ public class CashRegister {
                             callError();
                             break;
                     }
-                }while (menuInput != 0);
+                }while (menuInput != 0);*/
     }
 
     static void TransacHistory()   {

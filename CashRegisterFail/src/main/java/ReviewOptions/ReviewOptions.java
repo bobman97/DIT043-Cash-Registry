@@ -26,7 +26,7 @@ public class ReviewOptions {
 
 
     }
-
+/*
     // Finding all reviews for an item
     private int[] findReviews(int idToSearch)   {
     // Look through all the reviews,
@@ -55,7 +55,7 @@ public class ReviewOptions {
     }
 
     public double calcMeanGrade(double meanGrade){
-        int sumOfGrades = reviewsList.
+        //int sumOfGrades = reviewsList.
         int numOfGrades = reviewsList.size();
         meanGrade = sumOfGrades / numOfGrades;
 
@@ -151,5 +151,5 @@ public class ReviewOptions {
         System.out.println();
 
 
-    }
+    }*/
 }

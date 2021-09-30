@@ -61,7 +61,7 @@ public class UserInput {
     }
 
     // Checks if input is a positive number
-    boolean isNumber(String number)   {
+    public boolean isNumber(String number)   {
         if(number == null) {
             return false;
         } // skipping else since return would stop the method.

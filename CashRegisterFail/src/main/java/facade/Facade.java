@@ -21,16 +21,15 @@ public class Facade {
     }
 
     public String createItem(String itemID, String itemName, double unitPrice){
-        //shop.addItem(itemID, itemName, unitPrice);
-        return "";
+        return shop.addItem(itemID, itemName, unitPrice);
     }
 
     public String printItem(String itemID) {
-        return "";
+        return shop.printItem(itemID);
     }
 
     public String removeItem(String itemID) {
-        return "";
+        return shop.delItem(itemID);
     }
 
     public boolean containsItem(String itemID) {
@@ -38,7 +37,7 @@ public class Facade {
     }
 
     public double buyItem(String itemID, int amount) {
-        return 0.0;
+        return shop.buyItem(itemID, amount);
     }
 
     public String reviewItem(String itemID, String reviewComment, int reviewGrade) {
@@ -138,11 +137,15 @@ public class Facade {
     }
 
     public String updateItemName(String itemID, String newName) {
-        return "";
+        double fakePrice = 0.0;
+        int property = 1;
+        return shop.changeItem(itemID, newName, fakePrice, property);
     }
 
     public String updateItemPrice(String itemID, double newPrice) {
-        return "";
+        String fakeName = "";
+        int property = 2;
+        return shop.changeItem(itemID, fakeName, newPrice, property);
     }
 
     public String printAllItems() {

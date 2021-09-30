@@ -199,16 +199,167 @@ public class ItemOptions {
         return (double)((long)(value * 100))/100;
     }
 
-    /*
-     ***********************
-     *    METHODS   *
-     ***********************
-     */
-
     public ArrayList<Item> copyItems()  {
         ArrayList<Item> itemsCopy;
         itemsCopy = items;
         return itemsCopy;
     }
 
+    /*
+     ***********************
+     *  METHODOVERLOADING  *
+     ***********************
+     */
+
+    public String addItem(String itemID, String itemName, double unitPrice) {
+        int id;
+        double price;
+        String error, success;
+        boolean priceIsNumber, nameHasLetters, idIsNumber;
+
+        error = "Invalid data for item.";
+        idIsNumber = readIn.isNumber(itemID);
+        priceIsNumber = readIn.isNumber(Double.toString(unitPrice));
+        nameHasLetters = !itemName.isEmpty();
+
+        if(idIsNumber && priceIsNumber && nameHasLetters) {
+            price = roundDecimal(unitPrice);
+            id = Integer.parseInt(itemID);
+
+            // Adds item to our ArrayList
+            items.add(new Item(id, itemName, unitPrice)); // Object is stored in a list so we dont need reference.
+
+            // Print and return success message.
+            success = "Item " + itemID + " was registered successfully.";
+            System.out.println(success);
+            return success;
+        }
+        return error;
+    }
+
+    public String delItem(String itemID) {
+        int searchQuery, index, id;
+        String error, success;
+
+        if(readIn.isNumber(itemID)) {
+            searchQuery = Integer.parseInt(itemID);
+
+            // Lookup if ID exists
+            index = findItem(searchQuery);
+
+            if (index != -1) {
+                id = items.get(index).id;
+                items.remove(index);
+                success = "Item ID" + id + " was successfully removed.";
+                System.out.println(success);
+                return success;
+            }
+        }
+        error = "Item " + itemID + " could not be removed.";
+        System.out.println(error);
+        return error;
+    }
+
+    public String printItem(String itemID) {
+        String error, itemInfo;
+        int index, id;
+        error = "No items registered yet.";
+
+        if(items.isEmpty() == true) {
+            System.out.println(error);
+            return error;
+        }
+        else if(readIn.isNumber(itemID)) {
+            error = "Invalid data for item.";
+            System.out.println(error);
+            return error;
+        }
+        id = Integer.parseInt(itemID);
+        index = findItem(id);
+
+        if(index == -1) {
+            System.out.println(error);
+            return error;
+        }
+
+        itemInfo = items.get(index).id + ": " + items.get(index).name + ". " + items.get(index).price + " SEK.";
+        System.out.println(itemInfo);
+        return itemInfo;
+    }
+
+    public double buyItem(String itemID, int amount) {
+        int quantity, id, index, discounted;
+        double totalPrice, itemPrice;
+        //
+        if(!readIn.isNumber(itemID))
+            return -1;
+        //
+        id = Integer.parseInt(itemID);
+        index = findItem(id);
+
+        if(index != -1) {
+            itemPrice = items.get(index).price;
+
+            if (amount > 4) {
+                discounted = amount - 4;
+                amount = 4;
+            } else {
+                discounted = 0;
+            }
+
+            totalPrice = roundDecimal((amount * itemPrice) + (discounted * (itemPrice * (0.7))));
+            System.out.println("Successfully purchased " + (amount + discounted) + " x Item " + id + ": " + totalPrice + " SEK.");
+            return totalPrice;
+            //saveTransaction.purchaseSave(id, quantity, totalPrice);
+        }
+        System.out.println("The purchase was not successful.");
+        return -1;
+    }
+
+    // property: 1 == name, 2 == price
+    public String changeItem(String itemID, String newName, double newPrice, int property)    {
+        double price;
+        int index, id;
+        String success, error;
+        success = "Updated items data.";
+        error = "Invalid data for item.";
+
+        if(items.isEmpty() == true) {
+            error = "No items registered.";
+            System.out.println(error);
+            return error;
+        }
+        else if(readIn.isNumber(itemID) == false)   {
+            System.out.println(error);
+            return error;
+        }
+
+        // Gets index of ID
+        id = Integer.parseInt(itemID);
+        index = findItem(id);
+
+        switch (property) {
+            case 1:
+                if(newName.isEmpty() == true)   {
+                    System.out.println(error);
+                    return error;
+                }
+                items.get(index).name = newName;
+                success = "Item's name was updated successfully.";
+                break;
+            case 2:
+                if(readIn.isNumber(Double.toString(newPrice)) == false)  {
+                    System.out.println(error);
+                    return error;
+                }
+                price = roundDecimal(newPrice);
+                items.get(index).price = price;
+                success = "Item's price was updated successfully.";
+                break;
+            default:
+                System.exit(1);
+        }
+        System.out.println(success);
+        return success;
+    }
 }
