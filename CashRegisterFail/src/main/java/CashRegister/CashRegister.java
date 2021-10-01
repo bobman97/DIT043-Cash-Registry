@@ -42,7 +42,7 @@ public class CashRegister {
             printMenu.mainMenu();
 
             // Ask user to select an option
-            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid input!");
+            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid menu option. Please type another option");
 
             switch(menuChoice)  {
                 case 0:
@@ -67,7 +67,7 @@ public class CashRegister {
         int menuChoice;
         do {
             printMenu.itemMenu();
-            menuChoice = readIn.getUserOption(6,"Enter an option: ", "Incorrect value!");
+            menuChoice = readIn.getUserOption(6,"Enter an option: ", "Invalid menu option. Please type another option");
             switch(menuChoice)  {
                 case 0: // returns to main menu
                     break;
@@ -171,7 +171,6 @@ public class CashRegister {
 
             }
         } while(choice!=0);
-
     }
 
     static void callError() {
@@ -179,7 +178,7 @@ public class CashRegister {
         System.exit(1);
     }
     static void exitProgram()   {
-        System.out.println("Thank you, com again!");
+        System.out.println("Thank you, come again!");
         readIn.closeScanner();
         System.exit(0);
     }

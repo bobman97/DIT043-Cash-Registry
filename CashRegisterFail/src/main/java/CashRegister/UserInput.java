@@ -86,6 +86,8 @@ public class UserInput {
         setStrings(input, error);
         do {
             userOption = readInt(input, error);
+            if(userOption > maxValue)
+                System.out.println(error);
         } while(userOption < 0 || userOption > maxValue);
         return userOption;
     }
