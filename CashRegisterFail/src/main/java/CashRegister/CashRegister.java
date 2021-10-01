@@ -4,6 +4,8 @@ package CashRegister;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
+
+import java.util.Scanner;
 /*import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;*/
 
@@ -15,8 +17,9 @@ public class CashRegister {
     static ReviewOptions reviews;
     static TransacHistory trans;
     static SystemOutput printMenu;
+    final static boolean test = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         runProgram();
     }
 
@@ -24,7 +27,7 @@ public class CashRegister {
         printMenu = new SystemOutput();
         readIn = new UserInput();
         trans = new TransacHistory();
-        shop = new ItemOptions(trans);
+        shop = new ItemOptions(trans, test);
         reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         //trans.itemsData = shop;
@@ -64,36 +67,7 @@ public class CashRegister {
     }
 
     static void itemOptions()   {
-        int menuChoice;
-        do {
-            printMenu.itemMenu();
-            menuChoice = readIn.getUserOption(6,"Enter an option: ", "Invalid menu option. Please type another option");
-            switch(menuChoice)  {
-                case 0: // returns to main menu
-                    break;
-                case 1:
-                    shop.addItem();
-                    break;
-                case 2:
-                    shop.delItem();
-                    break;
-                case 3:
-                    shop.printItems();
-                    break;
-                case 4:
-                    shop.buyItem();
-                    break;
-                case 5:
-                    shop.newItemName();
-                    break;
-                case 6:
-                    shop.newItemPrice();
-                    break;
-                default:
-                    callError();
-                    break;
-            }
-        } while(menuChoice != 0);
+        shop.runProgram();
     }
 
     static void reviewOptions(){

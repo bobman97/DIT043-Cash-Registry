@@ -14,9 +14,11 @@ public class Facade {
     TransacHistory trans;
     ItemOptions shop;
     ReviewOptions reviews;
+    final boolean test;
     public Facade(){
+        test = true;
         trans = new TransacHistory();
-        shop = new ItemOptions(trans);
+        shop = new ItemOptions(trans, test);
         reviews = new ReviewOptions(shop);
     }
 
