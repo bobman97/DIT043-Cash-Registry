@@ -246,24 +246,23 @@ public class ItemOptions {
         String input, error, name;
 
         input = "Enter a new value: ";
-        error = "Invalid data for item.";
 
         if(items.isEmpty() == true) {
-            System.out.println("No items registered");
+            System.out.println(NO_ITEMS_REGISTERED);
         }
         else {
             // Gets ID
-            id = readIn.readInt("Enter ID of item: ", "Invalid data for item.");
+            id = readIn.readInt(ASK_ITEM_ID, INVALID_DATA);
             // Gets index of ID
             index = findItem(id);
 
             switch (property) {
                 case 1:
-                    name = readIn.readString(input, error);
+                    name = readIn.readString(input, INVALID_DATA);
                     items.get(index).name = name;
                     break;
                 case 2:
-                    price = readIn.readDouble(input, error);
+                    price = readIn.readDouble(input, INVALID_DATA);
                     items.get(index).price = price;
                     break;
                 default:
@@ -271,12 +270,6 @@ public class ItemOptions {
             }
         }
     }
-
-    /*
-     ************************
-     *      FACADE RUN      *
-     ************************
-     */
 
     public String printItem(String itemID) {
         String error, itemInfo;
@@ -304,6 +297,20 @@ public class ItemOptions {
         itemInfo = "ID" + items.get(index).id + ": " + items.get(index).name + ". " + decimalFix(items.get(index).price) + " SEK";
         System.out.println(itemInfo);
         return itemInfo;
+    }
+
+    /*
+     ************************
+     *      FACADE RUN      *
+     ************************
+     */
+
+    // Tests if all items pass the requirements.
+    private boolean itemTest(String id, String name, double price)  {
+        if(!readIn.isNumber(id) || name.isEmpty() || price < 0)
+            return false;
+        else
+            return true;
     }
 
     // property: 1 == name, 2 == price
@@ -412,14 +419,6 @@ public class ItemOptions {
         itemsCopy = items;
 
         return itemsCopy;
-    }
-
-    // Tests if all items pass the requirements.
-    private boolean itemTest(String id, String name, double price)  {
-        if(!readIn.isNumber(id) || name.isEmpty() || price < 0)
-            return false;
-        else
-            return true;
     }
 
     // remove ID part of itemID
