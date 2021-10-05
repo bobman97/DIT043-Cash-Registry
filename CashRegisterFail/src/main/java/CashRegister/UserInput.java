@@ -48,6 +48,21 @@ public class UserInput {
         return Double.parseDouble(getNumber());
     }
 
+    public int readID(String input, String error)    {
+        String id;
+        boolean validInput;
+        setStrings(input, error);
+        do {
+            System.out.print(this.askUserFor);
+            id = readIn.nextLine();
+            id = (id.startsWith("ID") ? id.substring(2, id.length()) : id); // Removes ID from input.
+            validInput = isNumber(id);
+            if(validInput == false)
+                System.out.println(this.informUserError);
+        } while(validInput == false);
+        return Integer.parseInt(id);
+    }
+
     // Gets user input as a number
     public String getNumber()   {
         String input;
@@ -60,14 +75,18 @@ public class UserInput {
         return input;
     }
 
-    // Checks if input is a positive number
-    boolean isNumber(String number)   {
+    // Checks if input is a positive number above 0.00
+    public boolean isNumber(String number)   {
         if(number == null) {
             return false;
-        } // skipping else since return would stop the method.
+        }
+        else if(number.startsWith("ID")) {
+            number = number.substring(2, number.length());
+        }
+        // skipping else since return would stop the method.
         try {
             double stringToDouble = Double.parseDouble(number);
-            if(stringToDouble < 0)
+            if(stringToDouble <= 0)
                 return false;
         }
         catch(NumberFormatException error)  {
@@ -82,6 +101,8 @@ public class UserInput {
         setStrings(input, error);
         do {
             userOption = readInt(input, error);
+            if(userOption > maxValue)
+                System.out.println(error);
         } while(userOption < 0 || userOption > maxValue);
         return userOption;
     }

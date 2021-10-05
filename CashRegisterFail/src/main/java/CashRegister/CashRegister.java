@@ -4,6 +4,8 @@ package CashRegister;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
+
+import java.util.Scanner;
 /*import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;*/
 
@@ -15,8 +17,9 @@ public class CashRegister {
     static ReviewOptions reviews;
     static TransacHistory trans;
     static SystemOutput printMenu;
+    final static boolean test = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         runProgram();
     }
 
@@ -24,7 +27,7 @@ public class CashRegister {
         printMenu = new SystemOutput();
         readIn = new UserInput();
         trans = new TransacHistory();
-        shop = new ItemOptions(trans);
+        shop = new ItemOptions(trans, test);
         reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         //trans.itemsData = shop;
@@ -42,7 +45,7 @@ public class CashRegister {
             printMenu.mainMenu();
 
             // Ask user to select an option
-            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid input!");
+            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid menu option. Please type another option");
 
             switch(menuChoice)  {
                 case 0:
@@ -64,40 +67,11 @@ public class CashRegister {
     }
 
     static void itemOptions()   {
-        int menuChoice;
-        do {
-            printMenu.itemMenu();
-            menuChoice = readIn.getUserOption(6,"Enter an option: ", "Incorrect value!");
-            switch(menuChoice)  {
-                case 0: // returns to main menu
-                    break;
-                case 1:
-                    shop.addItem();
-                    break;
-                case 2:
-                    shop.delItem();
-                    break;
-                case 3:
-                    shop.printItems();
-                    break;
-                case 4:
-                    shop.buyItem();
-                    break;
-                case 5:
-                    shop.newItemName();
-                    break;
-                case 6:
-                    shop.newItemPrice();
-                    break;
-                default:
-                    callError();
-                    break;
-            }
-        } while(menuChoice != 0);
+        shop.runProgram();
     }
 
     static void reviewOptions(){
-        int menuInput;
+        /*int menuInput;
                 do {
                     printMenu.reviewMenu();
                     menuInput = readIn.getUserOption(10,"Enter an option: ", "Incorrect value!");
@@ -139,7 +113,7 @@ public class CashRegister {
                             callError();
                             break;
                     }
-                }while (menuInput != 0);
+                }while (menuInput != 0);*/
     }
 
     static void TransacHistory()   {
@@ -171,7 +145,6 @@ public class CashRegister {
 
             }
         } while(choice!=0);
-
     }
 
     static void callError() {
@@ -179,7 +152,7 @@ public class CashRegister {
         System.exit(1);
     }
     static void exitProgram()   {
-        System.out.println("Thank you, com again!");
+        System.out.println("Thank you, come again!");
         readIn.closeScanner();
         System.exit(0);
     }
