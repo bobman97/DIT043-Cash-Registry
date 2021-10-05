@@ -4,18 +4,13 @@ package ReviewOptions;
 import ItemOptions.ItemOptions;
 
 public class Reviews {
-
-    String name;
-    String comment;
     int grade;
-    double price;
+    String comment;
     int id;
 
-    public Reviews(String name, String comment, int grade, double price, int id) {
-    this.name = name;
-    this.comment = comment;
+    public Reviews(int grade, String comment, int id) {
     this.grade = grade;
-    this.price = price;
+    this.comment = comment;
     this.id= id;
 
 

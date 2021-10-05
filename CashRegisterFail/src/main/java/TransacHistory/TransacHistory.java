@@ -19,7 +19,7 @@ public class TransacHistory {
 
 
     }
-/*
+
     public void purchaseSave(int quantity, int id, double totalPrice){
        historyList.add(new Transaction(quantity, id, totalPrice));
     }
@@ -160,5 +160,5 @@ public class TransacHistory {
         System.out.println("Total profit: "+highestProfit+ " SEK");
 
     }
-*/
+
 }

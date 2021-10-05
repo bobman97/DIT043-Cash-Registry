@@ -26,7 +26,7 @@ public class ReviewOptions {
 
 
     }
-/*
+
     // Finding all reviews for an item
     private int[] findReviews(int idToSearch)   {
     // Look through all the reviews,
@@ -54,18 +54,26 @@ public class ReviewOptions {
 
     }
 
-    public double calcMeanGrade(double meanGrade){
-        //int sumOfGrades = reviewsList.
-        int numOfGrades = reviewsList.size();
-        meanGrade = sumOfGrades / numOfGrades;
+    public double calcMeanGrade(){
+        int id = takeIn.readInt("Enter item ID: ", "Item" + "<" + itemRegistry. "> was not registered yet.");
+        int sumOfGrades = 0;
+        int numOfGrades = 0;
+        for (int i = 0; i < reviewsList.size(); i++){
+            if (id == reviewsList.get(i).id) {
+            sumOfGrades += reviewsList.get(i).grade;
+            numOfGrades++;
+            }
+        }
+        double meanGrade = sumOfGrades / numOfGrades;
 
         return meanGrade;
     }
 
-    public double calcMeanOfAllGrades(double meanOfAllGrades){
-        double sumOfMeanGrades = += reviewsList.get(i).grade;
-        double numOfMeanGrades = reviewsList.size();
-        meanOfAllGrades = sumOfMeanGrades / numOfMeanGrades;
+    public double calcMeanOfAllGrades(){
+       double sumOfMeanGrades = 0;
+       double numOfMeanGrades = 0;
+
+        double meanOfAllGrades = sumOfMeanGrades / numOfMeanGrades;
 
         return meanOfAllGrades;
     }
@@ -78,7 +86,7 @@ public class ReviewOptions {
         int index;
 
 
-        id = takeIn.readInt("Enter item ID: ", "Item" + "<" + itemRegistry.+ "> was not registered yet.");
+        id = takeIn.readInt("Enter item ID: ", "Item" + "<" + id + "> was not registered yet.");
         index = findItem(id);
 
         grade = takeIn.getUserOption(5, "Enter item grade: ", "Grade values must be between 1 and 5.");
@@ -87,9 +95,9 @@ public class ReviewOptions {
         comment = takeIn.readIn.nextLine();
         if (comment.isBlank() == true) {
             System.out.println("Your item review was registered successfully.");
-            reviewsList.add(new Reviews(grade));
+            reviewsList.add(new Reviews(grade, comment, id));
         } else {
-            reviewsList.add(new Reviews(grade, comment));
+            reviewsList.add(new Reviews(grade, comment, id));
             System.out.println("Item comment added. Your item review was registered successfully.");
         }
     }
@@ -99,8 +107,8 @@ public class ReviewOptions {
     // 2
     public void printSpecificReview() {
 
-        int reviewID = takeIn.readInt("Enter item ID: ", "Please input a valid item ID.");
-        int index = findReviewIndex(reviewID);
+        int id = takeIn.readInt("Enter item ID: ", "Please input a valid item ID.");
+        int index = findReviewIndex(id);
         if(index != -1) {
             System.out.println("Grade: <" + reviewsList.get(i).grade + ">.<" + reviewsList.get(i).comment + ">");
         }
@@ -110,22 +118,18 @@ public class ReviewOptions {
 
     // 3
     public void printAllRevItem(){
-            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
-        int[] index = findReviews(reviewID);
-        if(index != -1) {
-            System.out.println("Grade: <" + reviewsList.get(i).grade + ">.<" + reviewsList.get(i).comment + ">");
-        }
+            int id = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
     }
     // 4
     public void printMeanGradeItem(){
-            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
+            int id = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
         System.out.println(calcMeanGrade());
     }
     // 5
     public void printAllCommentsItem(){
-            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
+            int id = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
             System.out.println();
     }
@@ -151,5 +155,5 @@ public class ReviewOptions {
         System.out.println();
 
 
-    }*/
+    }
 }

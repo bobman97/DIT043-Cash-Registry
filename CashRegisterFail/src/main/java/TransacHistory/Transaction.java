@@ -6,13 +6,13 @@ public class Transaction {
     int quantity;
 
 
-
     public Transaction(int ID, int quantity, double totalPrice){
-    this.ID = ID;
-    this.quantity = quantity;
-    this.totalPrice = totalPrice;
+        this.ID = ID;
+        this.quantity = quantity;
+        this.totalPrice = totalPrice;
 
     }
+
 
 
 }
