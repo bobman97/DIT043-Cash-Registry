@@ -2,9 +2,10 @@ package ReviewOptions;
 
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
-import ItemOptions.Item;
 import ItemOptions.ItemOptions;
 import ReviewOptions.Reviews;
+import ItemOptions.Item;
+
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class ReviewOptions {
 
 
     }
-
+/*
     // Finding all reviews for an item
     private int[] findReviews(int idToSearch)   {
     // Look through all the reviews,
@@ -40,11 +41,12 @@ public class ReviewOptions {
 
     }
 
-    private int FindItem(int searchQuery)  {
+    public int findItem(int searchQuery)  {
+        ArrayList<Item> items = itemRegistry.copyItems();
         int index;
         index = -1;
-        for(int i = 0; i < itemRegistry.items.size(); i++)   {
-            if(itemRegistry.items.get(i).id == searchQuery) {
+        for(int i = 0; i < items.size(); i++)   {
+            if(items.get(i).id == searchQuery) {
                 return i;
             }
         }
@@ -53,7 +55,7 @@ public class ReviewOptions {
     }
 
     public double calcMeanGrade(double meanGrade){
-        int sumOfGrades = reviewsList.
+        //int sumOfGrades = reviewsList.
         int numOfGrades = reviewsList.size();
         meanGrade = sumOfGrades / numOfGrades;
 
@@ -61,34 +63,46 @@ public class ReviewOptions {
     }
 
     public double calcMeanOfAllGrades(double meanOfAllGrades){
-        double sumOfMeanGrades = 0;
-        double numOfMeanGrades = 0;
+        double sumOfMeanGrades = += reviewsList.get(i).grade;
+        double numOfMeanGrades = reviewsList.size();
         meanOfAllGrades = sumOfMeanGrades / numOfMeanGrades;
 
         return meanOfAllGrades;
     }
 
     // 1
-    public void createReview(){
-        takeIn.readInt("Enter item ID", "Item" + "<" + ID +"> was not registered yet.");
+    public void createReview() {
+        String comment;
+        int grade;
+        int id;
+        int index;
 
-        System.out.println("Enter item grade: ");
-        int itemGrade = takeIn.getUserOption(5, "Enter item grade: ", "Grade values must be between 1 and 5.");
 
+        id = takeIn.readInt("Enter item ID: ", "Item" + "<" + itemRegistry.+ "> was not registered yet.");
+        index = findItem(id);
 
-        System.out.println("Enter item comment (Optional): ");
-        String itemComment = takeIn.readIn.nextLine();
-        if (itemComment.length() < 0){
+        grade = takeIn.getUserOption(5, "Enter item grade: ", "Grade values must be between 1 and 5.");
+
+        System.out.println("Enter an item comment (Optional): ");
+        comment = takeIn.readIn.nextLine();
+        if (comment.isBlank() == true) {
             System.out.println("Your item review was registered successfully.");
+            reviewsList.add(new Reviews(grade));
+        } else {
+            reviewsList.add(new Reviews(grade, comment));
+            System.out.println("Item comment added. Your item review was registered successfully.");
+        }
     }
+
 
 
     // 2
     public void printSpecificReview() {
-        int reviewID = takeIn.readInt("Enter review ID: ", "Please input a valid review ID.");
+
+        int reviewID = takeIn.readInt("Enter item ID: ", "Please input a valid item ID.");
         int index = findReviewIndex(reviewID);
         if(index != -1) {
-            System.out.println("Grade: <" + Reviews.grade + ">.<" + Reviews.comment + ">");
+            System.out.println("Grade: <" + reviewsList.get(i).grade + ">.<" + reviewsList.get(i).comment + ">");
         }
     }
 
@@ -96,28 +110,33 @@ public class ReviewOptions {
 
     // 3
     public void printAllRevItem(){
-        System.out.println("Enter item ID: ");
+            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
+        int[] index = findReviews(reviewID);
+        if(index != -1) {
+            System.out.println("Grade: <" + reviewsList.get(i).grade + ">.<" + reviewsList.get(i).comment + ">");
+        }
 
-        System.out.println(ItemReviews[i]);
     }
     // 4
     public void printMeanGradeItem(){
-        System.out.println("Enter item ID: ");
+            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
         System.out.println(calcMeanGrade());
     }
     // 5
     public void printAllCommentsItem(){
-        System.out.println("Enter item ID to print all item comments: ");
+            int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
+
+            System.out.println();
     }
     // 6
     public void printAllRegisteredRev(){
-        System.out.println("Enter item ID to print all registered reviews for the item: ");
+        takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
     }
     // 7
     public void printMostRevs(){
-        System.out.println();
+
     }
     // 8
     public void printLeastRevs(){
@@ -132,5 +151,5 @@ public class ReviewOptions {
         System.out.println();
 
 
-    }
+    }*/
 }
