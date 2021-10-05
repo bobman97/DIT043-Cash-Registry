@@ -54,18 +54,20 @@ public class ReviewOptions {
 
     }
 
-    public double calcMeanGrade(double meanGrade){
-        int sumOfGrades = reviewsList.
+    public double calcMeanGrade(){
+        int sumOfGrades = 0;
+
+        sumOfGrades += reviewsList.get(i).grade;
         int numOfGrades = reviewsList.size();
-        meanGrade = sumOfGrades / numOfGrades;
+        double meanGrade = sumOfGrades / numOfGrades;
 
         return meanGrade;
     }
 
-    public double calcMeanOfAllGrades(double meanOfAllGrades){
-        double sumOfMeanGrades = += reviewsList.get(i).grade;
+    public double calcMeanOfAllGrades(){
+        double sumOfMeanGrades = reviewsList.get(i).grade;
         double numOfMeanGrades = reviewsList.size();
-        meanOfAllGrades = sumOfMeanGrades / numOfMeanGrades;
+        double meanOfAllGrades = sumOfMeanGrades / numOfMeanGrades;
 
         return meanOfAllGrades;
     }
@@ -127,7 +129,7 @@ public class ReviewOptions {
     public void printAllCommentsItem(){
             int reviewID = takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
 
-            System.out.println();
+
     }
     // 6
     public void printAllRegisteredRev(){
@@ -144,11 +146,11 @@ public class ReviewOptions {
     }
     // 9
     public void printBestMeanGrade(){
-        System.out.println();
+
     }
     // 10
     public void printWorstMeanGrade(){
-        System.out.println();
+
 
 
     }
