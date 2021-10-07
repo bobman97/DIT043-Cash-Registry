@@ -19,7 +19,7 @@ public class Facade {
         test = true;
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
-        reviews = new ReviewOptions(shop);
+        //reviews = new ReviewOptions(shop);
     }
 
     public String createItem(String itemID, String itemName, double unitPrice){
@@ -42,9 +42,7 @@ public class Facade {
         return shop.buyItem(itemID, amount);
     }
 
-    public String reviewItem(String itemID, String reviewComment, int reviewGrade) {
-        return "";
-    }
+    public String reviewItem(String itemID, String reviewComment, int reviewGrade) {return "";}
 
     public String reviewItem(String itemID, int reviewGrade) {
         return "";

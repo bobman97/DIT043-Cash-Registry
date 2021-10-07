@@ -28,6 +28,7 @@ public class UserInput {
         return Integer.parseInt(getNumber());
     }
 
+
     // Returns a String
     public String readString(String askInput, String error)  {
         String userInput;
@@ -86,7 +87,7 @@ public class UserInput {
         // skipping else since return would stop the method.
         try {
             double stringToDouble = Double.parseDouble(number);
-            if(stringToDouble <= 0)
+            if(stringToDouble < 0)
                 return false;
         }
         catch(NumberFormatException error)  {
