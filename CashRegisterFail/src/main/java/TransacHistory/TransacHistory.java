@@ -2,6 +2,7 @@ package TransacHistory;
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
+import ItemOptions.Item;
 import java.util.ArrayList;
 
 
@@ -10,12 +11,15 @@ public class TransacHistory {
     UserInput choice;
     ArrayList <Transaction> historyList;
     public ItemOptions itemsData;
+    ArrayList<Item> nameOfList;
 
 
     public TransacHistory(){
         sout = new SystemOutput();
         choice = new UserInput();
         historyList = new ArrayList<Transaction>();
+        ArrayList<Item> nameOfList = itemsData.copyItems();
+
 
 
     }
@@ -53,8 +57,8 @@ public class TransacHistory {
         double price = 0;
         int transactionTotal = 0;
         boolean exist = false;
-        for (int i=0; i<itemsData.items.size();i++){
-            if(id==itemsData.items.get(i).id){
+        for (int i=0; i<nameOfList.size();i++){
+            if(id==nameOfList.get(i).id){
 
             }else{
                 System.out.println("Item "+id+"was not registered yet.");
@@ -63,8 +67,8 @@ public class TransacHistory {
         for(int i=0; i<historyList.size();i++){
             if(id==historyList.get(i).ID){
                 transactionTotal=i;
-                itemName = itemsData.items.get(i).name;
-                price = itemsData.items.get(i).price;
+                itemName = nameOfList.get(i).name;
+                price = nameOfList.get(i).price;
                 exist=true;
             }
 
@@ -138,11 +142,11 @@ public class TransacHistory {
 
 
 
-        for(int i = 0; i<itemsData.items.size();i++){
+        for(int i = 0; i<nameOfList.size();i++){
             double sold = 0.00;
             for(int y = 0; y<historyList.size();y++){
                 double totSold = 0.00;
-                if(historyList.get(y).ID==itemsData.items.get(i).id){
+                if(historyList.get(y).ID==nameOfList.get(i).id){
                     totSold+=historyList.get(y).totalPrice;
                 }
                 if(totSold>sold){
