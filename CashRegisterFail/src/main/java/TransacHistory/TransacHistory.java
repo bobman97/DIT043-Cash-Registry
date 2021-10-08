@@ -170,9 +170,10 @@ public class TransacHistory {
         int unitsSold = 0;
         double totPurchase = 0;
         int regTrans = 0;
+        System.out.println(historyList.get(0).totalPrice);
 
         for(int i = 0; i<historyList.size();i++){
-            regTrans=i;
+            regTrans=i+1;
             totPurchase+=historyList.get(i).totalPrice;
             unitsSold+=historyList.get(i).quantity;
         }

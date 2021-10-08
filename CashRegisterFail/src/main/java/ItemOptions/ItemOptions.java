@@ -2,6 +2,7 @@ package ItemOptions;
 import CashRegister.SystemOutput;
 import CashRegister.UserInput;
 import TransacHistory.TransacHistory;
+import TransacHistory.Transaction;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -227,8 +228,9 @@ public class ItemOptions {
         totalPrice = roundDecimal((amount * itemPrice) + (discounted * (itemPrice * (0.7))));
         success = "Successfully purchased " + (amount + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
         System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
+        saveTransaction.purchaseSave(id, quantity, totalPrice);
         return totalPrice;
-        //saveTransaction.purchaseSave(id, quantity, totalPrice);
+
     }
 
     public void newItemName() {
