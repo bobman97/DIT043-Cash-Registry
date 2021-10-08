@@ -6,8 +6,6 @@ import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
 
 import java.util.Scanner;
-/*import ReviewOptions.ReviewOptions;
-import TransacHistory.TransacHistory;*/
 
 
 
@@ -28,9 +26,9 @@ public class CashRegister {
         readIn = new UserInput();
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
-        reviews = new ReviewOptions(shop);
+        //reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
-        //trans.itemsData = shop;
+        trans.itemsData = shop;
         int menuChoice;
 
         /*
@@ -116,36 +114,7 @@ public class CashRegister {
                 }while (menuInput != 0);*/
     }
 
-    static void TransacHistory()   {
-        int choice;
-        do{
-            printMenu.transacMenu();
-            choice=readIn.getUserOption(6,"Enter an option!","You geh");
-            switch (choice){
-                case 0:
-                    break;
-                case 1:
-
-                    break;
-                case 2:
-
-                    break;
-                case 3:
-
-                    break;
-                case 4:
-                    //trans.printAllTransac();
-                    break;
-                case 5:
-
-                    break;
-                case 6:
-                    //trans.mostProfit();
-                    break;
-
-            }
-        } while(choice!=0);
-    }
+    static void TransacHistory()   {trans.runHistory();}
 
     static void callError() {
         System.out.println("Something went wrong!");

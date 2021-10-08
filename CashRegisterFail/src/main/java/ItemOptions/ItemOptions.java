@@ -387,14 +387,18 @@ public class ItemOptions {
         int id;
         String name;
         double price;
-        ArrayList<Item> itemsCopy = new ArrayList<Item>(items.size());
+        ArrayList<Item> itemsCopy = new ArrayList<Item>((items.size() >0?items.size():0));
+        if(items.size()>0){
 
-        for(int i = 0; i < items.size(); i++)   {
-            id = items.get(i).id;
-            name = items.get(i).name;
-            price = items.get(i).price;
-            itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
+            for(int i = 0; i < items.size(); i++)   {
+                id = items.get(i).id;
+                name = items.get(i).name;
+                price = items.get(i).price;
+                itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
+            }
         }
+
+
         return itemsCopy;
     }
 

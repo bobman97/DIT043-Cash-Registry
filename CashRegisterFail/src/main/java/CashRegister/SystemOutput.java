@@ -1,63 +1,67 @@
 package CashRegister;
 
 public class SystemOutput {
+    String ln = System.lineSeparator();
 
     public void mainMenu()  {
 
         System.out.println
-                ("Main Menu: Please choose among the options below.\n" +
-                "\n" +
-                "0. Close system\n" +
-                "1. Open item options.\n" +
-                "2. Open review options\n" +
-                "3. Open transaction history");//Prints the main menu. Double check the bkslsh n?
+                ("Main Menu: Please choose among the options below."+ ln+
+                 ln+
+                "0. Close system" + ln+
+                "1. Open item options." + ln+
+                "2. Open review options" + ln+
+                "3. Open transaction history"+ln
+                +ln);
     }
 
     public void transacMenu(){
         System.out.println
-                ("Item options menu:\n" +
-                "0. Return to Main Menu.\n"+
-                "1. Print total profit from all item purchases.\n" +
-                "2. Print total units sold from all item purchases.\n" +
-                "3. Print all total number of transactions made.\n"+
-                "4. Print all transactions made.\n"+
-                "5. Print the total profit of a specific item.\n"+
-                "6. Print the number of units sold of a specific item.\n"+
-                "7. Print all transactions of a specific item.\n"+
-                "8. Print item with highest profit.\n"+
-                "");
+                ("Item options menu:" + ln+
+                        ln+
+                "0. Return to Main Menu."+ ln+
+                "1. Print total profit from all item purchases." + ln+
+                "2. Print total units sold from all item purchases."+ ln+
+                "3. Print all total number of transactions made."+ ln+
+                "4. Print all transactions made."+ ln+
+                "5. Print the total profit of a specific item."+ ln+
+                "6. Print the number of units sold of a specific item."+ ln+
+                "7. Print all transactions of a specific item."+ ln+
+                "8. Print item with highest profit."+ln
+                +ln);
     }
 
     public void reviewMenu(){
         System.out.println
-                ("Review options menu:\n"+
-                "0. Return to Main Menu.\n"+
-                "1. Create a review for an Item.\n"+
-                "2. Print a specific review of an Item.\n"+
-                "3. Print all reviews of an Item.\n"+
-                "4. Print mean grade of an Item.\n"+
-                "5. Print all comments of an Item.\n"+
-                "6. Print all registered reviews.\n"+
-                "7. Print item(s) with most reviews.\n"+
-                "8. Print item(s) with least reviews.\n"+
-                "9. Print item(s) with best mean review grade.\n"+
-                "10. Print item(s) with worst mean review grade.\n"+
-                "");
+                ("Review options menu:"+ ln+
+                        ln+
+                "0. Return to Main Menu."+ ln+
+                "1. Create a review for an Item."+ ln+
+                "2. Print a specific review of an Item."+ ln+
+                "3. Print all reviews of an Item."+ ln+
+                "4. Print mean grade of an Item."+ ln+
+                "5. Print all comments of an Item."+ ln+
+                "6. Print all registered reviews."+ ln+
+                "7. Print item(s) with most reviews."+ ln+
+                "8. Print item(s) with least reviews."+ ln+
+                "9. Print item(s) with best mean review grade."+ ln+
+                "10. Print item(s) with worst mean review grade."+ ln
+                +ln);
 
     }
 
     public void itemMenu(){
         System.out.println
-                ("Item Options menu:\n"+
-                 "0. Return to Main Menu.\n"+
-                 "1. Create an Item.\n"+
-                 "2. Remove an Item.\n"+
-                 "3. Print all registered Items.\n"+
-                 "4. Buy an Item.\n"+
-                 "5. Update an item’s name.\n"+
-                 "6. Update an item’s price.\n"+
-                 ""
-                );
+                ("Item Options menu:"+ ln+
+                        ln+
+                 "0. Return to Main Menu."+ln+
+                 "1. Create an Item."+ln+
+                 "2. Remove an Item."+ln+
+                 "3. Print all registered Items."+ln+
+                 "4. Buy an Item."+ln+
+                 "5. Update an item’s name."+ln+
+                 "6. Update an item’s price."+ln
+                +ln);
     }
 
 }

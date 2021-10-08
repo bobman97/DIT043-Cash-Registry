@@ -10,6 +10,7 @@ import ItemOptions.Item;
 import java.util.ArrayList;
 
 public class ReviewOptions {
+    /*
     SystemOutput systemOut;
     UserInput takeIn;
     ArrayList<Reviews> reviewsList;
@@ -159,4 +160,6 @@ public class ReviewOptions {
 
 
     }
+
+     */
 }
