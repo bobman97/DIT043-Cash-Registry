@@ -15,7 +15,8 @@ public class ReviewOptions {
     UserInput takeIn;
     ArrayList<Reviews> reviewsList;
     ItemOptions itemRegistry;
-    //William sus
+    ArrayList<Item> nameOfList;
+
 
     // Constructor YGM
 
@@ -24,6 +25,8 @@ public class ReviewOptions {
         takeIn = new UserInput();
         reviewsList = new ArrayList<Reviews>();
         itemRegistry = itemID;
+        nameOfList = itemRegistry.copyItems();
+
 
 
     }
