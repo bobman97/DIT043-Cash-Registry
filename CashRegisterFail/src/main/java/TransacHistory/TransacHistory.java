@@ -56,8 +56,8 @@ public class TransacHistory {
                     itemHist(ID,choice);
                     break;
                 case 7:
-                    ID= inputID("Please give ID of the item: ", "You have given a non-existent ID");
-                    itemHist(ID,choice);
+                    ID=inputID("Please give ID of the item: ", "You have given a non-existent ID");
+                    printHistory(ID);
                     break;
                 case 8:
                     mostProfit();
@@ -132,10 +132,9 @@ public class TransacHistory {
         items = itemsData.copyItems();
         String itemName="";
         double price = 0;
-        int transactionTotal = 0;
         boolean exist = false;
         for (int i=0; i<items.size();i++){
-            if(id==items.get(i).id){
+            if(id==items.get(i).id){ //currently bug
 
             }else{
                 System.out.println("Item "+id+" was not registered yet.");
@@ -143,7 +142,6 @@ public class TransacHistory {
         }
         for(int i=0; i<historyList.size();i++){
             if(id==historyList.get(i).ID){
-                transactionTotal=i+1;
                 itemName = items.get(i).name;
                 price = items.get(i).price;
                 exist=true;

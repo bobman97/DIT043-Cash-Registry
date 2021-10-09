@@ -13,6 +13,10 @@ public class Transaction {
 
     }
 
+    public void toString(int ID, int quantity, double totalPrice){
+        System.out.println(ID + ": "+quantity+ " item(s). "+totalPrice+ " SEK");
+    }
+
 
 
 }
