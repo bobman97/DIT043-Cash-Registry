@@ -4,14 +4,16 @@ package ReviewOptions;
 import ItemOptions.ItemOptions;
 
 public class Reviews {
-    int grade;
-    String comment;
-    int id;
+    int reviewGrade;
+    String reviewComment;
+    int itemID;
+    int reviewIndex;
 
-    public Reviews(int grade, String comment, int id) {
-    this.grade = grade;
-    this.comment = comment;
-    this.id= id;
+    public Reviews(int reviewGrade, String reviewComment, int itemID, int reviewIndex) {
+    this.reviewGrade = reviewGrade;
+    this.reviewComment = reviewComment;
+    this.itemID = itemID;
+    this.reviewIndex = reviewIndex;
 
 
     }

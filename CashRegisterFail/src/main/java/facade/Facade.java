@@ -93,7 +93,7 @@ public class Facade {
     }
 
     public String printItemTransactions(String itemID) {
-        return "";
+        return trans.printHistory( itemID);
     }
 
     public int getTotalUnitsSold() {
@@ -112,9 +112,7 @@ public class Facade {
         return -1;
     }
 
-    public String printAllTransactions() {
-        return "";
-    }
+    public String printAllTransactions() {return trans.printAllTransac();}
 
     public String printWorseReviewedItems() {
         return "";
@@ -153,6 +151,6 @@ public class Facade {
     }
 
     public String printMostProfitableItems() {
-        return "";
+        return trans.mostProfit();
     }
 }

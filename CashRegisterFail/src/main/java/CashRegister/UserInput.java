@@ -1,14 +1,21 @@
 package CashRegister;
+import ItemOptions.ItemOptions;
+import ItemOptions.Item;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 public class UserInput {
     public Scanner readIn = new Scanner(System.in);
     String askUserFor; // This will be output before the user input.
     String informUserError; // This will be output if user did something wrong.
+    public ItemOptions itemData;
+    ArrayList<Item> items;
+
 
 
     // Constructor
     public UserInput()   {
-
+        items = new ArrayList<>();
     }
 
     // Constructor 2
@@ -112,6 +119,30 @@ public class UserInput {
     public void setStrings(String input, String error)  {
         this.askUserFor = input;
         this.informUserError = error;
+    }
+
+    public String inputID(String input, String error)    {
+        int id;
+        boolean checkExistance=false;
+
+        do {
+            id = readID(input, error);
+
+            for(int i = 0; i < items.size(); i++)   {
+                if(items.get(i).id == id) {
+                    checkExistance=true;
+                }
+            }
+
+            if(!items.isEmpty() && !checkExistance) {
+                System.out.println(error);
+            }
+            else    {
+                checkExistance = false;
+            }
+        } while(checkExistance);
+        String stringID= id+"";
+        return stringID;
     }
 
     public void closeScanner()   {
