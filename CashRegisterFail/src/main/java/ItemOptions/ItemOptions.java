@@ -344,6 +344,8 @@ public class ItemOptions {
      ***********************
      */
 
+
+
     // This method will check if id exists then return the index of item in our ArrayList.
     private int findItem(int searchQuery)  {
         int index;

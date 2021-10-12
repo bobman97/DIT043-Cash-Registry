@@ -26,7 +26,7 @@ public class CashRegister {
         readIn = new UserInput();
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
-        //reviews = new ReviewOptions(shop);
+        reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         trans.itemsData = shop;
         int menuChoice;
@@ -68,51 +68,8 @@ public class CashRegister {
         shop.runProgram();
     }
 
-    static void reviewOptions(){
-        /*int menuInput;
-                do {
-                    printMenu.reviewMenu();
-                    menuInput = readIn.getUserOption(10,"Enter an option: ", "Incorrect value!");
-                    switch (menuInput) {
-                        case 0:
-                            // main menu return
-                            break;
-                        case 1:
-                            reviews.createReview();
-                            break;
-                        case 2:
-                            reviews.printSpecificReview();
-                            break;
-                        case 3:
-                            reviews.printAllRevItem();
-                            break;
-                        case 4:
-                            reviews.printMeanGradeItem();
-                            break;
-                        case 5:
-                            reviews.printAllCommentsItem();
-                            break;
-                        case 6:
-                            reviews.printAllRegisteredRev();
-                            break;
-                        case 7:
-                            reviews.printMostRevs();
-                            break;
-                        case 8:
-                            reviews.printLeastRevs();
-                            break;
-                        case 9:
-                            reviews.printBestMeanGrade();
-                            break;
-                        case 10:
-                            reviews.printWorstMeanGrade();
-                            break;
-                        default:
-                            callError();
-                            break;
-                    }
-                }while (menuInput != 0);*/
-    }
+    static void reviewOptions() {reviews.runReviews();}
+
 
     static void TransacHistory()   {trans.runHistory();}
 
