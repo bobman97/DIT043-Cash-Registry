@@ -70,7 +70,6 @@ public class CashRegister {
 
     static void reviewOptions() {reviews.runReviews();}
 
-
     static void TransacHistory()   {trans.runHistory();}
 
     static void callError() {

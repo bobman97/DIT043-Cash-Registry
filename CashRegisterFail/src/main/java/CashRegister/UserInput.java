@@ -50,6 +50,15 @@ public class UserInput {
         return userInput;
     }
 
+    // Asks user for a String to add an optional comment for reviews
+    public String readComment(String askInput) {
+        String userInput;
+        setInputMsg(askInput);
+        System.out.println(this.askUserFor);
+        userInput = readIn.nextLine();
+        return userInput;
+    }
+
     // Returns a positive double
     public double readDouble(String input, String error) {
         setStrings(input, error);
@@ -120,6 +129,9 @@ public class UserInput {
         this.askUserFor = input;
         this.informUserError = error;
     }
+    public void setInputMsg(String input)  {
+        this.askUserFor = input;
+               }
 
     public String inputID(String input, String error)    {
         int id;
@@ -129,7 +141,7 @@ public class UserInput {
             id = readID(input, error);
 
             for(int i = 0; i < items.size(); i++)   {
-                if(items.get(i).id == id) {
+                if(items.get(i).id.equals(id)) {
                     checkExistance=true;
                 }
             }

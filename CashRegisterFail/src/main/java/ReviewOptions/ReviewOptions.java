@@ -39,7 +39,10 @@ public class ReviewOptions {
                 case 0: //Return to main menu
                 case 1: //Create review
                     int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
-                    String reviewComment = takeIn.readString("Enter an item comment: ", "bla");
+                    String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
+                    ID = takeIn.readID("Enter item ID: ", )
+                    Item item = ID
+                    createReview();
 
 
                 case 2: //Print specific review
@@ -129,15 +132,13 @@ public class ReviewOptions {
 
     // 2
     public void printSpecificReview(String ID, int reviewIndex) {
-    int id = 0;
-    int index;
+        ID = "";
+        reviewIndex = 0;
     String input;
     String error;
 
-
-
         input = "Please enter item ID: ";
-        error = "Item " + id + " has not been registered yet";
+        error = "Item " + ID + " has not been registered yet";
 
     }
 

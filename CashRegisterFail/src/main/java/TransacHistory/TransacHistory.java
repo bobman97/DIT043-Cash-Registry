@@ -75,7 +75,7 @@ public class TransacHistory {
             id = readIn.readID(input, error);
 
             for(int i = 0; i < items.size(); i++)   {
-                if(items.get(i).id == id) {
+                if(items.get(i).id.equals(id)) {
                     checkExistance=true;
                 }
             }
