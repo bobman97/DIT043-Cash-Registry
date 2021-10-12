@@ -35,6 +35,7 @@ public class Item {
         return reviewsList;
     }
 
+
     public double getMeanGrade() {
          double sumOfGrades = 0;
          for (Reviews reviews : getReviewList()) {

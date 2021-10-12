@@ -3,18 +3,19 @@ package ReviewOptions;
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
-import ReviewOptions.Reviews;
 import ItemOptions.Item;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReviewOptions {
-
+    String ln = System.lineSeparator();
     SystemOutput systemOut;
     UserInput takeIn;
     ItemOptions itemRegistry;
     ArrayList<Item> items;
+
 
 
     // Constructor YGM
@@ -40,15 +41,14 @@ public class ReviewOptions {
                 case 1: //Create review
                     int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
                     String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
-                    ID = takeIn.readID("Enter item ID: ", )
-                    Item item = ID
-                    createReview();
-
-
+                    ID = takeIn.inputID("Enter item ID: ", "Please input a valid item ID");
+                    createReview(ID, reviewGrade, reviewComment);
+                    break;
                 case 2: //Print specific review
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
-                    int reviewIndex = 0;
-                    printSpecificReview(ID, reviewIndex);
+                    Item item = findItemObject(ID);
+                    int reviewNumber = takeIn.getUserOption(item.reviewsList.size(),"Enter review number: ", "Pl");
+                    printSpecificReview(ID, reviewNumber);
                     break;
                 case 3: //Print all reviews of an item
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
@@ -65,10 +65,10 @@ public class ReviewOptions {
                 case 6: //Print all registered reviews
                     printAllRegisteredRev();
                     break;
-                case 7: //Print item(s) w most reviews
+                case 7: //Print item(s) w the most reviews
                     printMostRevs();
                     break;
-                case 8: //Print item(s) w least reviews
+                case 8: //Print item(s) w the least reviews
                     printLeastRevs();
                     break;
                 case 9: //Print item(s) w best mean grade
@@ -82,28 +82,6 @@ public class ReviewOptions {
     }
 
 
-    /*
-    // Finding all reviews for an item
-    private int findReviews(Item item)   {
-    // Look through all the reviews,
-        // see if they have the item ID
-        //if they do add to an array
-
-        for (int i = 0; i < reviewsList.size(); i++){
-
-
-            }
-
-        //after loop return the array
-    }
-
-    // Finding specific review for an item
-    private int findReviewIndex(int itemID, int reviewIndex) {
-
-    }
-
-
-     */
     public int findItem(String searchQuery)  {
         ArrayList<Item> items = itemRegistry.copyItems();
         int index;
@@ -124,16 +102,22 @@ public class ReviewOptions {
 
 
     // 1
-    public void createReview(Item item, int reviewGrade, String reviewComment, int reviewIndex) {
-        item.getReviewList().add(new Reviews(reviewGrade, reviewComment, reviewIndex));
+    public void createReview(String ID, int reviewGrade, String reviewComment) {
+        Item item = findItemObject(ID);
+        item.getReviewList().add(new Reviews(reviewGrade, reviewComment));
+    }
+
+    public void createReview(String ID, int reviewGrade) {
+        Item item = findItemObject(ID);
+        item.getReviewList().add(new Reviews(reviewGrade,""));
     }
 
 
 
     // 2
-    public void printSpecificReview(String ID, int reviewIndex) {
-        ID = "";
-        reviewIndex = 0;
+    public void printSpecificReview(String ID, int reviewNumber) {
+        Item item = findItemObject(ID);
+        reviewNumber = -1;
     String input;
     String error;
 
@@ -142,26 +126,59 @@ public class ReviewOptions {
 
     }
 
-
-
     // 3
-    public void printAllRevItem(String ID){
+    public String printAllRevItem(String ID) {
+        //I am going to pass an item ID into the method, and then fetch the Item object using the findItemObject method.
+        //Then I will use a for each loop to look through all of the reviews from the review list and get all review comments
+        //for the specific item. Then I will return all of the item comments using toString, while concactinating
+        Item item = findItemObject(ID);
+        String printReviews = "Reviews(s) for " + ID + ": " + item.name + ". " + item.price + " + SEK " + ln;
+        String noReviewsError = "Item " + item.name + " there are no comments on this item yet.";
 
-
+        for (Reviews reviews : item.getReviewList()) {
+            if (item.reviewsList.isEmpty()) {
+                return noReviewsError;
+            } else {
+                printReviews += "Grade: " + reviews.getReviewGrade() + ". " + reviews.getReviewComment();
+            }
+        }
+        return printReviews;
     }
+
     // 4
     public void printMeanGradeItem(String ID){
-
-
-
-    }
-    // 5
-    public void printAllCommentsItem(String ID){
+        Item item = findItemObject(ID);
+        System.out.println(item.getMeanGrade());
 
     }
+    //5
+    public String printAllCommentsItem(String ID) {
+        // When retrieving all comments, users must specify an item ID.
+        // They must only retrieve written comments and they can be iterated as a collection of Strings.
+          StringBuilder result = new StringBuilder();
+         for (String comments : retrieveWrittenComments(ID)) {
+           result.append(comments).append(ln);
+         }
+         return result.toString();
+    }
+
+    public List<String> retrieveWrittenComments(String ID) {
+        List<String> comments = new ArrayList<>();
+        if (findItemObject(ID) == null) {
+            return comments;
+        } else {
+            for (Reviews reviews : findItemObject(ID).getReviewList()) {
+                if (!reviews.getReviewComment().isEmpty()) {
+                    comments.add(reviews.getReviewComment());
+                }
+            }
+        }
+        return comments;
+    }
+
     // 6
-    public void printAllRegisteredRev(){
-        takeIn.readInt("Enter an item ID: ", "Please input a valid item ID.");
+    public void printAllRegisteredRev() {
+    String allRegisteredReviews = "All registered reviews: " +ln + "------------------------------" +ln;
 
     }
     // 7
