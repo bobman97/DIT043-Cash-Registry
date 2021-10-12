@@ -133,7 +133,7 @@ public class ReviewOptions {
         //for the specific item. Then I will return all of the item comments using toString, while concactinating
         Item item = findItemObject(ID);
         String printReviews = "Reviews(s) for " + ID + ": " + item.name + ". " + item.price + " + SEK " + ln;
-        String noReviewsError = "Item " + item.name + " there are no comments on this item yet.";
+        String noReviewsError = "Item " + item.name + " has not been reviewed yet.";
 
         for (Reviews reviews : item.getReviewList()) {
             if (item.reviewsList.isEmpty()) {
@@ -177,25 +177,51 @@ public class ReviewOptions {
     }
 
     // 6
-    public void printAllRegisteredRev() {
-    String allRegisteredReviews = "All registered reviews: " +ln + "------------------------------" +ln;
-
+    public String printAllRegisteredRev() {
+    StringBuilder allReviews = new StringBuilder(ln + "All registered reviews: " +ln + "------------------------------" +ln);
+    String noRegisteredReviewsError = "No items were reviewed yet";
+    for (Item item : items) {
+        String printReviews = "Reviews(s) for " + item.id + ": " + item.name + ". " + item.price + " + SEK " + ln;
+        allReviews.append(printReviews);
+        if (item.reviewsList.isEmpty()) {
+            return noRegisteredReviewsError;
+        } else {
+            for (int i = 0; i < item.reviewsList.size(); i++) {
+                printReviews = "Grade: " + item.reviewsList.get(i).getReviewGrade() + ". " + item.reviewsList.get(i).getReviewComment();
+                allReviews.append(printReviews);
+            }
+            return allReviews.toString();
+            }
+        }
+        return allReviews.toString();
     }
     // 7
     public void printMostRevs(){
+        int numberOfReviews = 0;
 
+for (Item item : items){
+    numberOfReviews = item.reviewsList.size();
+    String mostReviews = "Most reviews: " + numberOfReviews + "review(s) each.";
+    String printReview = item.id + ": " + item.name + ". " + item.price + " + SEK ";
+
+}
     }
     // 8
     public void printLeastRevs(){
-        System.out.println();
+        int numberOfReviews = 0;
+
+        for (Item item : items){
+    String leastReviews = "Least reviews: " + numberOfReviews + "review(s) each.";
+    String printReview = item.id + ": " + item.name + ". " + item.price + " + SEK ";
+        }
     }
     // 9
     public void printBestMeanGrade(){
-        System.out.println();
+
     }
     // 10
     public void printWorstMeanGrade(){
-        System.out.println();
+
 
 
     }
