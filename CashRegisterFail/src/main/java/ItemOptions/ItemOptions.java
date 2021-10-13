@@ -104,11 +104,10 @@ public class ItemOptions {
      */
 
     public String addItem(String itemID, String itemName, double unitPrice) {
-        int id;
         double price;
-        String name, input, success;
+        String name, input, success, id;
         boolean checkItems;
-        id = 0;
+        id = "";
         name = "";
         price = 0;
         if(FACADE) {
@@ -131,7 +130,7 @@ public class ItemOptions {
         if(checkItems) {
             // If it's a test assign applied values to innerscope values.
             if(FACADE) {
-                id = Integer.parseInt(removeID(itemID));
+                id = itemID;
                 name = itemName;
                 price = unitPrice;
             }
@@ -149,11 +148,11 @@ public class ItemOptions {
     }
 
     public String delItem(String itemID) {
-        int searchQuery, index, id;
-        String error, success;
+        int index;
+        String error, success, searchQuery, id;
 
 
-        searchQuery = (FACADE ? Integer.parseInt(removeID(itemID)) : readIn.readInt(ASK_ITEM_ID, INVALID_DATA));
+        searchQuery = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
 
         // Lookup if ID exists and return index in ArrayList
         index = findItem(searchQuery);
@@ -161,7 +160,7 @@ public class ItemOptions {
         if (index != -1) {
             id = items.get(index).id;
             items.remove(index);
-            success = "Item ID" + id + " was successfully removed.";
+            success = "Item " + id + " was successfully removed.";
             System.out.println(success);
             return success;
         }
@@ -181,7 +180,7 @@ public class ItemOptions {
         }
         System.out.println(headline);
         for(int i = 0; i < items.size(); i++)   {
-            itemInfo = "ID" + items.get(i).id + ": " + items.get(i).name + ". " + decimalFix(items.get(i).price) + " SEK";
+            itemInfo = items.get(i).id + ": " + items.get(i).name + ". " + decimalFix(items.get(i).price) + " SEK";
             System.out.println(itemInfo);
             allItems += itemInfo + System.lineSeparator();
         }
@@ -189,8 +188,8 @@ public class ItemOptions {
     }
 
     public double buyItem(String itemID, int amount) {
-        int quantity, id, index, discounted;
-        String success;
+        int quantity, index, discounted;
+        String success, id;
         double totalPrice, itemPrice;
 
         if(FACADE) {
@@ -200,13 +199,13 @@ public class ItemOptions {
                 System.out.println(INVALID_DATA);
                 return -1;
             }
-            id = Integer.parseInt(itemID);
+            id = itemID;
             quantity = amount;
         }
         else    {
             // can't use lookUpItem since we need a returned value -1 according to specifications :(
             //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
-            id = readIn.readInt(ASK_ITEM_ID, INVALID_DATA);
+            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
             quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
         }
 
@@ -218,15 +217,15 @@ public class ItemOptions {
         }
         itemPrice = items.get(index).price;
 
-        if (amount > 4) {
-            discounted = amount - 4;
-            amount = 4;
+        if (quantity > 4) {
+            discounted = quantity - 4;
+            quantity = 4;
         } else {
             discounted = 0;
         }
 
-        totalPrice = roundDecimal((amount * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + (amount + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
+        totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
+        success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
         System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
         saveTransaction.purchaseSave(id, quantity, totalPrice);
         return totalPrice;
@@ -245,9 +244,9 @@ public class ItemOptions {
 
     // property: 1 == name, 2 == price
     public String changeItem(String itemID, String newName, double newPrice, int property)    {
-        int index, id;
+        int index;
         double price;
-        String name, error, success;
+        String name, error, success, id;
 
         if(items.isEmpty() == true) {
             System.out.println(NO_ITEMS_REGISTERED);
@@ -264,13 +263,13 @@ public class ItemOptions {
                 return error;
             }
 
-            id = Integer.parseInt(itemID);
+            id = itemID;
         }
         else {
             // Gets ID
-            id = readIn.readInt(ASK_ITEM_ID, INVALID_DATA);
+            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
             error = "Item " + id + " was not registered yet";
-            success = "Item ID" + id + " was updated successfully.";
+            success = "Item " + id + " was updated successfully.";
         }
 
         // Gets index of ID
@@ -310,19 +309,17 @@ public class ItemOptions {
     }
 
     public String printItem(String itemID) {
-        String error, itemInfo, itemName;
-        int index, id;
+        String error, itemInfo, itemName, id;
+        int index;
         double itemPrice;
         error = "Item " + itemID + " was not registered yet.";
-
-        itemID = removeID(itemID);
 
         if (items.isEmpty() == true || !readIn.isNumber(itemID)) {
             System.out.println(error);
             return error;
         }
 
-        id = Integer.parseInt(itemID);
+        id = itemID;
         index = findItem(id);
 
         if (index == -1) {
@@ -332,7 +329,7 @@ public class ItemOptions {
         id = items.get(index).id;
         itemName = items.get(index).name;
         itemPrice = items.get(index).price;
-        itemInfo = "ID" + id + ": " + itemName + ". " + decimalFix(itemPrice) + " SEK";
+        itemInfo = id + ": " + itemName + ". " + decimalFix(itemPrice) + " SEK";
         System.out.println(itemInfo);
         return itemInfo;
     }
@@ -347,7 +344,7 @@ public class ItemOptions {
 
 
     // This method will check if id exists then return the index of item in our ArrayList.
-    private int findItem(int searchQuery)  {
+    private int findItem(String searchQuery)  {
         int index;
         index = -1;
 
@@ -355,16 +352,17 @@ public class ItemOptions {
             return index;
 
         for(int i = 0; i < items.size(); i++)   {
-            if(items.get(i).id == searchQuery) {
+            if(items.get(i).id.equals(searchQuery)) {
                 return i;
             }
         }
+
         return index;
     }
 
     // This method asks for and ID as input and checks if it's a duplicate
-    private int lookUpItem(String input, String error)    {
-        int id;
+    private String lookUpItem(String input, String error)    {
+        String id;
         boolean checkDuplicate;
 
         do {
@@ -388,8 +386,7 @@ public class ItemOptions {
 
     // returns a copy of all the items in the shop.
     public ArrayList<Item> copyItems()  {
-        int id;
-        String name;
+        String name, id;
         double price;
         ArrayList<Item> itemsCopy = new ArrayList<Item>((items.size() >0?items.size():0));
         if(items.size()>0){

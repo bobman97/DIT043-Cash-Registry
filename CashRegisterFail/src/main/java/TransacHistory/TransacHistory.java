@@ -63,12 +63,12 @@ public class TransacHistory {
     }
 
 
-    public void purchaseSave(int quantity, int id, double totalPrice){
-       historyList.add(new Transaction(quantity, id, totalPrice));
+    public void purchaseSave(String id, int quantity, double totalPrice){
+       historyList.add(new Transaction(id, quantity, totalPrice));
     }
 
     private String inputID(String input, String error)    {
-        int id;
+        String id;
         boolean checkExistance=false;
 
         do {
@@ -94,7 +94,7 @@ public class TransacHistory {
 
 
     public String itemHist(String idString, int selec){
-        int id=Integer.parseInt(idString);
+        String id = idString;
         String result ="";
         double sumProfits = 0;
         int unitsSold = 0;
@@ -102,7 +102,7 @@ public class TransacHistory {
         int plusTrans = 0;
 
         for(int i=0; i<historyList.size();i++){
-            if(id==historyList.get(i).getID()){
+            if(id.equals(historyList.get(i).getID())){
                 unitsSold += historyList.get(i).getQuantity();
                 sumProfits += historyList.get(i).getTotalPrice();
                 totalTransactions=i+1;
@@ -132,14 +132,14 @@ public class TransacHistory {
     }
 
     public String printHistory(String idString){
-       int id = Integer.parseInt(idString);
+       String id = idString;
        String result = "";
         items = itemsData.copyItems();
         String itemName="";
         double price = 0;
         boolean exist = false;
         for (int i=0; i<items.size();i++){
-            if(id==items.get(i).id){ //currently bug
+            if(id.equals(items.get(i).id)){
 
             }else{
                 result +=("Item "+id+" was not registered yet."+ln);
@@ -236,7 +236,7 @@ public class TransacHistory {
         items = itemsData.copyItems();
 
         double highestProfit= 00;
-        int id= 0;
+        String id;
 
 
 
@@ -244,12 +244,12 @@ public class TransacHistory {
             double sold = 0.00;
             for(int y = 0; y<historyList.size();y++){
                 double totSold = 0.00;
-                if(historyList.get(y).getID()==items.get(i).id){
+                if(historyList.get(y).getID().equals(items.get(i).id)){
                     totSold+=historyList.get(y).getTotalPrice();
                 }
                 if(totSold>sold){
                     sold=totSold;
-                    id=historyList.get(y).getID();
+                    id = historyList.get(y).getID();
                 }
             }
             if(sold>highestProfit){

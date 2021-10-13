@@ -1,12 +1,12 @@
 package TransacHistory;
 
 public class Transaction {
-    final private int ID;
+    final private String ID;
     final private double totalPrice;
     final private int quantity;
 
 
-    public Transaction(int ID, int quantity, double totalPrice){
+    public Transaction(String ID, int quantity, double totalPrice){
         this.ID = ID;
         this.quantity = quantity;
         this.totalPrice = totalPrice;
@@ -16,7 +16,7 @@ public class Transaction {
     @Override
     public String toString() {return "ID"+ID + ": "+quantity+ " item(s). "+totalPrice+ " SEK";}
 
-    public int getID(){return this.ID;}
+    public String getID(){return this.ID;}
 
     public int getQuantity(){return this.quantity;}
 

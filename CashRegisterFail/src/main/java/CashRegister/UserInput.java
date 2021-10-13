@@ -65,19 +65,19 @@ public class UserInput {
         return Double.parseDouble(getNumber());
     }
 
-    public int readID(String input, String error)    {
+    public String readID(String input, String error)    {
         String id;
         boolean validInput;
         setStrings(input, error);
         do {
             System.out.print(this.askUserFor);
             id = readIn.nextLine();
-            id = (id.startsWith("ID") ? id.substring(2, id.length()) : id); // Removes ID from input.
-            validInput = isNumber(id);
+            id = (id.startsWith("ID") ? id : "ID" + id); // Removes ID from input.
+            validInput = isNumber(id.substring(2));
             if(validInput == false)
                 System.out.println(this.informUserError);
         } while(validInput == false);
-        return Integer.parseInt(id);
+        return id;
     }
 
     // Gets user input as a number
@@ -134,7 +134,7 @@ public class UserInput {
                }
 
     public String inputID(String input, String error)    {
-        int id;
+        String id;
         boolean checkExistance=false;
 
         do {
@@ -153,7 +153,7 @@ public class UserInput {
                 checkExistance = false;
             }
         } while(checkExistance);
-        String stringID= id+"";
+        String stringID= id;
         return stringID;
     }
 
