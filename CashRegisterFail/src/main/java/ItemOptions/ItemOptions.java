@@ -419,7 +419,9 @@ public class ItemOptions {
 
 
 
-    public int getIndex(String id){
+    //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
+    //Burak Askan
+    public int getIndex(String id){   //Gets index of a item in itemArrayList using id
         int index = 0;
         for(int i = 0;i<items.size();i++){
             if (id.equals(items.get(i).getId())){
@@ -428,10 +430,10 @@ public class ItemOptions {
         }
         return index;
     }
-    public int getSize(){return items.size();}
-    public String getName(int index){return items.get(index).getName();}
-    public double getPrice(int index){return items.get(index).getPrice();}
-    public boolean existanceChecker (String id){
+    public int getSize(){return items.size();}   //Gets size of items arraylist
+    public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
+    public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
+    public boolean existanceChecker (String id){//Checks if such item currently exists
         boolean existance = false;
         for(int i = 0; i<items.size();i++){
             if(id.equals(items.get(i).id)){
@@ -441,6 +443,6 @@ public class ItemOptions {
         return existance;
     }
     public boolean checkRegistry(){return hasRegistered;}
-}
+}//checks if atleast one item has been registered at all
 
 
