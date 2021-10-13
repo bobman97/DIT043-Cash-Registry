@@ -1,5 +1,6 @@
 package ItemOptions;
 
+import ReviewOptions.ReviewOptions;
 import ReviewOptions.Reviews;
 
 import java.util.ArrayList;
@@ -46,4 +47,5 @@ public class Item {
          }
          return sumOfGrades / getReviewList().size();
     }
+
 }
