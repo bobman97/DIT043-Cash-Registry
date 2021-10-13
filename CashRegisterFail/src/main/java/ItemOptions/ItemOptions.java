@@ -35,6 +35,7 @@ public class ItemOptions {
     final String NAME_NULL = "";
     final String ID_NULL = "";
     final double PRICE_NULL = 0.00;
+    static boolean hasRegistered = false;
 
     // Global
     DecimalFormat decimals = new DecimalFormat("#.00");
@@ -141,9 +142,11 @@ public class ItemOptions {
             // Print and return success message.
             success = "Item ID" + id + " was registered successfully.";
             System.out.println(success);
+            this.hasRegistered = true;
             return success;
         }
         System.out.println(INVALID_DATA);
+
         return INVALID_DATA;
     }
 
@@ -413,4 +416,31 @@ public class ItemOptions {
     private String decimalFix(double value)   {
         return decimals.format(value);
     }
+
+
+
+    public int getIndex(String id){
+        int index = 0;
+        for(int i = 0;i<items.size();i++){
+            if (id.equals(items.get(i).getId())){
+                index = i;
+            }
+        }
+        return index;
+    }
+    public int getSize(){return items.size();}
+    public String getName(int index){return items.get(index).getName();}
+    public double getPrice(int index){return items.get(index).getPrice();}
+    public boolean existanceChecker (String id){
+        boolean existance = false;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).id)){
+                existance = true;
+            }
+        }
+        return existance;
+    }
+    public boolean checkRegistry(){return hasRegistered;}
 }
+
+

@@ -80,6 +80,7 @@ public class UserInput {
         return id;
     }
 
+
     // Gets user input as a number
     public String getNumber()   {
         String input;

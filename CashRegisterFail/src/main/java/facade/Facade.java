@@ -89,30 +89,34 @@ public class Facade {
     }
 
     public double getTotalProfit() {
-        return -1.0;
-    }
+        return trans.allHistoryProfit() ;
+        //trans.allHistoryProfit();
+        }
 
-    public String printItemTransactions(String itemID) {
-        return trans.printHistory( itemID);
+
+        public String printItemTransactions(String itemID) {
+        return trans.printAllItemTrans(itemID);       //trans.printHistory(itemID);
     }
 
     public int getTotalUnitsSold() {
-        return -1;
+        return trans.allHistoryUnitsSold(); //return trans.allHistoryUnitsSold();
     }
 
     public int getTotalTransactions() {
-        return -1;
+        return trans.allHistoryTrans();//trans.allHistoryRegTrans();
     }
 
     public double getProfit(String itemID) {
-        return -1.0;
+        return trans.itemHistoryProfit(itemID);//trans.itemHistProfits(itemID);
     }
 
     public int getUnitsSolds(String itemID) {
-        return -1;
+        return trans.itemHistoryUnitsSold(itemID);// trans.itemHistUnitsSold(itemID);
     }
 
-    public String printAllTransactions() {return trans.printAllTransac();}
+    public String printAllTransactions() {
+        return trans.printAllTrans();// trans.printAllTransac();
+    }
 
     public String printWorseReviewedItems() {
         return "";
@@ -151,6 +155,6 @@ public class Facade {
     }
 
     public String printMostProfitableItems() {
-        return trans.mostProfit();
+        return trans.mostProfit();//trans.mostProfit();
     }
 }

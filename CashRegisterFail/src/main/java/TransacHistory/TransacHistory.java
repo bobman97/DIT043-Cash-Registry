@@ -6,20 +6,19 @@ import ItemOptions.Item;
 import java.util.ArrayList;
 
 
-public class TransacHistory {
+public class TransacHistory<item> {
     SystemOutput printMenu;
     UserInput readIn;
     ArrayList <Transaction> historyList;
     public ItemOptions itemsData;
-    ArrayList<Item> items = new ArrayList<>();
     String ln= System.lineSeparator();
+    ArrayList <item> items=new ArrayList<item>();
 
 
     public TransacHistory(){
         printMenu = new SystemOutput();
         readIn= new UserInput();
         historyList = new ArrayList<Transaction>();
-        itemsData = new ItemOptions(this,true);
 
     }
 
@@ -37,26 +36,32 @@ public class TransacHistory {
 
                     break;
                 case 1:
+                    System.out.println("Sum of all item purchases: "+allHistoryProfit());
+                    break;
                 case 2:
+                    System.out.println("Total units sold: "+allHistoryUnitsSold());
+                    break;
                 case 3:
-                    allHistory(choice);
+                    System.out.println("Total registered transactions: "+allHistoryTrans());
                     break;
 
                 case 4:
-                    printAllTransac();
+                    System.out.println(printAllTrans());
                     break;
                 case 5:
+                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    System.out.println("The sum of profit from item: "+itemHistoryProfit(ID));
                 case 6:
-                    ID= inputID("Please give ID of the item: ", "You have given a non-existent ID");
-                    itemHist(ID,choice);
+                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    System.out.println("Sum of all units sold: "+itemHistoryUnitsSold(ID));
                     break;
 
                 case 7:
-                    ID=inputID("Please give ID of the item: ", "You have given a non-existent ID");
-                    printHistory(ID);
+                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    System.out.println(printAllItemTrans(ID));
                     break;
                 case 8:
-                    mostProfit();
+                    System.out.println(mostProfit());
                     break;
             }
         } while(choice!=0);
@@ -67,7 +72,163 @@ public class TransacHistory {
        historyList.add(new Transaction(id, quantity, totalPrice));
     }
 
-    private String inputID(String input, String error)    {
+
+    public double allHistoryProfit(){
+        double totProfit = allHistoryContent()[0];
+        int totTrans = (int) allHistoryContent()[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return totProfit;
+        }
+    }
+
+    public int allHistoryUnitsSold(){
+        int unitsSold = (int) allHistoryContent()[1];
+        int totTrans = (int) allHistoryContent()[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return unitsSold;
+        }
+    }
+
+    public int allHistoryTrans(){
+        int totTrans = (int) allHistoryContent()[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return totTrans;
+        }
+    }
+
+    public double[] allHistoryContent(){
+        double[] allHistory = new double[3];
+        double totPrice = 0;
+        double totTrans = 0;
+        double unitsSold = 0;
+
+        for(int i =0; i<historyList.size();i++){
+            totPrice += historyList.get(i).getTotalPrice();
+            unitsSold += historyList.get(i).getQuantity();
+            totTrans++;
+        }
+        allHistory[0] = totPrice;
+        allHistory[1] = unitsSold;
+        allHistory[2] = totTrans;
+
+        return allHistory;
+    }
+
+    public double itemHistoryProfit(String id){
+        double totProfit = itemHistoryContent(id)[0];
+        int totTrans = (int) itemHistoryContent(id)[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return totProfit;
+        }
+    }
+
+    public int itemHistoryUnitsSold(String id){
+        int unitsSold= (int)itemHistoryContent(id)[1];
+        int totTrans = (int) itemHistoryContent(id)[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return unitsSold;
+        }
+    }
+
+    public int itemHistoryTotalTrans(String id){
+        int totTrans = (int) itemHistoryContent(id)[2];
+        if(totTrans<0){
+            return 0;
+        }else{
+            return totTrans;
+        }
+    }
+
+    public double[] itemHistoryContent(String id){
+        double[] itemHistory = new double[3];
+        double totPrice = 0;
+        double totTrans= 0;
+        double unitsSold=0;
+
+        for(int i = 0; i<historyList.size(); i++){
+            if(id.equals(historyList.get(i).getID())){
+                totPrice+=historyList.get(i).getTotalPrice();
+                totTrans++;
+                unitsSold+=historyList.get(i).getQuantity();
+            }
+        }
+        itemHistory[0]=totPrice;
+        itemHistory[1]=unitsSold;
+        itemHistory[2]=totTrans;
+        return itemHistory;
+    }
+
+    public String printAllItemTrans(String id){
+        int index = itemsData.getIndex(id);
+        String result = "Transactions for item: "+ id + ":"+ itemsData.getName(index)+". "+itemsData.getPrice(index)+" SEK"+ln;
+        if(itemsData.existanceChecker(id)){
+            for(int i = 0;i<historyList.size();i++){
+                result +=historyList.get(i).toString()+ln;
+            }
+        }else{
+            result+="No transactions have been registered for item "+id+" yet.";
+        }
+        return result;
+    }
+
+    public String printAllTrans(){
+        String result = "All purchases made: "+ allHistoryProfit()+" SEK"+ ln
+                +"Total items sold: "+allHistoryUnitsSold()+" units"+ ln
+                +"Total purchases made: "+allHistoryTrans()+" transactions"+ ln
+                +"------------------------------------"+ln;
+
+        if(allHistoryTrans()>0){
+            for(int i = 0; i<historyList.size();i++){
+                result+=historyList.get(i).toString()+ln;
+            }
+        }
+        result+="------------------------------------";
+        return result;
+    }
+
+    public String mostProfit(){
+        String result = "";
+        double mostProfit= 0;
+        String mostProfitID = "";
+
+        if(itemsData.checkRegistry()){
+            for(int i = 0; i<historyList.size();i++){
+                if(itemHistoryProfit(historyList.get(i).getID())>mostProfit){
+                    mostProfitID = historyList.get(i).getID();
+                    mostProfit=itemHistoryProfit(historyList.get(i).getID());
+                }
+            }
+            result+="Most profitable items:"+ln
+                    +"Total profit: "+ mostProfit+ " SEK";
+            for(int i = 0; i<historyList.size();i++){
+                int index = itemsData.getIndex(mostProfitID);
+                if(mostProfitID.equals(historyList.get(i).getID())){
+                    result+=historyList.get(i).getID()+": "+itemsData.getName(index)+". "+historyList.get(i).getTotalPrice()+" SEK"+ln;
+                }
+            }
+        }else if(historyList.size()==0){
+            result+="No items registered yet";
+        }else{
+            result+="No items were bought yet";
+        }
+
+        return result;
+    }
+
+
+
+
+   /* private String inputID(String input, String error)    {
         String id;
         boolean checkExistance=false;
 
@@ -87,15 +248,39 @@ public class TransacHistory {
                 checkExistance = false;
             }
         } while(checkExistance);
-        String stringID= id+"";
-        return stringID;
+
+        return id;
     }
 
 
+    public double itemHistProfits(String id){
 
-    public String itemHist(String idString, int selec){
-        String id = idString;
-        String result ="";
+        double sumProfits = (double) itemHistContents(id).get(0);
+        double plusTrans = (int) itemHistContents(id).get(3);
+
+        if(plusTrans>=1) {
+            return sumProfits;
+        }else{
+            return 0;
+        }
+    }
+
+    public int itemHistUnitsSold(String id){
+
+        int unitsSold = (int) itemHistContents(id).get(1);
+        int plusTrans = (int) itemHistContents(id).get(3);
+
+        if(plusTrans>=1) {
+            return unitsSold;
+        }else{
+            return 0;
+        }
+    }
+
+
+    public ArrayList itemHistContents(String id){
+        ArrayList<Object> itemHistContents = new ArrayList<>(4);
+
         double sumProfits = 0;
         int unitsSold = 0;
         int totalTransactions = 0;
@@ -109,30 +294,16 @@ public class TransacHistory {
                 plusTrans++;
             }
         }
-        if(plusTrans>1){
-            switch (selec){
-                case 5: result+=("The sum of profit from item: " + sumProfits);
-                return result;
+        itemHistContents.add(sumProfits);
+        itemHistContents.add( unitsSold);
+        itemHistContents.add( totalTransactions);
+        itemHistContents.add( plusTrans);
 
-
-                case 6:result+=("Sum of all units sold: " + unitsSold);
-                return result;
-
-
-                case 7: result+=("Total transactions registered with said item: " + totalTransactions);
-                return result;
-
-            }
-
-        }else{
-            result+=("0");
-            return result;
-        }
-        return result;
+        return itemHistContents;
     }
 
-    public String printHistory(String idString){
-       String id = idString;
+    public String printHistory(String id){
+
        String result = "";
         items = itemsData.copyItems();
         String itemName="";
@@ -170,9 +341,43 @@ public class TransacHistory {
         return result;
     }
 
+    public double allHistoryProfit(){
 
-    public String allHistory(int choice){
-        String result="";
+        double totPurchase = (double) allHistoryContents().get(1);
+        int regTrans = (int) allHistoryContents().get(2);
+        if(regTrans==0){
+            return 0;
+        }else {
+            return totPurchase;
+        }
+    }
+
+    public int allHistoryUnitsSold(){
+
+        int unitsSold = (int) allHistoryContents().get(0);
+        int regTrans = (int) allHistoryContents().get(2);
+        if(regTrans==0){
+            return 0;
+        }else {
+           return unitsSold;
+        }
+    }
+
+    public int allHistoryRegTrans(){
+
+        int regTrans = (int) allHistoryContents().get(2);
+        if(regTrans==0){
+            return 0;
+        }else {
+            return regTrans;
+        }
+    }
+
+
+
+
+    public ArrayList allHistoryContents(){
+        ArrayList<Object> allHistContents = new ArrayList<>(4);
         int unitsSold = 0;
         double totPurchase = 0;
         int regTrans = 0;
@@ -183,24 +388,12 @@ public class TransacHistory {
             totPurchase+=historyList.get(i).getTotalPrice();
             unitsSold+=historyList.get(i).getQuantity();
         }
-        if(regTrans==0){
-            result+=("0");
-            return result;
-        }else {
-            switch (choice){
-                case 1: result =("Sum of all item purchases: "+totPurchase);
-                return result;
-
-                case 2: result=("Total units sold: "+unitsSold);
-                return result;
-
-                case 3: result=("Total registered transactions: "+regTrans);
-                return result;
-
-            }
-        }
-        return result;
+        allHistContents.add(unitsSold);
+        allHistContents.add(totPurchase);
+        allHistContents.add(regTrans);
+        return allHistContents;
     }
+
 
     public String printAllTransac(){
         StringBuilder result= new StringBuilder("All purchases made:");
@@ -264,5 +457,5 @@ public class TransacHistory {
         return result;
 
     }
-
+*/
 }
