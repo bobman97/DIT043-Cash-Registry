@@ -35,7 +35,6 @@ public class ItemOptions {
     final String NAME_NULL = "";
     final String ID_NULL = "";
     final double PRICE_NULL = 0.00;
-    static boolean hasRegistered = false;
 
     // Global
     DecimalFormat decimals = new DecimalFormat("#.00");
@@ -142,7 +141,7 @@ public class ItemOptions {
             // Print and return success message.
             success = "Item ID" + id + " was registered successfully.";
             System.out.println(success);
-            this.hasRegistered = true;
+            saveTransaction.hasRegistered();
             return success;
         }
         System.out.println(INVALID_DATA);
@@ -230,7 +229,7 @@ public class ItemOptions {
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
         success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
         System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
-        saveTransaction.purchaseSave(id, quantity, totalPrice);
+        saveTransaction.purchaseSave(id, (quantity + discounted), totalPrice);
         return totalPrice;
 
     }
@@ -391,18 +390,14 @@ public class ItemOptions {
     public ArrayList<Item> copyItems()  {
         String name, id;
         double price;
-        ArrayList<Item> itemsCopy = new ArrayList<Item>((items.size() >0?items.size():0));
-        if(items.size()>0){
+        ArrayList<Item> itemsCopy = new ArrayList<>();
 
-            for(int i = 0; i < items.size(); i++)   {
-                id = items.get(i).id;
-                name = items.get(i).name;
-                price = items.get(i).price;
-                itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
-            }
+        for(int i = 0; i < items.size(); i++)   {
+            id = items.get(i).getId();
+            name = items.get(i).getName();
+            price = items.get(i).getPrice();
+            itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
-
-
         return itemsCopy;
     }
 
@@ -417,23 +412,35 @@ public class ItemOptions {
         return decimals.format(value);
     }
 
-
-
-    //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
-    //Burak Askan
-    public int getIndex(String id){   //Gets index of a item in itemArrayList using id
+    public int getIndex(String id){
+        items = copyItems();
         int index = 0;
-        for(int i = 0;i<items.size();i++){
-            if (id.equals(items.get(i).getId())){
-                index = i;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).getId())){
+                index=i;
             }
         }
         return index;
     }
-    public int getSize(){return items.size();}   //Gets size of items arraylist
-    public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
-    public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
+
+    public String getName(String id){
+        items = copyItems();
+        String name ="";
+        int index = getIndex(id);
+        name =items.get(index).getName();
+        return name;
+    }
+
+    public double getPrice(String id){
+        items = copyItems();
+        double price = 0;
+        int index = getIndex(id);
+        price = items.get(index).getPrice();
+        return price;
+    }
+
     public boolean existanceChecker (String id){//Checks if such item currently exists
+        items = copyItems();
         boolean existance = false;
         for(int i = 0; i<items.size();i++){
             if(id.equals(items.get(i).id)){
@@ -442,7 +449,7 @@ public class ItemOptions {
         }
         return existance;
     }
-    public boolean checkRegistry(){return hasRegistered;}
-}//checks if atleast one item has been registered at all
+
+}
 
 

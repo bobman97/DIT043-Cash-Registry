@@ -135,6 +135,7 @@ public class UserInput {
                }
 
     public String inputID(String input, String error)    {
+        items = itemData.copyItems();
         String id;
         boolean checkExistance=false;
 
