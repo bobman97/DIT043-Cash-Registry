@@ -1,6 +1,7 @@
 package CashRegister;
 
 
+import Employees.Employee;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
@@ -58,6 +59,8 @@ public class CashRegister {
                 case 3:
                     TransacHistory();
                     break;
+                case 4:
+
                 default:
                     callError();
             }
@@ -71,6 +74,7 @@ public class CashRegister {
     static void reviewOptions() {reviews.runReviews();}
 
     static void TransacHistory()   {trans.runHistory();}
+
 
     static void callError() {
         System.out.println("Something went wrong!");
