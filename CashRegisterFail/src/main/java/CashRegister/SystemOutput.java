@@ -64,4 +64,21 @@ public class SystemOutput {
                 +ln);
     }
 
+    public void employeeMenu(){
+        System.out.println
+                ("Item Options menu:"+ ln+
+                        ln+
+                        "0. Return to Main Menu."+ln+
+                        "1. Create an employee (Regular Employee)."+ln+
+                        "2. Create an employee (Manager)."+ln+
+                        "3. Create an employee (Director)."+ln+
+                        "4. Create an employee (Intern)."+ln+
+                        "5. Remove an employee."+ln+
+                        "6. Print specific employee."+ln+
+                        "7. Print all registered employees."+ln+
+                        "8. Print the total expense with net salary."+ln+
+                        "9. Print all employees sorted by gross salary."+ln
+                        +ln);
+    }
+
 }
