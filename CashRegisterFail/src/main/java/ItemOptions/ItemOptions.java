@@ -419,8 +419,18 @@ public class ItemOptions {
 
 
 
+    /*
+     ***********************
+     *   BURAK's METHODS   *
+     ***********************
+     */
+
+
+
     //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
     //Burak Askan
+
+    //This already exists in itemOptions. Please use findItem() instead.
     public int getIndex(String id){   //Gets index of a item in itemArrayList using id
         int index = 0;
         for(int i = 0;i<items.size();i++){
@@ -430,9 +440,13 @@ public class ItemOptions {
         }
         return index;
     }
+
+     // This is longer than using .size()? // William
     public int getSize(){return items.size();}   //Gets size of items arraylist
     public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
     public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
+
+    //NOT allowed, use findItem, if the item doesn't exist it will return -1 which is equal to "false" in this case // William
     public boolean existanceChecker (String id){//Checks if such item currently exists
         boolean existance = false;
         for(int i = 0; i<items.size();i++){
