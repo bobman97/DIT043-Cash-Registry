@@ -430,7 +430,7 @@ public class ItemOptions {
     //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
     //Burak Askan
 
-    //This already exists in itemOptions. Please use findItem() instead.
+    //This already exists in itemOptions. Please use findItem() instead. // William
     public int getIndex(String id){   //Gets index of a item in itemArrayList using id
         int index = 0;
         for(int i = 0;i<items.size();i++){
