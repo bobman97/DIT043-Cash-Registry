@@ -76,9 +76,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT EVER    1
-    public double allHistoryProfit(){
-        return allHistoryContent()[0];
-    }
+    public double allHistoryProfit(){return allHistoryContent()[0];}
 
     //GIVES NUMBER OF UNITS SOLD EVER   2
     public int allHistoryUnitsSold(){
@@ -115,14 +113,10 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL UNITS SOLD OF A SINGLE ITEM  6
-    public int itemHistoryUnitsSold(String id){
-        return (int)itemHistoryContent(id)[1];
-    }
+    public int itemHistoryUnitsSold(String id){return (int)itemHistoryContent(id)[1];}
 
     //GIVES TOTAL TRANSACTIONS A ITEM MADE IN TOTAL
-    public int itemHistoryTotalTrans(String id){
-         return (int) itemHistoryContent(id)[2];
-    }
+    public int itemHistoryTotalTrans(String id){return (int) itemHistoryContent(id)[2];}
 
     //OPERATES AND CALCULATES A ITEM`S HISTORY
     public double[] itemHistoryContent(String id){
