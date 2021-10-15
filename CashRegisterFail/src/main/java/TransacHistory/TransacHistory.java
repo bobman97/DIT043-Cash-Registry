@@ -141,16 +141,16 @@ public class TransacHistory {
 
     //PRINTS HISTORY OF ONE SINGLE ITEM   7
     public String printAllItemTrans(String id) {
-        System.out.println(items.get(0).getName());
         String result = "";
-        if(existanceChecker(id)){
+        boolean itemExists = existanceChecker(id);
+        if(itemExists){
             result = "Transactions for item: "+ id + ":"+ getName(id)+". "+getPrice(id)+" SEK"+ln;
 
-            if(existanceChecker(id) && itemHistoryTotalTrans(id) > 0){
+            if(itemHistoryTotalTrans(id) > 0){
                 for(int i = 0; i<historyList.size(); i++){
                     result += historyList.get(i).toString() + ln;
                 }
-            }else if(existanceChecker(id)){
+            }else {
                 result+="No transactions have been registered for item "+id+" yet.";
             }
         }else{
@@ -256,8 +256,8 @@ public class TransacHistory {
     public boolean existanceChecker (String id){//Checks if such item currently exists
         items = itemsData.copyItems();
         boolean existance = false;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).getId())){
+        for(Item currentItem : items){
+            if(id.equals(currentItem.getId())){
                 existance = true;
             }
         }
@@ -266,6 +266,13 @@ public class TransacHistory {
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
+    /*
+    for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).getId())){
+                existance = true;
+            }
+        }
+     */
 
     /*public int getIndex(String id){
         items = itemsData.copyItems();

@@ -1,6 +1,6 @@
 package Employees;
 
-public class Employee {
+public abstract class Employee {
     private final String employeeID;
     private String employeeName;
     private double grossSalary;
@@ -9,9 +9,9 @@ public class Employee {
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = grossSalary;
-
-
     }
+
+
 
     public String getEmployeeID() {
         return employeeID;
@@ -32,4 +32,6 @@ public class Employee {
     public void setGrossSalary(double grossSalary) {
         this.grossSalary = grossSalary;
     }
+
+    //public abstract double calculateSalary();
 }

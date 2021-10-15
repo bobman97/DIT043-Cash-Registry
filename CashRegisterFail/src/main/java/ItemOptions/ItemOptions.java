@@ -410,7 +410,7 @@ public class ItemOptions {
     //Burak Askan
 
     //This already exists in itemOptions. Please use findItem() instead. // William
-    public int getIndex(String id){   //Gets index of a item in itemArrayList using id
+ /*   public int getIndex(String id){   //Gets index of a item in itemArrayList using id
         int index = 0;
         for(int i = 0;i<items.size();i++){
             if (id.equals(items.get(i).getId())){
@@ -424,6 +424,8 @@ public class ItemOptions {
     public int getSize(){return items.size();}   //Gets size of items arraylist
     public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
     public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
+*/
+
 
 }
 
