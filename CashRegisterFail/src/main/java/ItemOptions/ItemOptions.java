@@ -36,9 +36,6 @@ public class ItemOptions {
     final String ID_NULL = "";
     final double PRICE_NULL = 0.00;
 
-    // Global
-    DecimalFormat decimals = new DecimalFormat("#.00");
-
 
     /*
      ***********************
@@ -182,7 +179,7 @@ public class ItemOptions {
         }
         System.out.println(headline);
         for(int i = 0; i < items.size(); i++)   {
-            itemInfo = items.get(i).id + ": " + items.get(i).name + ". " + decimalFix(items.get(i).price) + " SEK";
+            itemInfo = items.get(i).id + ": " + items.get(i).name + ". " + sysOut.decimalFix(items.get(i).price) + " SEK";
             System.out.println(itemInfo);
             allItems += itemInfo + System.lineSeparator();
         }
@@ -225,7 +222,7 @@ public class ItemOptions {
 
         totalItems = discounted + quantity;
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + totalItems + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
+        success = "Successfully purchased " + totalItems + " x Item " + id + ": " + sysOut.decimalFix(totalPrice) + " SEK.";
         System.out.println(success);
         saveTransaction.purchaseSave(id, totalItems, totalPrice);
         return totalPrice;
@@ -247,40 +244,40 @@ public class ItemOptions {
         double price;
         String name, error, success, id;
 
-        if(FACADE) {
+        if(FACADE) { // Francisco Test:
             error = "Item " + itemID + " was not registered yet";
             success = "Item " + itemID + " was updated successfully.";
 
-            if (items.isEmpty() == true || !readIn.isNumber(itemID)) {
-                System.out.println(error);
-                return error;
-            }
-
             id = itemID;
         }
-        else {
+        else { // Normal Run:
             // Gets ID
             id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
             error = "Item " + id + " was not registered yet";
             success = "Item " + id + " was updated successfully.";
         }
 
-        // Gets index of ID
-        index = findItem(id);
-        if(index == -1)  {
+        if (items.isEmpty() == true || !readIn.isNumber(itemID)) { // This checks if no items are added, as well as if ItemID is wrong from Facade.
             System.out.println(error);
             return error;
         }
-        switch (property) {
-            case 1:
+
+        // Finds where the item is in our ArrayList
+        index = findItem(id);
+        if(index == -1)  { // If item is not added yet:
+            System.out.println(error);
+            return error;
+        }
+        switch (property) { // If Item is added:
+            case 1: // Check if we are changing name:
                 name = (FACADE ? newName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
                 items.get(index).name = name;
                 break;
-            case 2:
+            case 2: // Check if we are changing price:
                 price = (FACADE ? newPrice : readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA));
                 items.get(index).price = price;
                 break;
-            default:
+            default: // If this method was somehow called with wrong PROPERTY
                 System.exit(1);
         }
         System.out.println(success);
@@ -322,7 +319,7 @@ public class ItemOptions {
         id = items.get(index).id;
         itemName = items.get(index).name;
         itemPrice = items.get(index).price;
-        itemInfo = id + ": " + itemName + ". " + decimalFix(itemPrice) + " SEK";
+        itemInfo = id + ": " + itemName + ". " + sysOut.decimalFix(itemPrice) + " SEK";
         System.out.println(itemInfo);
         return itemInfo;
     }
@@ -397,11 +394,6 @@ public class ItemOptions {
     private String removeID(String itemID)  {
         itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
         return itemID;
-    }
-
-    // returns a String with two decimals
-    private String decimalFix(double value)   {
-        return decimals.format(value);
     }
 
 

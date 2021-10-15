@@ -222,7 +222,7 @@ public class TransacHistory {
     }
 
     // CHECKS IF ATLEAST ONE ITEM HAS EVER BEEN CREATED
-    public void hasRegistered() {hasRegistered=true;}
+    public void hasRegistered() {hasRegistered=true; System.out.println("If hasRegistered is called should be true: " + hasRegistered);}
     // FETCHING INFORMATION FROM ITEMSCOPYARRAYLIST BELOW
 
 
