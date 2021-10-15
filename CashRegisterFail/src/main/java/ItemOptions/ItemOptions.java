@@ -35,7 +35,6 @@ public class ItemOptions {
     final String NAME_NULL = "";
     final String ID_NULL = "";
     final double PRICE_NULL = 0.00;
-    static boolean hasRegistered = false;
 
     // Global
     DecimalFormat decimals = new DecimalFormat("#.00");
@@ -443,17 +442,6 @@ public class ItemOptions {
     public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
     public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
 
-    //NOT allowed, use findItem, if the item doesn't exist it will return -1 which is equal to "false" in this case // William
-    public boolean existanceChecker (String id){//Checks if such item currently exists
-        boolean existance = false;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).id)){
-                existance = true;
-            }
-        }
-        return existance;
-    }
-    public boolean checkRegistry(){return hasRegistered;}
-}//checks if atleast one item has been registered at all
+}
 
 
