@@ -141,7 +141,7 @@ public class ItemOptions {
             // Print and return success message.
             success = "Item ID" + id + " was registered successfully.";
             System.out.println(success);
-            this.hasRegistered = true;
+            saveTransaction.hasRegistered();
             return success;
         }
         System.out.println(INVALID_DATA);
@@ -229,7 +229,7 @@ public class ItemOptions {
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
         success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
         System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
-        saveTransaction.purchaseSave(id, quantity, totalPrice);
+        saveTransaction.purchaseSave(id, (quantity+discounted), totalPrice);
         return totalPrice;
 
     }
