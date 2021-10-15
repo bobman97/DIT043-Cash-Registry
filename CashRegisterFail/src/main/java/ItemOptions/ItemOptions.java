@@ -150,12 +150,13 @@ public class ItemOptions {
         int index;
         String error, success, searchQuery, id;
 
-
+        // If not a facade then ask user for ID else use the ID from the facade.
         searchQuery = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
 
         // Lookup if ID exists and return index in ArrayList
         index = findItem(searchQuery);
 
+        //If ID Exists then proceed with removing
         if (index != -1) {
             id = items.get(index).getId();
             items.remove(index);
@@ -163,6 +164,7 @@ public class ItemOptions {
             System.out.println(success);
             return success;
         }
+        //If ID does not exist then we print error.
         error = "Item " + searchQuery + " could not be removed.";
         System.out.println(error);
         return error;
@@ -171,14 +173,14 @@ public class ItemOptions {
     public String printAllItems() {
         String itemInfo, headline, allItems;
         headline = "All registered items:";
-        allItems = headline + System.lineSeparator();
+        allItems = headline + System.lineSeparator(); // allItems is our final String to RETURN
 
-        if(items.isEmpty()) {
+        if(items.isEmpty()) { // If no items registered then print and return
             System.out.println(NO_ITEMS_REGISTERED);
             return NO_ITEMS_REGISTERED;
         }
-        System.out.println(headline);
-        for(int i = 0; i < items.size(); i++)   {
+        System.out.println(headline); // Print the headline
+        for(int i = 0; i < items.size(); i++)   { // Loop through all items and print the info
             itemInfo = items.get(i).getId() + ": " + items.get(i).getName() + ". " + sysOut.decimalFix(items.get(i).getPrice()) + " SEK";
             System.out.println(itemInfo);
             allItems += itemInfo + System.lineSeparator();
