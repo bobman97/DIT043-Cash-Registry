@@ -141,6 +141,7 @@ public class ItemOptions {
             // Print and return success message.
             success = "Item " + id + " was registered successfully.";
             System.out.println(success);
+            saveTransaction.hasRegistered();
             return success;
         }
         System.out.println(INVALID_DATA);
@@ -189,11 +190,12 @@ public class ItemOptions {
     }
 
     public double buyItem(String itemID, int amount) {
-        int quantity, index, discounted, totalItems;
+        int quantity, index, discounted;
         String success, id;
         double totalPrice, itemPrice;
 
         if(FACADE) {
+            itemID = removeID(itemID);
             // Check if test sent a number for ID.
             if(!readIn.isNumber(itemID)) {
                 System.out.println(INVALID_DATA);
@@ -203,6 +205,8 @@ public class ItemOptions {
             quantity = amount;
         }
         else    {
+            // can't use lookUpItem since we need a returned value -1 according to specifications :(
+            //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
             id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
             quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
         }
@@ -211,7 +215,7 @@ public class ItemOptions {
 
         if(index == -1) {
             System.out.println(PURCHASE_NOT_SUCCESSFUL);
-            return index;
+            return -1;
         }
         itemPrice = items.get(index).price;
 
@@ -221,12 +225,13 @@ public class ItemOptions {
         } else {
             discounted = 0;
         }
-        totalItems = quantity + discounted;
+
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + (totalItems) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
-        System.out.println(success);
-        saveTransaction.purchaseSave(id, totalItems, totalPrice);
+        success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
+        System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
+        saveTransaction.purchaseSave(id, (quantity+discounted), totalPrice);
         return totalPrice;
+
     }
 
     public void newItemName() {
