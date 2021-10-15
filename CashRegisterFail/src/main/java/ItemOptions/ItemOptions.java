@@ -190,12 +190,11 @@ public class ItemOptions {
     }
 
     public double buyItem(String itemID, int amount) {
-        int quantity, index, discounted;
+        int quantity, index, discounted, totalItems;
         String success, id;
         double totalPrice, itemPrice;
 
         if(FACADE) {
-            itemID = removeID(itemID);
             // Check if test sent a number for ID.
             if(!readIn.isNumber(itemID)) {
                 System.out.println(INVALID_DATA);
@@ -205,8 +204,6 @@ public class ItemOptions {
             quantity = amount;
         }
         else    {
-            // can't use lookUpItem since we need a returned value -1 according to specifications :(
-            //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
             id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
             quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
         }
@@ -215,7 +212,7 @@ public class ItemOptions {
 
         if(index == -1) {
             System.out.println(PURCHASE_NOT_SUCCESSFUL);
-            return -1;
+            return index;
         }
         itemPrice = items.get(index).price;
 
@@ -226,12 +223,12 @@ public class ItemOptions {
             discounted = 0;
         }
 
+        totalItems = discounted + quantity;
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
-        System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
-        saveTransaction.purchaseSave(id, (quantity+discounted), totalPrice);
+        success = "Successfully purchased " + totalItems + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
+        System.out.println(success);
+        saveTransaction.purchaseSave(id, totalItems, totalPrice);
         return totalPrice;
-
     }
 
     public void newItemName() {
