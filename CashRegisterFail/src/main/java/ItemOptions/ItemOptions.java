@@ -6,7 +6,6 @@ import TransacHistory.Transaction;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ItemOptions {
 
@@ -36,6 +35,7 @@ public class ItemOptions {
     final String NAME_NULL = "";
     final String ID_NULL = "";
     final double PRICE_NULL = 0.00;
+    static boolean hasRegistered = false;
 
     // Global
     DecimalFormat decimals = new DecimalFormat("#.00");
@@ -129,7 +129,7 @@ public class ItemOptions {
         }
 
         if(checkItems) {
-            // If it's a test assign applied values to innerscope values.
+            // If it's a test assign applied values to inner-scope values.
             if(FACADE) {
                 id = itemID;
                 name = itemName;
@@ -140,9 +140,9 @@ public class ItemOptions {
             items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
 
             // Print and return success message.
-            success = "Item " + id + " was registered successfully.";
+            success = "Item ID" + id + " was registered successfully.";
             System.out.println(success);
-            saveTransaction.hasRegistered();
+            this.hasRegistered = true;
             return success;
         }
         System.out.println(INVALID_DATA);
@@ -191,18 +191,48 @@ public class ItemOptions {
     }
 
     public double buyItem(String itemID, int amount) {
-        final var DISCOUNT = 4;
-        double totalPrice = -1.0;
-        Item item = findItemObject(itemID);
-        if (item != null) {
-            if (amount <= DISCOUNT) {
-                totalPrice = item.getPrice() * amount;
-            } else {
-                totalPrice = 4*item.getPrice()+((amount-4)*0.7)*item.getPrice();
+        int quantity, index, discounted;
+        String success, id;
+        double totalPrice, itemPrice;
+
+        if(FACADE) {
+            itemID = removeID(itemID);
+            // Check if test sent a number for ID.
+            if(!readIn.isNumber(itemID)) {
+                System.out.println(INVALID_DATA);
+                return -1;
             }
-            saveTransaction.purchaseSave(itemID, amount, roundDecimal(totalPrice));
+            id = itemID;
+            quantity = amount;
         }
-        return roundDecimal(totalPrice);
+        else    {
+            // can't use lookUpItem since we need a returned value -1 according to specifications :(
+            //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
+            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
+            quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
+        }
+
+        index = findItem(id);
+
+        if(index == -1) {
+            System.out.println(PURCHASE_NOT_SUCCESSFUL);
+            return -1;
+        }
+        itemPrice = items.get(index).price;
+
+        if (quantity > 4) {
+            discounted = quantity - 4;
+            quantity = 4;
+        } else {
+            discounted = 0;
+        }
+
+        totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
+        success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
+        System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
+        saveTransaction.purchaseSave(id, quantity, totalPrice);
+        return totalPrice;
+
     }
 
     public void newItemName() {
@@ -221,7 +251,7 @@ public class ItemOptions {
         double price;
         String name, error, success, id;
 
-        if(items.isEmpty()) {
+        if(items.isEmpty() == true) {
             System.out.println(NO_ITEMS_REGISTERED);
             return NO_ITEMS_REGISTERED;
         }
@@ -314,14 +344,8 @@ public class ItemOptions {
      ***********************
      */
 
-    private Item findItemObject(String searchQuery) {
-        for (Item item: items) {
-            if (item.getId().equals(searchQuery)) {
-                return item;
-            }
-        }
-        return null;
-    }
+
+
     // This method will check if id exists then return the index of item in our ArrayList.
     private int findItem(String searchQuery)  {
         int index;
@@ -359,11 +383,12 @@ public class ItemOptions {
     }
 
     // Removes any decimals over #.00.
-    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
+    private double roundDecimal(double value)  {
+        return (double)((long)(value * 100))/100;
+    }
 
     // returns a copy of all the items in the shop.
     public ArrayList<Item> copyItems()  {
-        items.clone();
         String name, id;
         double price;
         ArrayList<Item> itemsCopy = new ArrayList<>();
@@ -374,6 +399,7 @@ public class ItemOptions {
             price = items.get(i).getPrice();
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
+
         return itemsCopy;
     }
 
@@ -389,6 +415,45 @@ public class ItemOptions {
     }
 
 
-}
+
+    /*
+     ***********************
+     *   BURAK's METHODS   *
+     ***********************
+     */
+
+
+
+    //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
+    //Burak Askan
+
+    //This already exists in itemOptions. Please use findItem() instead. // William
+    public int getIndex(String id){   //Gets index of a item in itemArrayList using id
+        int index = 0;
+        for(int i = 0;i<items.size();i++){
+            if (id.equals(items.get(i).getId())){
+                index = i;
+            }
+        }
+        return index;
+    }
+
+     // This is longer than using .size()? // William
+    public int getSize(){return items.size();}   //Gets size of items arraylist
+    public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
+    public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
+
+    //NOT allowed, use findItem, if the item doesn't exist it will return -1 which is equal to "false" in this case // William
+    public boolean existanceChecker (String id){//Checks if such item currently exists
+        boolean existance = false;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).id)){
+                existance = true;
+            }
+        }
+        return existance;
+    }
+    public boolean checkRegistry(){return hasRegistered;}
+}//checks if atleast one item has been registered at all
 
 
