@@ -111,9 +111,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT FROM A SINGLE ITEM  5
-    public double itemHistoryProfit(String id){
-        return itemHistoryContent(id)[0];
-    }
+    public double itemHistoryProfit(String id){return roundDecimal(itemHistoryContent(id)[0]);}
 
     //GIVES TOTAL UNITS SOLD OF A SINGLE ITEM  6
     public int itemHistoryUnitsSold(String id){return (int)itemHistoryContent(id)[1];}
@@ -143,7 +141,7 @@ public class TransacHistory {
 
     //PRINTS HISTORY OF ONE SINGLE ITEM   7
     public String printAllItemTrans(String id) {
-
+        System.out.println(items.get(0).getName());
         String result = "";
         if(existanceChecker(id)){
             result = "Transactions for item: "+ id + ":"+ getName(id)+". "+getPrice(id)+" SEK"+ln;
