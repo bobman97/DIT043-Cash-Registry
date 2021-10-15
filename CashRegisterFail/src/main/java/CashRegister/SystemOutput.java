@@ -1,7 +1,11 @@
 package CashRegister;
 
+import java.text.DecimalFormat;
+
 public class SystemOutput {
     String ln = System.lineSeparator();
+    // Global
+    DecimalFormat decimals = new DecimalFormat("#.00");
 
     public void mainMenu()  {
 
@@ -79,6 +83,11 @@ public class SystemOutput {
                         "8. Print the total expense with net salary."+ln+
                         "9. Print all employees sorted by gross salary."+ln
                         +ln);
+    }
+
+    // returns a String with two decimals
+    public String decimalFix(double value)   {
+        return decimals.format(value);
     }
 
 }
