@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Item {
     // This will be the objects that stores the information about all the items in the shop.
-     public final String id;
-     public String name;
-     public double price;
+     private final String id;
+     private String name;
+     private double price;
      public List<Reviews> reviewsList;
 
      Item(String id, String name, double price)   {
@@ -30,7 +30,13 @@ public class Item {
         return price;
     }
 
+    protected void setName(String name) {
+         this.name = name;
+    }
 
+    protected void setPrice(double price) {
+        this.price = price;
+    }
 
 
     //John

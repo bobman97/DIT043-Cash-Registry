@@ -157,7 +157,7 @@ public class ItemOptions {
         index = findItem(searchQuery);
 
         if (index != -1) {
-            id = items.get(index).id;
+            id = items.get(index).getId();
             items.remove(index);
             success = "Item " + id + " was successfully removed.";
             System.out.println(success);
@@ -179,7 +179,7 @@ public class ItemOptions {
         }
         System.out.println(headline);
         for(int i = 0; i < items.size(); i++)   {
-            itemInfo = items.get(i).id + ": " + items.get(i).name + ". " + sysOut.decimalFix(items.get(i).price) + " SEK";
+            itemInfo = items.get(i).getId() + ": " + items.get(i).getName() + ". " + sysOut.decimalFix(items.get(i).getPrice()) + " SEK";
             System.out.println(itemInfo);
             allItems += itemInfo + System.lineSeparator();
         }
@@ -211,7 +211,7 @@ public class ItemOptions {
             System.out.println(PURCHASE_NOT_SUCCESSFUL);
             return index;
         }
-        itemPrice = items.get(index).price;
+        itemPrice = items.get(index).getPrice();
 
         if (quantity > 4) {
             discounted = quantity - 4;
@@ -271,11 +271,11 @@ public class ItemOptions {
         switch (property) { // If Item is added:
             case 1: // Check if we are changing name:
                 name = (FACADE ? newName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
-                items.get(index).name = name;
+                items.get(index).setName(name);
                 break;
             case 2: // Check if we are changing price:
                 price = (FACADE ? newPrice : readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA));
-                items.get(index).price = price;
+                items.get(index).setPrice(price);
                 break;
             default: // If this method was somehow called with wrong PROPERTY
                 System.exit(1);
@@ -316,9 +316,9 @@ public class ItemOptions {
             System.out.println(error);
             return error;
         }
-        id = items.get(index).id;
-        itemName = items.get(index).name;
-        itemPrice = items.get(index).price;
+        id = items.get(index).getId();
+        itemName = items.get(index).getName();
+        itemPrice = items.get(index).getPrice();
         itemInfo = id + ": " + itemName + ". " + sysOut.decimalFix(itemPrice) + " SEK";
         System.out.println(itemInfo);
         return itemInfo;
@@ -342,7 +342,7 @@ public class ItemOptions {
             return index;
 
         for(int i = 0; i < items.size(); i++)   {
-            if(items.get(i).id.equals(searchQuery)) {
+            if(items.get(i).getId().equals(searchQuery)) {
                 return i;
             }
         }

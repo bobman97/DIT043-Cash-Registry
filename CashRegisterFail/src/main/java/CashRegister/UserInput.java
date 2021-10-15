@@ -143,7 +143,7 @@ public class UserInput {
             id = readID(input, error);
 
             for(int i = 0; i < items.size(); i++)   {
-                if(items.get(i).id.equals(id)) {
+                if(items.get(i).getId().equals(id)) {
                     checkExistance=true;
                 }
             }

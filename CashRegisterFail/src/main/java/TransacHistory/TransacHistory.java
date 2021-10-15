@@ -257,7 +257,7 @@ public class TransacHistory {
         items = itemsData.copyItems();
         boolean existance = false;
         for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).id)){
+            if(id.equals(items.get(i).getId())){
                 existance = true;
             }
         }
