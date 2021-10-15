@@ -139,7 +139,7 @@ public class ItemOptions {
             items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
 
             // Print and return success message.
-            success = "Item ID" + id + " was registered successfully.";
+            success = "Item " + id + " was registered successfully.";
             System.out.println(success);
             return success;
         }
@@ -165,7 +165,7 @@ public class ItemOptions {
             System.out.println(success);
             return success;
         }
-        error = "Item ID" + searchQuery + " could not be removed.";
+        error = "Item " + searchQuery + " could not be removed.";
         System.out.println(error);
         return error;
     }
@@ -245,17 +245,11 @@ public class ItemOptions {
         double price;
         String name, error, success, id;
 
-        if(items.isEmpty() == true) {
-            System.out.println(NO_ITEMS_REGISTERED);
-            return NO_ITEMS_REGISTERED;
-        }
-
         if(FACADE) {
             error = "Item " + itemID + " was not registered yet";
             success = "Item " + itemID + " was updated successfully.";
-            itemID = removeID(itemID);
 
-            if (!readIn.isNumber(itemID)) {
+            if (items.isEmpty() == true || !readIn.isNumber(itemID)) {
                 System.out.println(error);
                 return error;
             }
