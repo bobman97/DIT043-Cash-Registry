@@ -14,7 +14,7 @@ public class Transaction {
     }
 
     @Override
-    public String toString() {return "ID"+ID + ": "+quantity+ " item(s). "+totalPrice+ " SEK";}
+    public String toString() {return ID + ": "+quantity+ " item(s). "+(totalPrice+0.00)+ " SEK";}
 
     public String getID(){return this.ID;}
 
