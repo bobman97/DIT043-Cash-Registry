@@ -1,27 +1,30 @@
 package TransacHistory;
+import CashRegister.CashRegister;
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
 import ItemOptions.Item;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class TransacHistory {
     SystemOutput printMenu;
     UserInput readIn;
-    ArrayList <Transaction> historyList;
+    List<Transaction> historyList;
     public ItemOptions itemsData;
     String ln= System.lineSeparator();
-    //ArrayList<Item> items ;
+    ArrayList<Item> items;
     public static boolean hasRegistered = false;
 
 
     public TransacHistory(){
         printMenu = new SystemOutput();
         readIn= new UserInput();
-        historyList = new ArrayList<Transaction>();
-
-        //items = itemsData.copyItems();
+        historyList = new ArrayList<>();
+        this.itemsData = new ItemOptions(this, true);
+        items = itemsData.copyItems();
     }
 
     public void runHistory(){
@@ -76,7 +79,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT EVER    1
-    public double allHistoryProfit(){return allHistoryContent()[0];}
+    public double allHistoryProfit(){return roundDecimal(allHistoryContent()[0]);}
 
     //GIVES NUMBER OF UNITS SOLD EVER   2
     public int allHistoryUnitsSold(){
@@ -140,15 +143,16 @@ public class TransacHistory {
 
     //PRINTS HISTORY OF ONE SINGLE ITEM   7
     public String printAllItemTrans(String id) {
-        String result = "";
-        if(itemsData.existanceChecker(id)){
-            result = "Transactions for item: "+ id + ":"+ itemsData.getName(id)+". "+itemsData.getPrice(id)+" SEK"+ln;
 
-            if(itemsData.existanceChecker(id)&&itemHistoryTotalTrans(id)>0){
-                for(int i = 0;i<historyList.size();i++){
-                    result +=historyList.get(i).toString()+ln;
+        String result = "";
+        if(existanceChecker(id)){
+            result = "Transactions for item: "+ id + ":"+ getName(id)+". "+getPrice(id)+" SEK"+ln;
+
+            if(existanceChecker(id) && itemHistoryTotalTrans(id) > 0){
+                for(int i = 0; i<historyList.size(); i++){
+                    result += historyList.get(i).toString() + ln;
                 }
-            }else if(itemsData.existanceChecker(id)){
+            }else if(existanceChecker(id)){
                 result+="No transactions have been registered for item "+id+" yet.";
             }
         }else{
@@ -197,7 +201,7 @@ public class TransacHistory {
         double mostProfit= 0;
         String mostProfitID = "";
 
-        if(hasRegistered&&0<historyList.size()){
+        if(hasRegistered && 0<historyList.size()){
             for(int i = 0; i<historyList.size();i++){
                 if(itemHistoryProfit(historyList.get(i).getID())>mostProfit){
                     mostProfitID = historyList.get(i).getID();
@@ -208,7 +212,7 @@ public class TransacHistory {
                     +"Total profit: "+ mostProfit+ " SEK"+ln;
             for(int i = 0; i<historyList.size();i++){
                 if(mostProfitID.equals(historyList.get(i).getID())){
-                    result+=historyList.get(i).getID()+": "+itemsData.getName(mostProfitID)+". "+historyList.get(i).getTotalPrice()+" SEK"+ln;
+                    result+=historyList.get(i).getID()+": "+getName(mostProfitID)+". "+historyList.get(i).getTotalPrice()+" SEK"+ln;
                 }
             }
         }else if(!hasRegistered){
@@ -223,6 +227,46 @@ public class TransacHistory {
     public void hasRegistered() {hasRegistered=true;}
     // FETCHING INFORMATION FROM ITEMSCOPYARRAYLIST BELOW
 
+
+    public int getIndex(String id){
+        items = itemsData.copyItems();
+        int index = 0;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).getId())){
+                index=i;
+            }
+        }
+        return index;
+    }
+
+    public String getName(String id){
+        items = itemsData.copyItems();
+        String name ="";
+        int index = getIndex(id);
+        name =items.get(index).getName();
+        return name;
+    }
+
+    public double getPrice(String id){
+        items = itemsData.copyItems();
+        double price = 0;
+        int index = getIndex(id);
+        price = items.get(index).getPrice();
+        return price;
+    }
+
+    public boolean existanceChecker (String id){//Checks if such item currently exists
+        items = itemsData.copyItems();
+        boolean existance = false;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).id)){
+                existance = true;
+            }
+        }
+        return existance;
+    }
+
+    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
 
     /*public int getIndex(String id){

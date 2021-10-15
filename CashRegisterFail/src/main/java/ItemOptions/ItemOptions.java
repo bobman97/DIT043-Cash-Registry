@@ -6,6 +6,7 @@ import TransacHistory.Transaction;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ItemOptions {
 
@@ -139,7 +140,7 @@ public class ItemOptions {
             items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
 
             // Print and return success message.
-            success = "Item ID" + id + " was registered successfully.";
+            success = "Item " + id + " was registered successfully.";
             System.out.println(success);
             saveTransaction.hasRegistered();
             return success;
@@ -190,48 +191,18 @@ public class ItemOptions {
     }
 
     public double buyItem(String itemID, int amount) {
-        int quantity, index, discounted;
-        String success, id;
-        double totalPrice, itemPrice;
-
-        if(FACADE) {
-            itemID = removeID(itemID);
-            // Check if test sent a number for ID.
-            if(!readIn.isNumber(itemID)) {
-                System.out.println(INVALID_DATA);
-                return -1;
+        final var DISCOUNT = 4;
+        double totalPrice = -1.0;
+        Item item = findItemObject(itemID);
+        if (item != null) {
+            if (amount <= DISCOUNT) {
+                totalPrice = item.getPrice() * amount;
+            } else {
+                totalPrice = 4*item.getPrice()+((amount-4)*0.7)*item.getPrice();
             }
-            id = itemID;
-            quantity = amount;
+            saveTransaction.purchaseSave(itemID, amount, roundDecimal(totalPrice));
         }
-        else    {
-            // can't use lookUpItem since we need a returned value -1 according to specifications :(
-            //id = lookUpItem("Enter ID of item: ", "Invalid data for item.") ;
-            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
-            quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
-        }
-
-        index = findItem(id);
-
-        if(index == -1) {
-            System.out.println(PURCHASE_NOT_SUCCESSFUL);
-            return -1;
-        }
-        itemPrice = items.get(index).price;
-
-        if (quantity > 4) {
-            discounted = quantity - 4;
-            quantity = 4;
-        } else {
-            discounted = 0;
-        }
-
-        totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + (quantity + discounted) + " x Item " + id + ": " + decimalFix(totalPrice) + " SEK.";
-        System.out.println((FACADE ? PURCHASE_SUCCESSFUL : success));
-        saveTransaction.purchaseSave(id, (quantity + discounted), totalPrice);
-        return totalPrice;
-
+        return roundDecimal(totalPrice);
     }
 
     public void newItemName() {
@@ -250,7 +221,7 @@ public class ItemOptions {
         double price;
         String name, error, success, id;
 
-        if(items.isEmpty() == true) {
+        if(items.isEmpty()) {
             System.out.println(NO_ITEMS_REGISTERED);
             return NO_ITEMS_REGISTERED;
         }
@@ -343,8 +314,14 @@ public class ItemOptions {
      ***********************
      */
 
-
-
+    private Item findItemObject(String searchQuery) {
+        for (Item item: items) {
+            if (item.getId().equals(searchQuery)) {
+                return item;
+            }
+        }
+        return null;
+    }
     // This method will check if id exists then return the index of item in our ArrayList.
     private int findItem(String searchQuery)  {
         int index;
@@ -382,12 +359,11 @@ public class ItemOptions {
     }
 
     // Removes any decimals over #.00.
-    private double roundDecimal(double value)  {
-        return (double)((long)(value * 100))/100;
-    }
+    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
     // returns a copy of all the items in the shop.
     public ArrayList<Item> copyItems()  {
+        items.clone();
         String name, id;
         double price;
         ArrayList<Item> itemsCopy = new ArrayList<>();
@@ -412,43 +388,6 @@ public class ItemOptions {
         return decimals.format(value);
     }
 
-    public int getIndex(String id){
-        items = copyItems();
-        int index = 0;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).getId())){
-                index=i;
-            }
-        }
-        return index;
-    }
-
-    public String getName(String id){
-        items = copyItems();
-        String name ="";
-        int index = getIndex(id);
-        name =items.get(index).getName();
-        return name;
-    }
-
-    public double getPrice(String id){
-        items = copyItems();
-        double price = 0;
-        int index = getIndex(id);
-        price = items.get(index).getPrice();
-        return price;
-    }
-
-    public boolean existanceChecker (String id){//Checks if such item currently exists
-        items = copyItems();
-        boolean existance = false;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).id)){
-                existance = true;
-            }
-        }
-        return existance;
-    }
 
 }
 
