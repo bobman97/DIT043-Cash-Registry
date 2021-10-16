@@ -9,7 +9,7 @@ import ItemOptions.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewOptions {/*
+public class ReviewOptions {
     String ln = System.lineSeparator();
     SystemOutput systemOut;
     UserInput takeIn;
@@ -52,7 +52,7 @@ public class ReviewOptions {/*
                     break;
                 case 3: //Print all reviews of an item
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
-                    printAllRevItem(ID);
+                    getPrintedItemReview(ID);
                     break;
                 case 4: //Print mean grade of an item
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
@@ -60,10 +60,10 @@ public class ReviewOptions {/*
                     break;
                 case 5: //Print all comments of an item
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
-                    printAllCommentsItem(ID);
+                    getItemCommentsPrinted(ID);
                     break;
                 case 6: //Print all registered reviews
-                    printAllRegisteredRev();
+                    getPrintedReviews();
                     break;
                 case 7: //Print item(s) w the most reviews
                     printMostRevs();
@@ -87,7 +87,7 @@ public class ReviewOptions {/*
         int index;
         index = -1;
         for(int i = 0; i < items.size(); i++)   {
-            if(items.get(i).id.equals(searchQuery)) {
+            if(items.get(i).getId().equals(searchQuery)) {
                 return i;
             }
         }
@@ -127,10 +127,10 @@ public class ReviewOptions {/*
     }
 
     // 3
-    public String printAllRevItem(String ID) {
+    public String getPrintedItemReview(String ID) {
         Item item = findItemObject(ID);
-        String printReviews = "Reviews(s) for " + ID + ": " + item.name + ". " + item.price + " + SEK " + ln;
-        String noReviewsError = "Item " + item.name + " has not been reviewed yet.";
+        String printReviews = "Reviews(s) for " + ID + ": " + item.getName() + ". " + item.getPrice() + " + SEK " + ln;
+        String noReviewsError = "Item " + item.getName() + " has not been reviewed yet.";
 
         for (Reviews reviews : item.getReviewList()) {
             if (item.reviewsList.isEmpty()) {
@@ -145,41 +145,29 @@ public class ReviewOptions {/*
     // 4
     public void printMeanGradeItem(String ID){
         Item item = findItemObject(ID);
-        System.out.println(item.getMeanGrade());
+        System.out.println(item.getItemMeanGrade());
 
     }
     //5
-    public String printAllCommentsItem(String ID) {
+    public String getItemCommentsPrinted(String ID) {
         // When retrieving all comments, users must specify an item ID.
         // They must only retrieve written comments and they can be iterated as a collection of Strings.
           StringBuilder result = new StringBuilder();
-         for (String comments : getWrittenComments(ID)) {
+         for (String comments : getItemComments(ID)) {
            result.append(comments).append(ln);
          }
          return result.toString();
     }
 
-    public List<String> getWrittenComments(String ID) {
-        List<String> comments = new ArrayList<>();
-        if (findItemObject(ID) == null) {
-            return comments;
-        } else {
-            for (Reviews reviews : findItemObject(ID).getReviewList()) {
-                if (!reviews.getReviewComment().isEmpty()) {
-                    comments.add(reviews.getReviewComment());
-                }
-            }
-        }
-        return comments;
-    }
+
 
     // 6
-    public String printAllRegisteredRev() {
+    public String getPrintedReviews() {
     StringBuilder allReviews = new StringBuilder(ln + "All registered reviews: " +ln + "------------------------------" +ln);
     String noRegisteredReviewsError = "No items were reviewed yet";
 
     for (Item item : items) {
-        String printReviews = "Reviews(s) for " + item.id + ": " + item.name + ". " + item.price + " + SEK " + ln;
+        String printReviews = "Reviews(s) for " + item.getId() + ": " + item.getName() + ". " + item.getPrice() + " + SEK " + ln;
         allReviews.append(printReviews);
         if (item.reviewsList.isEmpty()) {
             return noRegisteredReviewsError;
@@ -206,14 +194,14 @@ public class ReviewOptions {/*
 
         for (Item item : items) {
             numberOfReviews = item.reviewsList.size();
-            String printItem = item.id + ": " + item.name + ". " + item.price + " SEK ";
+            String printItem = item.getId() + ": " + item.getName() + ". " + item.getPrice() + " SEK ";
             mostReviews.append(numberOfReviews);
             mostReviews.append(printItem);
             if (item.reviewsList.isEmpty()) {
                 return "No items were reviewed yet";
             } else {
                 for (int i = 0; i < item.reviewsList.size(); i++) {
-                    printItem = items.get(i).id + ": " + items.get(i).name + ". " + items.get(i).price + " SEK ";
+                    printItem = items.get(i).getId() + ": " + items.get(i).getName() + ". " + items.get(i).getPrice() + " SEK ";
                     mostReviews.append(printItem);
                 }
             }
@@ -237,8 +225,23 @@ public class ReviewOptions {/*
 
         }
 //Getter methods
-public List<int> getNumberOfReviews(String ID) {
-    List<int> numberOfReviews = new ArrayList<>();
+
+    public List<String> getItemComments(String ID) {
+        List<String> comments = new ArrayList<>();
+        if (findItemObject(ID) == null) {
+            return comments;
+        } else {
+            for (Reviews reviews : findItemObject(ID).getReviewList()) {
+                if (!reviews.getReviewComment().isEmpty()) {
+                    comments.add(reviews.getReviewComment());
+                }
+            }
+        }
+        return comments;
+    }
+
+public List<Integer> getNumberOfReviews(String ID) {
+    List<Integer> numberOfReviews = new ArrayList<>();
     if (findItemObject(ID) == null) {
         return numberOfReviews;
     } else {
@@ -251,7 +254,14 @@ public List<int> getNumberOfReviews(String ID) {
     return numberOfReviews;
 }
 
+public List<String> getMostReviewedItems(){
+        return null;
+}
 
-*/}
+public List<String> getLeastReviewedItems(){
+        return null;
+    }
+
+}
 
 
