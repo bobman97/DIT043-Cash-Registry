@@ -23,7 +23,6 @@ public class TransacHistory {
         printMenu = new SystemOutput();
         readIn= new UserInput();
         historyList = new ArrayList<>();
-        items = itemsData.copyItems();
     }
 
     public void runHistory(){
