@@ -382,8 +382,8 @@ public class ItemOptions {
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
 
-        System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
-        + "Faktiskt arraylist: " + items.size());
+       // System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
+        //+ "Faktiskt arraylist: " + items.size());
         return itemsCopy;
     }
 
@@ -393,35 +393,10 @@ public class ItemOptions {
         return itemID;
     }
 
-
-
-    /*
-     ***********************
-     *   BURAK's METHODS   *
-     ***********************
-     */
-
-
-
-    //Please do not change anything below this. If you do please tell me and how you wish to change it.(So scared code will poo poo)
-    //Burak Askan
-
-    //This already exists in itemOptions. Please use findItem() instead. // William
- /*   public int getIndex(String id){   //Gets index of a item in itemArrayList using id
-        int index = 0;
-        for(int i = 0;i<items.size();i++){
-            if (id.equals(items.get(i).getId())){
-                index = i;
-            }
-        }
-        return index;
+    public double truncate(double num, int decimals) {
+        double result = (double) ((int) (num * Math.pow(10, decimals))) / Math.pow(10, decimals);
+        return result;
     }
-
-     // This is longer than using .size()? // William
-    public int getSize(){return items.size();}   //Gets size of items arraylist
-    public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
-    public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
-*/
     
 }
 

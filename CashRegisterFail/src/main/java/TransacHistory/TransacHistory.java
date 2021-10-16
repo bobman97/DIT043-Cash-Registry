@@ -6,6 +6,7 @@ import ItemOptions.ItemOptions;
 import ItemOptions.Item;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -17,6 +18,7 @@ public class TransacHistory {
     String ln= System.lineSeparator();
     ArrayList<Item> items;
     public static boolean hasRegistered = false;
+    HashMap<String, Double> TotalProfitItems = new HashMap<>();
 
 
     public TransacHistory(){
@@ -141,22 +143,35 @@ public class TransacHistory {
     public String printAllItemTrans(String id) {
         String result = "";
         boolean itemExists = existanceChecker(id);
-        if(itemExists){
-            result = "Transactions for item: "+ id + ":"+ getName(id)+". "+getPrice(id)+" SEK"+ln;
+        if(itemExists){//checks if item id exists
+            result = "Transactions for item: "+ id + ": "+ getName(id)+". "+printMenu.decimalFix(getPrice(id))+" SEK"+ln; //Preps first line DONT
 
-            if(itemHistoryTotalTrans(id) > 0){
-                for(int i = 0; i<historyList.size(); i++){
-                    result += historyList.get(i).toString() + ln;
+            if(itemHistoryTotalTrans(id) > 0){//checks if any transaction for said item
+                for(int i = 0; i<historyList.size(); i++){//loops entire history list
+                    if(historyList.get(i).getID().equals(id)){
+                        result += historyList.get(i).toString() + ln;//prints entire hstory list
+                    }
                 }
             }else {
-                result+="No transactions have been registered for item "+id+" yet.";
+                result+="No transactions have been registered for item "+id+" yet."; //no tranaction for item print
             }
-        }else{
-            result+="Item "+id+" was not registered yet";
+        }else{// item id dosent exist so print so
+            result+="Item "+id+" was not registered yet.";
         }
 
         return result;
     }
+
+    public void totalProfitItemList(){
+        for(int i = 0; i<historyList.size();i++){
+
+            String id=historyList.get(i).getID();
+            double totalProfit =itemHistoryProfit(id);
+            TotalProfitItems.put(id,totalProfit);
+        }
+    }
+
+
 
     //PRINTS HISTORY OF ONE SINGLE ITEM   7
     /*public String printAllItemTrans(String id){
@@ -177,7 +192,7 @@ public class TransacHistory {
     //PRINTS ALL THE PURCHASES EVER MADE   4
     public String printAllTrans(){
         String result = "All purchases made: "+ln
-                +"Total profit: "+allHistoryProfit()+" SEK"+ ln
+                +"Total profit: "+printMenu.decimalFix(allHistoryProfit())+" SEK"+ ln
                 +"Total items sold: "+allHistoryUnitsSold()+" units"+ ln
                 +"Total purchases made: "+allHistoryTrans()+" transactions"+ ln
                 +"------------------------------------"+ln;
@@ -190,6 +205,40 @@ public class TransacHistory {
         result+="------------------------------------"+ln;
         return result;
     }
+
+    /*public String mostProfit(){
+        String result ="";
+        double mostProfit= 0;
+        String mostProfitID = "";
+        int mostProfitIndex =0 ;
+        totalProfitItemList();
+        if(hasRegistered&&0<historyList.size()){
+
+            for(int i = 0;i<historyList.size();i++){
+                String id =historyList.get(i).getID();
+
+                if(TotalProfitItems.get(id)>mostProfit){
+                    mostProfitID = id;
+                    mostProfitIndex=i;
+                }
+
+                if(TotalProfitItems.get(mostProfitID)==TotalProfitItems.get(id)){
+                    result+=historyList.get(i).toString()+ln;
+                }
+            }
+
+            result+="Most profitable items:"+ln
+                    +"Total profit: "+ mostProfit+ " SEK"+ln;
+
+
+
+        }else if(!hasRegistered){
+            result+="No items registered yet";
+        }else{
+            result+="No items were bought yet";
+        }
+            return result;
+    }*/
 
     // MOST PROFIT ITEM(S)
     public String mostProfit(){
@@ -204,13 +253,19 @@ public class TransacHistory {
                     mostProfit=itemHistoryProfit(historyList.get(i).getID());
                 }
             }
-            result+="Most profitable items:"+ln
+            result+="Most profitable items: "+ln
                     +"Total profit: "+ mostProfit+ " SEK"+ln;
+
+            result+=itemsData.copyItems().get(getIndex(mostProfitID)).getId()+": "+getName(mostProfitID)+". "+getPrice(mostProfitID)+" SEK"+ln;
+
+
             for(int i = 0; i<historyList.size();i++){
-                if(mostProfitID.equals(historyList.get(i).getID())){
-                    result+=historyList.get(i).getID()+": "+getName(mostProfitID)+". "+historyList.get(i).getTotalPrice()+" SEK"+ln;
+                if(itemHistoryProfit(historyList.get(i).getID())==mostProfit&&historyList.get(i).getID()!=mostProfitID){
+                    String idHist = historyList.get(i).getID();
+                    result+=itemsData.copyItems().get(getIndex(idHist)).getId()+": "+getName(idHist)+". "+getPrice(idHist)+" SEK"+ln;
                 }
             }
+
         }else if(!hasRegistered){
             result+="No items registered yet";
         }else{
@@ -264,285 +319,4 @@ public class TransacHistory {
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
-
-
-    /*
-    for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).getId())){
-                existance = true;
-            }
-        }
-     */
-
-    /*public int getIndex(String id){
-        items = itemsData.copyItems();
-        int index = 0;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).getId())){
-                index=i;
-            }
-        }
-        return index;
-    }
-
-    public String getName(String id){
-        items = itemsData.copyItems();
-        String name ="";
-        int index = getIndex(id);
-        name =items.get(index).getName();
-        return name;
-    }
-
-    public double getPrice(String id){
-        items = itemsData.copyItems();
-        double price = 0;
-        int index = getIndex(id);
-        price = items.get(index).getPrice();
-        return price;
-    }
-
-    public boolean existanceChecker (String id){//Checks if such item currently exists
-        items = itemsData.copyItems();
-        boolean existance = false;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).id)){
-                existance = true;
-            }
-        }
-        return existance;
-    }
-*/
-
-
-
-   /* private String inputID(String input, String error)    {
-        String id;
-        boolean checkExistance=false;
-
-        do {
-            id = readIn.readID(input, error);
-
-            for(int i = 0; i < items.size(); i++)   {
-                if(items.get(i).id.equals(id)) {
-                    checkExistance=true;
-                }
-            }
-
-            if(!items.isEmpty() && !checkExistance) {
-                System.out.println(error);
-            }
-            else    {
-                checkExistance = false;
-            }
-        } while(checkExistance);
-
-        return id;
-    }
-
-
-    public double itemHistProfits(String id){
-
-        double sumProfits = (double) itemHistContents(id).get(0);
-        double plusTrans = (int) itemHistContents(id).get(3);
-
-        if(plusTrans>=1) {
-            return sumProfits;
-        }else{
-            return 0;
-        }
-    }
-
-    public int itemHistUnitsSold(String id){
-
-        int unitsSold = (int) itemHistContents(id).get(1);
-        int plusTrans = (int) itemHistContents(id).get(3);
-
-        if(plusTrans>=1) {
-            return unitsSold;
-        }else{
-            return 0;
-        }
-    }
-
-
-    public ArrayList itemHistContents(String id){
-        ArrayList<Object> itemHistContents = new ArrayList<>(4);
-
-        double sumProfits = 0;
-        int unitsSold = 0;
-        int totalTransactions = 0;
-        int plusTrans = 0;
-
-        for(int i=0; i<historyList.size();i++){
-            if(id.equals(historyList.get(i).getID())){
-                unitsSold += historyList.get(i).getQuantity();
-                sumProfits += historyList.get(i).getTotalPrice();
-                totalTransactions=i+1;
-                plusTrans++;
-            }
-        }
-        itemHistContents.add(sumProfits);
-        itemHistContents.add( unitsSold);
-        itemHistContents.add( totalTransactions);
-        itemHistContents.add( plusTrans);
-
-        return itemHistContents;
-    }
-
-    public String printHistory(String id){
-
-       String result = "";
-        items = itemsData.copyItems();
-        String itemName="";
-        double price = 0;
-        boolean exist = false;
-        for (int i=0; i<items.size();i++){
-            if(id.equals(items.get(i).id)){
-
-            }else{
-                result +=("Item "+id+" was not registered yet."+ln);
-            }
-        }
-        for(int i=0; i<historyList.size();i++){
-            if(id==historyList.get(i).getID()){
-                itemName = items.get(i).name;
-                price = items.get(i).price;
-                exist=true;
-            }
-        }
-        if(!exist){
-            result+=("Transactions for item: " + id +":"+itemName+". "+price+ " SEK"+ln);
-            result+=("No transactions have been registered for item" +id+" yet."+ln);
-        }
-        else {
-            result+=("Transactions for item: " + id + ":" + itemName + ". " + price + " SEK"+ln);
-
-
-            for (int i = 0; i < historyList.size(); i++) {
-                if (id == historyList.get(i).getID()) {
-                     result+=(historyList.get(i).toString()+ln);
-                }
-            }
-
-        }
-        return result;
-    }
-
-    public double allHistoryProfit(){
-
-        double totPurchase = (double) allHistoryContents().get(1);
-        int regTrans = (int) allHistoryContents().get(2);
-        if(regTrans==0){
-            return 0;
-        }else {
-            return totPurchase;
-        }
-    }
-
-    public int allHistoryUnitsSold(){
-
-        int unitsSold = (int) allHistoryContents().get(0);
-        int regTrans = (int) allHistoryContents().get(2);
-        if(regTrans==0){
-            return 0;
-        }else {
-           return unitsSold;
-        }
-    }
-
-    public int allHistoryRegTrans(){
-
-        int regTrans = (int) allHistoryContents().get(2);
-        if(regTrans==0){
-            return 0;
-        }else {
-            return regTrans;
-        }
-    }
-
-
-
-
-    public ArrayList allHistoryContents(){
-        ArrayList<Object> allHistContents = new ArrayList<>(4);
-        int unitsSold = 0;
-        double totPurchase = 0;
-        int regTrans = 0;
-        System.out.println(historyList.get(0).getTotalPrice());
-
-        for(int i = 0; i<historyList.size();i++){
-            regTrans=i+1;
-            totPurchase+=historyList.get(i).getTotalPrice();
-            unitsSold+=historyList.get(i).getQuantity();
-        }
-        allHistContents.add(unitsSold);
-        allHistContents.add(totPurchase);
-        allHistContents.add(regTrans);
-        return allHistContents;
-    }
-
-
-    public String printAllTransac(){
-        StringBuilder result= new StringBuilder("All purchases made:");
-        int unitsSold = 0;
-        double totPurchase = 0.00;
-        int regTrans = 0;
-
-
-        for(int i = 0; i<historyList.size();i++){
-            regTrans=i+1;
-            totPurchase+=historyList.get(i).getTotalPrice();
-            unitsSold+=historyList.get(i).getQuantity();
-
-        }
-
-
-            result.append(ln).append("Total profit: ").append(totPurchase).append(" SEK").append(ln);
-            result.append("Total items sold: ").append(unitsSold).append(" units").append(ln);
-            result.append("Total purchases made: ").append(regTrans).append(" transactions").append(ln);
-
-            result.append("------------------------------------").append(ln);
-
-            for (int i = 0; i<historyList.size();i++){
-                result.append(historyList.get(i).toString()).append(ln);
-            }
-            result.append("------------------------------------");
-            return result.toString();
-
-    }
-
-    public String mostProfit(){
-        String result = "";
-        items = itemsData.copyItems();
-
-        double highestProfit= 00;
-        String id;
-
-
-
-        for(int i = 0; i<items.size();i++){
-            double sold = 0.00;
-            for(int y = 0; y<historyList.size();y++){
-                double totSold = 0.00;
-                if(historyList.get(y).getID().equals(items.get(i).id)){
-                    totSold+=historyList.get(y).getTotalPrice();
-                }
-                if(totSold>sold){
-                    sold=totSold;
-                    id = historyList.get(y).getID();
-                }
-            }
-            if(sold>highestProfit){
-                highestProfit=sold;
-            }
-
-        }
-
-
-        result+="Most profitable items: "+ln;
-        result+="Total profit: "+highestProfit+ " SEK";
-        return result;
-
-    }
-*/
 }
