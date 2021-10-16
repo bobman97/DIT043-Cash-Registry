@@ -248,22 +248,13 @@ public class ItemOptions {
         double price;
         String name, error, success, id;
 
-        if(FACADE) { // Francisco Test:
-            error = "Item " + itemID + " was not registered yet";
-            success = "Item " + itemID + " was updated successfully.";
+        id = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
+        error = "Item " + id + " was not registered yet.";
+        success = "Item " + id + " was updated successfully.";
 
-            id = itemID;
-        }
-        else { // Normal Run:
-            // Gets ID
-            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
-            error = "Item " + id + " was not registered yet";
-            success = "Item " + id + " was updated successfully.";
-        }
-
-        if (items.isEmpty() == true || !readIn.isNumber(itemID)) { // This checks if no items are added, as well as if ItemID is wrong from Facade.
-            System.out.println(error);
-            return error;
+        if(FACADE & itemTest(itemID, newName, newPrice) == false) {
+            System.out.println(INVALID_DATA);
+            return INVALID_DATA;
         }
 
         // Finds where the item is in our ArrayList
@@ -391,6 +382,8 @@ public class ItemOptions {
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
 
+        System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
+        + "Faktiskt arraylist: " + items.size());
         return itemsCopy;
     }
 
