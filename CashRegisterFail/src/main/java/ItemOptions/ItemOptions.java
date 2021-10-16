@@ -252,24 +252,32 @@ public class ItemOptions {
         error = "Item " + id + " was not registered yet.";
         success = "Item " + id + " was updated successfully.";
 
-        if(FACADE & itemTest(itemID, newName, newPrice) == false) {
-            System.out.println(INVALID_DATA);
-            return INVALID_DATA;
-        }
-
         // Finds where the item is in our ArrayList
         index = findItem(id);
         if(index == -1)  { // If item is not added yet:
             System.out.println(error);
             return error;
         }
+
         switch (property) { // If Item is added:
             case 1: // Check if we are changing name:
                 name = (FACADE ? newName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
+
+                if(name.isEmpty()) {
+                    System.out.println(INVALID_DATA);
+                    return INVALID_DATA;
+                }
+
                 items.get(index).setName(name);
                 break;
             case 2: // Check if we are changing price:
                 price = (FACADE ? newPrice : readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA));
+
+                if(price <= 0) {
+                    System.out.println(INVALID_DATA);
+                    return INVALID_DATA;
+                }
+
                 items.get(index).setPrice(price);
                 break;
             default: // If this method was somehow called with wrong PROPERTY
