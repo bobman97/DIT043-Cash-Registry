@@ -94,7 +94,7 @@ public class SystemOutput {
     }
 
     // truncates.
-    public static double truncate(double num, int decimals) {
+    public double truncate(double num, int decimals) {
         double result = (double) ((int) (num * Math.pow(10, decimals))) / Math.pow(10, decimals);
         return result;
     }
