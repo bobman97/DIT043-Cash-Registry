@@ -19,6 +19,7 @@ public class Facade {
         test = true;
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
+        trans.itemsData = shop;
         //reviews = new ReviewOptions(shop);
     }
 
