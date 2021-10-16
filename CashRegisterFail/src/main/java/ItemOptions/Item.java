@@ -46,7 +46,7 @@ public class Item {
     }
 
 
-    public double getMeanGrade() {
+    public double getItemMeanGrade() {
          double sumOfGrades = 0;
          for (Reviews reviews : getReviewList()) {
              sumOfGrades += reviews.getReviewGrade();
