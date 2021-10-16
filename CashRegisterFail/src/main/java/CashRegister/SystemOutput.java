@@ -13,15 +13,17 @@ public class SystemOutput {
                 ("Main Menu: Please choose among the options below."+ ln+
                  ln+
                 "0. Close system" + ln+
-                "1. Open item options." + ln+
-                "2. Open review options" + ln+
-                "3. Open transaction history"+ln
+                "1. Open Item options." + ln+
+                "2. Open Review options" + ln+
+                "3. Open Transaction history"+ln+
+                "4. Open Employee options."+ln
+
                 +ln);
     }
 
     public void transacMenu(){
         System.out.println
-                ("Item options menu:" + ln+
+                (ln+    "Item options menu:" + ln+
                         ln+
                 "0. Return to Main Menu."+ ln+
                 "1. Print total profit from all item purchases." + ln+
@@ -37,7 +39,7 @@ public class SystemOutput {
 
     public void reviewMenu(){
         System.out.println
-                ("Review options menu:"+ ln+
+                (ln+"Review options menu:"+ ln+
                         ln+
                 "0. Return to Main Menu."+ ln+
                 "1. Create a review for an Item."+ ln+
@@ -56,7 +58,7 @@ public class SystemOutput {
 
     public void itemMenu(){
         System.out.println
-                ("Item Options menu:"+ ln+
+                (ln+"Item Options menu:"+ ln+
                         ln+
                  "0. Return to Main Menu."+ln+
                  "1. Create an Item."+ln+
@@ -64,13 +66,14 @@ public class SystemOutput {
                  "3. Print all registered Items."+ln+
                  "4. Buy an Item."+ln+
                  "5. Update an item’s name."+ln+
-                 "6. Update an item’s price."+ln
+                 "6. Update an item’s price."+ln+
+                 "7. Print a specific item"+ln
                 +ln);
     }
 
     public void employeeMenu(){
         System.out.println
-                ("Item Options menu:"+ ln+
+                (ln+"Item Options menu:"+ ln+
                         ln+
                         "0. Return to Main Menu."+ln+
                         "1. Create an employee (Regular Employee)."+ln+
@@ -90,7 +93,7 @@ public class SystemOutput {
         return decimals.format(value);
     }
 
-    // tuncates.
+    // truncates.
     public static double truncate(double num, int decimals) {
         double result = (double) ((int) (num * Math.pow(10, decimals))) / Math.pow(10, decimals);
         return result;

@@ -51,6 +51,8 @@ public class ItemOptions {
         this.FACADE = test;
     }
 
+
+
     /*
      ***********************
      *     MAIN METHOD     *
@@ -427,8 +429,7 @@ public class ItemOptions {
     public String getName(int index){return items.get(index).getName();} //Gets name of a item from itemArrayList
     public double getPrice(int index){return items.get(index).getPrice();}//Gets price of a item in itemArrayList
 */
-
-
+    
 }
 
 

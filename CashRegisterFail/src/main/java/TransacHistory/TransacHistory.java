@@ -189,7 +189,7 @@ public class TransacHistory {
                 result+=historyList.get(i).toString()+ln;
             }
         }
-        result+="------------------------------------";
+        result+="------------------------------------"+ln;
         return result;
     }
 
@@ -265,6 +265,8 @@ public class TransacHistory {
     }
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
+
+
 
     /*
     for(int i = 0; i<items.size();i++){

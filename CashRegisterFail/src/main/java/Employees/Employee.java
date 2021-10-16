@@ -1,14 +1,16 @@
 package Employees;
 
-public abstract class Employee {
+public class Employee {
     private final String employeeID;
     private String employeeName;
     private double grossSalary;
+    private double netSalary;
 
-    Employee(String employeeID, String employeeName, double grossSalary){
+    Employee(String employeeID, String employeeName, double grossSalary, double netSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = grossSalary;
+        this.netSalary = netSalary;
     }
 
 
@@ -33,5 +35,11 @@ public abstract class Employee {
         this.grossSalary = grossSalary;
     }
 
-    //public abstract double calculateSalary();
+    public void setNetSalary(double netSalary){this.netSalary=netSalary;}
+
+    public double getNetSalary(){return netSalary;}
+
+    public double calculateSalary(){return netSalary = grossSalary - (grossSalary * 0.1);}
+
+    public String toString(){return (employeeName+"`s gross salary is "+grossSalary+" SEK per month.");}
 }
