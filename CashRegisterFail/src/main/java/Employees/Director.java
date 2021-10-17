@@ -3,8 +3,8 @@ package Employees;
 public class Director extends Manager{
     private String dept;
 
-    Director(String employeeID, String employeeName, double grossSalary, String degree, double netSalary, String dept, double taxPercentage) {
-        super(employeeID, employeeName, grossSalary, netSalary, degree, taxPercentage);
+    Director(String employeeID, String employeeName, double grossSalary, String degree, String dept) {
+        super(employeeID, employeeName, grossSalary, degree);
         this.dept = dept; //Example: BSc, MSc, pHD
     }
 

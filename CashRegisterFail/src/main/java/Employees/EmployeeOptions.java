@@ -10,7 +10,7 @@ import java.util.Map;
 public class EmployeeOptions {
     SystemOutput printMenu;
     UserInput readIn;
-    List<Transaction> employeeList;
+    private List<Employee> employeeList;
     String ln= System.lineSeparator();
 
     public EmployeeOptions(){
@@ -19,7 +19,7 @@ public class EmployeeOptions {
         employeeList = new ArrayList<>();
     }
 
-    public void runEmployee(){
+    public void runEmployee() throws Exception {
         int choice;
         do{
             do{
@@ -32,17 +32,17 @@ public class EmployeeOptions {
 
                     break;
                 case 1:
-
+                    System.out.println(createEmployee("","",0));
                     break;
                 case 2:
-
+                    System.out.println(createEmployee("","",0,""));
                     break;
                 case 3:
-
+                    System.out.println(createEmployee("","",0,"",""));
                     break;
 
                 case 4:
-
+                    System.out.println(createEmployee("","",0,0));
                     break;
                 case 5:
 
@@ -66,23 +66,68 @@ public class EmployeeOptions {
     }
 
     // FACADE TEST REQUIRED METHODS
-    public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception{
-        String result = "";
+    public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty) throws Exception{
+        String employeeID="";
+        String employeeName="";
+        double grossSalary=0.00;
+
+        employeeID = newID();
+        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+
+        employeeList.add(new Employee(employeeID,employeeName,grossSalary));
+        String result = ln+"Employee "+ employeeID+" was registered successfully.";
         return result;
     }
 
-    public String createEmployee(String employeeID, String employeeName, double grossSalary,String degree) throws Exception{
-        String result = "";
+    public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty) throws Exception{
+        String employeeID="";
+        String employeeName="";
+        double grossSalary=0.00;
+        String degree="";
+
+        employeeID = newID();
+        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+        degree = validDegree();
+
+        employeeList.add(new Manager(employeeID,employeeName,grossSalary,degree));
+        String result = ln+"Employee "+ employeeID+" was registered successfully.";
         return result;
     }
 
-    public String createEmployee(String employeeID, String employeeName, double grossSalary, int gpa) throws Exception{
-        String result = "";
+    public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty, int gpaEmpty) throws Exception{
+        String employeeID="";
+        String employeeName="";
+        double grossSalary=0.00;
+        int gpa=0;
+
+        employeeID = newID();
+        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+        gpa = validGPA();
+
+        employeeList.add(new Intern(employeeID,employeeName,grossSalary,gpa));
+        String result = ln+"Employee "+ employeeID+" was registered successfully.";
         return result;
     }
 
-    public String createEmployee(String employeeID, String employeeName, double grossSalary,String degree, String dept) throws Exception{
-        String result = "";
+    public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty, String deptEmpty) throws Exception{
+        String employeeID="";
+        String employeeName="";
+        double grossSalary=0.00;
+        String degree="";
+        String dept="";
+
+        employeeID = newID();
+        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+        degree = validDegree();
+        dept = newDept();
+
+
+        employeeList.add(new Director(employeeID,employeeName,grossSalary,degree,dept));
+        String result = ln+"Employee "+ employeeID+" was registered successfully.";
         return result;
     }
 
@@ -161,4 +206,100 @@ public class EmployeeOptions {
         return result;
     }
 
+    //GENERAL UTILITY CODE**************************************************************
+
+    //ASKAN BELOW HERE
+    public String newID(){
+        boolean duplicate = false;
+        String userIn="";
+        int tempIndex=0;
+        do{
+            userIn=readIn.readString("Please give ID of the employee: ","You have given a wrong ID");
+
+            for(int i = 0;i<employeeList.size();i++){
+                if(userIn.equals(employeeList.get(i).getEmployeeID())){
+                    duplicate=true;
+                    tempIndex=i;
+                }
+            }
+            if(duplicate){
+                if (!userIn.equals(employeeList.get(tempIndex).getEmployeeID())){
+                    duplicate=false;
+                }
+            }
+            if (duplicate){
+                System.out.println(ln+"You have given a duplicate ID, please give a new one!"+ln);
+            }
+
+        }while(duplicate);
+
+        return userIn;
+    }
+
+    public int validGPA(){
+        int gpa;
+        do {
+            gpa=readIn.readInt("Please give GPA of the employee: ","You have given a wrong GPA");
+            if(gpa>10){
+                System.out.println(ln+"You have given a invalid GPA, please give a new one!"+ln);
+            }
+        }while(gpa<=10&&gpa>0);
+        return gpa;
+    }
+
+    public String validDegree(){
+        String degree;
+        boolean degreeConditions=false;
+        do {
+            degree=readIn.readString("Please give degree of the employee: ","You have given a wrong degree");
+            if (!degree.equals("BSc.")||!degree.equals("MSc.")||!degree.equals("PhD")){
+                degreeConditions=true;
+            }
+            if (degree.equals("BSc.")||degree.equals("MSc.")||degree.equals("PhD")){
+                degreeConditions=false;
+            }
+            if(degreeConditions){
+                System.out.println(ln+"You have given a invalid degree, please give a new one!"+ln);
+            }
+
+        }while(degreeConditions);
+        return degree;
+    }
+
+    public String newDept(){// MAKE IT SO THAT NO OVERLAPPING DIRECTORS FOR SAME DEPARTMENT
+        boolean duplicate = false;
+        String userIn="";
+        int tempIndex=0;
+        do{
+            userIn=readIn.readString("Please give department of the employee: ","You have given a wrong department");
+
+            for(int i = 0;i<employeeList.size();i++){
+                if(employeeList.get(i) instanceof Director){
+                    String department=((Director) employeeList.get(i)).getDept();
+                    if(department.equals(userIn)){
+                        duplicate=true;
+                        tempIndex=i;
+                    }
+                }
+            }
+            if(duplicate){
+                if(employeeList.get(tempIndex) instanceof Director){
+                    String department=((Director) employeeList.get(tempIndex)).getDept();
+                    if(!department.equals(userIn)){
+                        duplicate=false;
+                    }
+                }
+            }
+            if (duplicate){
+                System.out.println(ln+"You have given a duplicate department, please give a new one!"+ln);
+            }
+
+        }while(duplicate);
+
+        return userIn;
+    }
+
+
+
+    //WILLIAM BELOW HERE
 }

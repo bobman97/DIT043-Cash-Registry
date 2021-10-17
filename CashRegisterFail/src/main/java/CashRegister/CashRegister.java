@@ -20,15 +20,16 @@ public class CashRegister {
     static EmployeeOptions employee;
     final static boolean test = false;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws Exception {
         runProgram();
     }
 
-    static void runProgram()    {
+    static void runProgram() throws Exception {
         printMenu = new SystemOutput();
         readIn = new UserInput();
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
+        employee = new EmployeeOptions();
         //reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         trans.itemsData = shop;
@@ -62,10 +63,10 @@ public class CashRegister {
                     TransacHistory();
                     break;
                 case 4:
-                    TransacHistory();
+                    EmployeeOptions();
                     break;
                 case 5:
-                    EmployeeOptions();
+
                 default:
                     callError();
             }
@@ -80,7 +81,7 @@ public class CashRegister {
 
     static void TransacHistory()   {trans.runHistory();}
 
-    static void EmployeeOptions(){employee.runEmployee();}
+    static void EmployeeOptions() throws Exception {employee.runEmployee();}
 
 
     static void callError() {

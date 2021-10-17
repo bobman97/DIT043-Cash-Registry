@@ -2,8 +2,8 @@ package Employees;
 
 public class Manager extends Employee{
     private String degree;
-    Manager(String employeeID, String employeeName, double grossSalary, double netSalary, String degree, double taxPercentage) {
-        super(employeeID, employeeName, grossSalary, netSalary, taxPercentage);
+    Manager(String employeeID, String employeeName, double grossSalary, String degree) {
+        super(employeeID, employeeName, grossSalary);
         this.degree= degree;
     }
 

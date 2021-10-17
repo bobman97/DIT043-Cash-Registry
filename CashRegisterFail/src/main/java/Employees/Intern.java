@@ -2,8 +2,8 @@ package Employees;
 
 public class Intern extends Employee{
     int GPA;
-    Intern(String employeeID, String employeeName, double grossSalary, double netSalary, int GPA, double taxPercentage) {
-        super(employeeID, employeeName, grossSalary, netSalary, taxPercentage);
+    Intern(String employeeID, String employeeName, double grossSalary, int GPA) {
+        super(employeeID, employeeName, grossSalary);
         this.GPA = GPA;
     }
 

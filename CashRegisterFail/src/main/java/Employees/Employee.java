@@ -7,12 +7,10 @@ public class Employee {
     private double netSalary;
     private double taxPercentage=0.1;//<- does this work?
 
-    Employee(String employeeID, String employeeName, double grossSalary, double netSalary, double taxPercentage){
+    Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = grossSalary;
-        this.netSalary = netSalary;
-        this.taxPercentage=taxPercentage;
     }
 
 
