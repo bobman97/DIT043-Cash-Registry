@@ -246,7 +246,7 @@ public class TransacHistory {
         double mostProfit= 0;
         String mostProfitID = "";
 
-        if(hasRegistered && 0<historyList.size()){
+        if(hasRegistered && historyList.size()>0){
             for(int i = 0; i<historyList.size();i++){
                 if(itemHistoryProfit(historyList.get(i).getID())>mostProfit){
                     mostProfitID = historyList.get(i).getID();
@@ -316,6 +316,8 @@ public class TransacHistory {
         }
         return existance;
     }
+
+
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
