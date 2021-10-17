@@ -65,6 +65,7 @@ public class EmployeeOptions {
         } while(choice!=0);
     }
 
+    // FACADE TEST REQUIRED METHODS
     public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception{
         String result = "";
         return result;
