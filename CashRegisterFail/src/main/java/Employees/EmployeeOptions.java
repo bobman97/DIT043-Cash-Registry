@@ -5,6 +5,7 @@ import TransacHistory.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeOptions {
     SystemOutput printMenu;
@@ -64,7 +65,99 @@ public class EmployeeOptions {
         } while(choice!=0);
     }
 
+    public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception{
+        String result = "";
+        return result;
+    }
 
+    public String createEmployee(String employeeID, String employeeName, double grossSalary,String degree) throws Exception{
+        String result = "";
+        return result;
+    }
 
+    public String createEmployee(String employeeID, String employeeName, double grossSalary, int gpa) throws Exception{
+        String result = "";
+        return result;
+    }
+
+    public String createEmployee(String employeeID, String employeeName, double grossSalary,String degree, String dept) throws Exception{
+        String result = "";
+        return result;
+    }
+
+    public String printEmployee(String employeeID) throws Exception{
+        String result= "";
+        return result;
+    }
+
+    public double getNetSalary(String employeeID){
+        double netSalary=0.00;
+        return netSalary;
+    }
+
+    public String removeEmployee(String empID) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String printAllEmployees() throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public double getTotalNetSalary() throws Exception {
+        double totalNetSalary=0.00;
+        return totalNetSalary;
+    }
+
+    public String printSortedEmployees() throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String updateEmployeeName(String empID, String newName) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String updateInternGPA(String empID, int newGPA) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String updateManagerDegree(String empID, String newDegree) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String updateDirectorDept(String empID, String newDepartment) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String updateGrossSalary(String empID, double newSalary) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public Map<String, Integer> mapEachDegree() throws Exception {
+        return null;
+    }
+
+    public String promoteToManager(String empID, String degree) throws Exception {
+        String result= "";
+        return result;
+
+    }
+
+    public String promoteToDirector(String empID, String degree, String department) throws Exception {
+        String result= "";
+        return result;
+    }
+
+    public String promoteToIntern(String empID, int gpa) throws Exception {
+        String result= "";
+        return result;
+    }
 
 }
