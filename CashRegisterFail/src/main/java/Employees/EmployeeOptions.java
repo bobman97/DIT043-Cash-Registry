@@ -166,7 +166,7 @@ public class EmployeeOptions {
         return totalNetSalary;
     }
 
-<<<<<<< HEAD
+
     public String printSortedEmployees() throws Exception {
         String result= "Employees sorted by gross salary (ascending order):"+ln;
         double temp = 0;
