@@ -389,9 +389,7 @@ public class ItemOptions {
             price = items.get(i).getPrice();
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
-
-       // System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
-        //+ "Faktiskt arraylist: " + items.size());
+        
         return itemsCopy;
     }
 
@@ -399,11 +397,6 @@ public class ItemOptions {
     private String removeID(String itemID)  {
         itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
         return itemID;
-    }
-
-    public double truncate(double num, int decimals) {
-        double result = (double) ((int) (num * Math.pow(10, decimals))) / Math.pow(10, decimals);
-        return result;
     }
     
 }
