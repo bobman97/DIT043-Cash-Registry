@@ -166,7 +166,7 @@ public class EmployeeOptions {
         return totalNetSalary;
     }
 
-    public String printSortedEmployees() throws Exception { 
+    public String printSortedEmployees() throws Exception {
         String result= "";
         int temp = 0;
         for(int i=0; i < employeeList.size(); i++){

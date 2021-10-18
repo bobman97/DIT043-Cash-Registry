@@ -4,14 +4,13 @@ package ReviewOptions;
 import ItemOptions.ItemOptions;
 
 public class Reviews {
-    int reviewGrade;
-    String reviewComment;
+    private int reviewGrade;
+    private String reviewComment;
 
 
     public Reviews(int reviewGrade, String reviewComment) {
-    this.reviewGrade = reviewGrade;
-    this.reviewComment = reviewComment;
-
+        this.reviewGrade = reviewGrade;
+        this.reviewComment = reviewComment;
     }
 
     public int getReviewGrade() {
@@ -29,4 +28,7 @@ public class Reviews {
     public void setReviewComment(String reviewComment) {
         this.reviewComment = reviewComment;
     }
-}
+
+
+    }
+
