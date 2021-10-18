@@ -45,17 +45,17 @@ public class EmployeeOptions {
                     System.out.println(createEmployee("","",0,0));
                     break;
                 case 5:
-
+                    System.out.println(removeEmployee(""));
                     break;
                 case 6:
-
+                    System.out.println(printEmployee(""));
                     break;
 
                 case 7:
-
+                    System.out.println(printAllEmployees());
                     break;
                 case 8:
-
+                    System.out.println(getTotalNetSalary());
                     break;
 
                 case 9:
@@ -132,8 +132,7 @@ public class EmployeeOptions {
     }
 
     public String printEmployee(String employeeID) throws Exception{
-        String result= "";
-        return result;
+        return employeeList.get(findIndex(existingID())).toString();
     }
 
     public double getNetSalary(String employeeID){
@@ -142,22 +141,40 @@ public class EmployeeOptions {
     }
 
     public String removeEmployee(String empID) throws Exception {
-        String result= "";
+
+        int indexTemp = findIndex(existingID());
+        System.out.println(employeeList.size());
+        employeeList.remove(indexTemp);
+        System.out.println(employeeList.size());
+        String result= "Employee <ID> was successfully removed.";
         return result;
     }
 
     public String printAllEmployees() throws Exception {
-        String result= "";
+        String result= "All registered employees: "+ln;
+        for(int i = 0;i<employeeList.size();i++){
+            result+=employeeList.get(i).toString()+ln;
+        }
         return result;
     }
 
     public double getTotalNetSalary() throws Exception {
         double totalNetSalary=0.00;
+        for(int i =0;i<employeeList.size();i++){
+            totalNetSalary+=employeeList.get(i).calculateSalary();
+        }
         return totalNetSalary;
     }
 
-    public String printSortedEmployees() throws Exception {
+    public String printSortedEmployees() throws Exception { 
         String result= "";
+        int temp = 0;
+        for(int i=0; i < employeeList.size(); i++){
+            for(int j=1; j < (employeeList.size()-i); j++){
+
+
+            }
+        }
         return result;
     }
 
@@ -236,6 +253,33 @@ public class EmployeeOptions {
         return userIn;
     }
 
+    public String existingID(){
+        boolean duplicate = true;
+        String userIn="";
+        int tempIndex=0;
+        do{
+            userIn=readIn.readString("Please give ID of the employee: ","You have given a wrong ID");
+
+            for(int i = 0;i<employeeList.size();i++){
+                if(!userIn.equals(employeeList.get(i).getEmployeeID())){
+                    duplicate=false;
+                    tempIndex=i;
+                }
+            }
+            if(!duplicate){
+                if (userIn.equals(employeeList.get(tempIndex).getEmployeeID())){
+                    duplicate=true;
+                }
+            }
+            if (!duplicate){
+                System.out.println(ln+"You have given a non-existing ID, please give a existing one!"+ln);
+            }
+
+        }while(!duplicate);
+
+        return userIn;
+    }
+
     public int validGPA(){
         int gpa;
         do {
@@ -243,7 +287,7 @@ public class EmployeeOptions {
             if(gpa>10){
                 System.out.println(ln+"You have given a invalid GPA, please give a new one!"+ln);
             }
-        }while(gpa<=10&&gpa>0);
+        }while(gpa>10&&gpa>0);
         return gpa;
     }
 
@@ -297,6 +341,16 @@ public class EmployeeOptions {
         }while(duplicate);
 
         return userIn;
+    }
+
+    public int findIndex(String id){
+        int index=0;
+        for(int i = 0;i<employeeList.size();i++){
+            if(id.equals(employeeList.get(i).getEmployeeID())){
+                index=i;
+            }
+        }
+        return index;
     }
 
 

@@ -20,6 +20,10 @@ public class Manager extends Employee{
         return super.getGrossSalary();
     }
 
+    public double calculateSalary(){
+        calculateGrossSalary();
+        return super.calculateSalary();}
+
     public String getDegree(){return degree;}
 
     public void setDegree(){this.degree=degree;}
