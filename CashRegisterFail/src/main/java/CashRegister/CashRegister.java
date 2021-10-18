@@ -2,6 +2,7 @@ package CashRegister;
 
 
 import Employees.Employee;
+import Employees.EmployeeOptions;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
@@ -16,17 +17,19 @@ public class CashRegister {
     static ReviewOptions reviews;
     static TransacHistory trans;
     static SystemOutput printMenu;
+    static EmployeeOptions employee;
     final static boolean test = false;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws Exception {
         runProgram();
     }
 
-    static void runProgram()    {
+    static void runProgram() throws Exception {
         printMenu = new SystemOutput();
         readIn = new UserInput();
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
+        employee = new EmployeeOptions();
         //reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         trans.itemsData = shop;
@@ -44,7 +47,7 @@ public class CashRegister {
             printMenu.mainMenu();
 
             // Ask user to select an option
-            menuChoice = readIn.getUserOption(3, "Enter an option: ", "Invalid menu option. Please type another option");
+            menuChoice = readIn.getUserOption(4, "Enter an option: ", "Invalid menu option. Please type another option");
 
             switch(menuChoice)  {
                 case 0:
@@ -60,6 +63,9 @@ public class CashRegister {
                     TransacHistory();
                     break;
                 case 4:
+                    EmployeeOptions();
+                    break;
+                case 5:
 
                 default:
                     callError();
@@ -74,6 +80,8 @@ public class CashRegister {
     //static void reviewOptions() {reviews.runReviews();}
 
     static void TransacHistory()   {trans.runHistory();}
+
+    static void EmployeeOptions() throws Exception {employee.runEmployee();}
 
 
     static void callError() {

@@ -5,12 +5,12 @@ public class Employee {
     private String employeeName;
     private double grossSalary;
     private double netSalary;
+    private double taxPercentage=0.1;//<- does this work?
 
-    Employee(String employeeID, String employeeName, double grossSalary, double netSalary){
+    Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = grossSalary;
-        this.netSalary = netSalary;
     }
 
 
@@ -27,6 +27,10 @@ public class Employee {
         this.employeeName = employeeName;
     }
 
+    public void setTaxPercentage(double taxPercentage){this.taxPercentage = taxPercentage;}
+
+    public double getTaxPercentage(double taxPercentage){return taxPercentage;}
+
     public double getGrossSalary() {
         return grossSalary;
     }
@@ -39,7 +43,7 @@ public class Employee {
 
     public double getNetSalary(){return netSalary;}
 
-    public double calculateSalary(){return netSalary = grossSalary - (grossSalary * 0.1);}
+    public double calculateSalary(){return netSalary = grossSalary - (grossSalary * taxPercentage);}
 
     public String toString(){return (employeeName+"`s gross salary is "+grossSalary+" SEK per month.");}
 }
