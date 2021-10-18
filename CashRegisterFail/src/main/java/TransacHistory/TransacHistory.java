@@ -162,8 +162,12 @@ public class TransacHistory {
 
     //PRINTS ALL THE PURCHASES EVER MADE   4
     public String printAllTrans(){
+        String allHistoryProfit=""+printMenu.decimalFix(allHistoryProfit());
+        if(historyList.size()==0){
+            allHistoryProfit="0.00";
+        }
         String result = "All purchases made: "+ln
-                +"Total profit: "+printMenu.decimalFix(allHistoryProfit())+" SEK"+ ln
+                +"Total profit: "+allHistoryProfit+" SEK"+ ln
                 +"Total items sold: "+allHistoryUnitsSold()+" units"+ ln
                 +"Total purchases made: "+allHistoryTrans()+" transactions"+ ln
                 +"------------------------------------"+ln;
@@ -193,9 +197,9 @@ public class TransacHistory {
                 }
             }
             result+="Most profitable items: "+ln
-                    +"Total profit: "+ mostProfit+ " SEK"+ln;
+                    +"Total profit: "+ printMenu.decimalFix(mostProfit)+ " SEK"+ln;
 
-            result+=itemsData.copyItems().get(getIndex(mostProfitID)).getId()+": "+getName(mostProfitID)+". "+getPrice(mostProfitID)+" SEK"+ln;
+            result+=itemsData.copyItems().get(getIndex(mostProfitID)).getId()+": "+getName(mostProfitID)+". "+printMenu.decimalFix(getPrice(mostProfitID))+" SEK"+ln;
 
 
             for(int i = 0; i<historyList.size();i++){

@@ -25,32 +25,55 @@ public class EmployeeOptions {
             do{
                 printMenu.employeeMenu();
                 choice=this.readIn.getUserOption(9,"Enter an option! ","Wrong option, try again a number between 0-10!"+ln);
-            }while(choice>8||choice<(0));
+            }while(choice>9||choice<(0));
 
             switch (choice){
                 case 0:
 
                     break;
-                case 1:
-                    System.out.println(createEmployee("","",0));
+                case 1:{
+                    String employeeID = newID();
+                    String employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+                    double grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+                    System.out.println(createEmployee(employeeID,employeeName,grossSalary));
                     break;
-                case 2:
-                    System.out.println(createEmployee("","",0,""));
-                    break;
-                case 3:
-                    System.out.println(createEmployee("","",0,"",""));
-                    break;
+                }
 
-                case 4:
-                    System.out.println(createEmployee("","",0,0));
+                case 2:{
+                    String employeeID = newID();
+                    String employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+                    double grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+                    String degree = validDegree();
+                    System.out.println(createEmployee(employeeID,employeeName,grossSalary,degree));
                     break;
-                case 5:
-                    System.out.println(removeEmployee(""));
+                }
+                case 3:{
+                    String employeeID = newID();
+                    String employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+                    double grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+                    String degree = validDegree();
+                    String dept = newDept();
+                    System.out.println(createEmployee(employeeID,employeeID,grossSalary,degree,dept));
                     break;
-                case 6:
-                    System.out.println(printEmployee(""));
+                }
+                case 4:{
+                    String employeeID = newID();
+                    String employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
+                    double grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
+                    int gpa = validGPA();
+                    System.out.println(createEmployee(employeeID,employeeName,grossSalary,gpa));
                     break;
-
+                }
+                case 5:{
+                    String employeeID=existingID();
+                    System.out.println(removeEmployee(employeeID));
+                    break;
+                }
+                case 6:{
+                    String employeeID=existingID();
+                    System.out.println(printEmployee(employeeID));
+                    break;
+                }
                 case 7:
                     System.out.println(printAllEmployees());
                     break;
@@ -59,7 +82,7 @@ public class EmployeeOptions {
                     break;
 
                 case 9:
-
+                    System.out.println(printSortedEmployees());
                     break;
             }
         } while(choice!=0);
@@ -67,72 +90,35 @@ public class EmployeeOptions {
 
     // FACADE TEST REQUIRED METHODS
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty) throws Exception{
-        String employeeID="";
-        String employeeName="";
-        double grossSalary=0.00;
 
-        employeeID = newID();
-        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
-        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
-
-        employeeList.add(new Employee(employeeID,employeeName,grossSalary));
-        String result = ln+"Employee "+ employeeID+" was registered successfully.";
+        employeeList.add(new Employee(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty));
+        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty) throws Exception{
-        String employeeID="";
-        String employeeName="";
-        double grossSalary=0.00;
-        String degree="";
 
-        employeeID = newID();
-        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
-        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
-        degree = validDegree();
-
-        employeeList.add(new Manager(employeeID,employeeName,grossSalary,degree));
-        String result = ln+"Employee "+ employeeID+" was registered successfully.";
+        employeeList.add(new Manager(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty));
+        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty, int gpaEmpty) throws Exception{
-        String employeeID="";
-        String employeeName="";
-        double grossSalary=0.00;
-        int gpa=0;
 
-        employeeID = newID();
-        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
-        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
-        gpa = validGPA();
-
-        employeeList.add(new Intern(employeeID,employeeName,grossSalary,gpa));
-        String result = ln+"Employee "+ employeeID+" was registered successfully.";
+        employeeList.add(new Intern(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,gpaEmpty));
+        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty, String deptEmpty) throws Exception{
-        String employeeID="";
-        String employeeName="";
-        double grossSalary=0.00;
-        String degree="";
-        String dept="";
 
-        employeeID = newID();
-        employeeName = readIn.readString("Please give name of the employee: ", "You have given an invalid name");
-        grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
-        degree = validDegree();
-        dept = newDept();
-
-
-        employeeList.add(new Director(employeeID,employeeName,grossSalary,degree,dept));
-        String result = ln+"Employee "+ employeeID+" was registered successfully.";
+        employeeList.add(new Director(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty,deptEmpty));
+        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String printEmployee(String employeeID) throws Exception{
-        return employeeList.get(findIndex(existingID())).toString();
+        return employeeList.get(findIndex(employeeID)).toString();
     }
 
     public double getNetSalary(String employeeID){
@@ -141,12 +127,9 @@ public class EmployeeOptions {
     }
 
     public String removeEmployee(String empID) throws Exception {
-
-        int indexTemp = findIndex(existingID());
-        System.out.println(employeeList.size());
+        int indexTemp = findIndex(empID);
         employeeList.remove(indexTemp);
-        System.out.println(employeeList.size());
-        String result= "Employee <ID> was successfully removed.";
+        String result= "Employee "+empID+" was successfully removed.";
         return result;
     }
 
@@ -167,14 +150,30 @@ public class EmployeeOptions {
     }
 
     public String printSortedEmployees() throws Exception {
-        String result= "";
-        int temp = 0;
+        String result= "Employees sorted by gross salary (ascending order)"+ln;
+        double temp = 0;
+        double [] grossSort= new double[employeeList.size()];
+        for(int i=0; i < employeeList.size(); i++){
+            grossSort[i]=employeeList.get(i).getGrossSalary();
+        }
         for(int i=0; i < employeeList.size(); i++){
             for(int j=1; j < (employeeList.size()-i); j++){
-
+                if(grossSort[j-1] > grossSort[j]){
+                    temp = grossSort[j-1];
+                    grossSort[j-1] = grossSort[j];
+                    grossSort[j] = temp;
+                }
 
             }
         }
+        for(int i = 0; i<employeeList.size();i++) {
+            for (int j = 0; j < employeeList.size(); j++) {
+                if (grossSort[i] == employeeList.get(j).getGrossSalary()) {
+                    result += employeeList.get(j).toString() + ln;
+                }
+            }
+        }
+
         return result;
     }
 

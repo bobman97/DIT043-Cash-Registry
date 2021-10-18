@@ -30,7 +30,7 @@ public class CashRegister {
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
         employee = new EmployeeOptions();
-        //reviews = new ReviewOptions(shop);
+        reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         trans.itemsData = shop;
         int menuChoice;
