@@ -1,21 +1,30 @@
 package facade;
 
+import java.util.List;
+import java.util.Map;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
 import Employees.EmployeeOptions;
 
+<<<<<<< HEAD
 import java.util.List;
 import java.util.Map;
 
 public class Facade {
 
+=======
+public class Facade {
+>>>>>>> parent of a6c352e (WilliamPushBrokenMerge)
     TransacHistory trans;
     ItemOptions shop;
     ReviewOptions reviews;
     final boolean test;
     EmployeeOptions employee;
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of a6c352e (WilliamPushBrokenMerge)
 
     // This class only has the skeleton of the methods used by the test.
     // You must fill in this class with your own code. You can (and should) create more classes
@@ -101,10 +110,10 @@ public class Facade {
     public double getTotalProfit() {
         return trans.allHistoryProfit() ;
         //trans.allHistoryProfit();
-        }
+    }
 
 
-        public String printItemTransactions(String itemID) {
+    public String printItemTransactions(String itemID) {
         return trans.printAllItemTrans(itemID);       //trans.printHistory(itemID);
     }
 
@@ -167,7 +176,10 @@ public class Facade {
     public String printMostProfitableItems() {
         return trans.mostProfit();//trans.mostProfit();
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of a6c352e (WilliamPushBrokenMerge)
 
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception {
@@ -247,6 +259,9 @@ public class Facade {
         return "";
     }
 }
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> parent of a6c352e (WilliamPushBrokenMerge)
