@@ -1,23 +1,29 @@
 package facade;
 
-import java.util.List;
-import java.util.Map;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
 import Employees.EmployeeOptions;
 
+import java.util.List;
+
 public class Facade {
+<<<<<<< HEAD
     TransacHistory trans;
     ItemOptions shop;
     ReviewOptions reviews;
     final boolean test;
     EmployeeOptions employee;
+=======
+>>>>>>> parent of a140a82 (Merge branch 'main' of https://github.com/bobman97/OOPFirstProjectPartTwo)
 
     // This class only has the skeleton of the methods used by the test.
     // You must fill in this class with your own code. You can (and should) create more classes
     // that implement the functionalities listed in the Facade and in the Test Cases.
-
+    TransacHistory trans;
+    ItemOptions shop;
+    ReviewOptions reviews;
+    final boolean test;
     public Facade(){
         test = true;
         trans = new TransacHistory();
@@ -98,10 +104,10 @@ public class Facade {
     public double getTotalProfit() {
         return trans.allHistoryProfit() ;
         //trans.allHistoryProfit();
-    }
+        }
 
 
-    public String printItemTransactions(String itemID) {
+        public String printItemTransactions(String itemID) {
         return trans.printAllItemTrans(itemID);       //trans.printHistory(itemID);
     }
 
@@ -164,6 +170,7 @@ public class Facade {
     public String printMostProfitableItems() {
         return trans.mostProfit();//trans.mostProfit();
     }
+<<<<<<< HEAD
 
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception {
@@ -243,3 +250,6 @@ public class Facade {
         return "";
     }
 }
+=======
+}
+>>>>>>> parent of a140a82 (Merge branch 'main' of https://github.com/bobman97/OOPFirstProjectPartTwo)

@@ -7,12 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="CashRegister" />
-        <module name="OOPFirstProjectPartTwo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CashRegister" target="11" />
-      <module name="OOPFirstProjectPartTwo" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

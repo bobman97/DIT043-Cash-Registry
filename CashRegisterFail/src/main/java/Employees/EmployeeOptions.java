@@ -166,6 +166,7 @@ public class EmployeeOptions {
         return totalNetSalary;
     }
 
+<<<<<<< HEAD
     public String printSortedEmployees() throws Exception {
         String result= "Employees sorted by gross salary (ascending order):"+ln;
         double temp = 0;
@@ -173,6 +174,11 @@ public class EmployeeOptions {
         for(int i = 0;i<employeeList.size();i++){
             grossSort[i]=employeeList.get(i).getGrossSalary();
         }
+=======
+    public String printSortedEmployees() throws Exception { 
+        String result= "";
+        int temp = 0;
+>>>>>>> parent of a140a82 (Merge branch 'main' of https://github.com/bobman97/OOPFirstProjectPartTwo)
         for(int i=0; i < employeeList.size(); i++){
             for(int j=1; j < (employeeList.size()-i); j++){
                 if(grossSort[j-1] > grossSort[j]){

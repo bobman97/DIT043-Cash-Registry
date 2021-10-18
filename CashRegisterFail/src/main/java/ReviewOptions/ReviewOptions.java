@@ -115,18 +115,14 @@ public class ReviewOptions {/*
 
 
     // 2
-    public String printSpecificReview(String ID, int reviewNumber) {
+    public void printSpecificReview(String ID, int reviewNumber) {
         Item item = findItemObject(ID);
-        reviewNumber = reviewNumber - 1;
-        if (item.reviewsList.isEmpty()){
-            return "Item " + item.getName() + " has not been reviewed yet.";
-        } else if (reviewNumber < 1 || reviewNumber > item.reviewsList.size()){
-            return "Invalid review number. Choose between 1 and " + getNumberOfReviews(ID);
-        } else {
-            item.reviewsList.get(reviewNumber);
-            return "Grade: " + item.getItemMeanGrade() + ". " + getItemCommentsPrinted(ID);
-        }
+        reviewNumber = -1;
+    String input;
+    String error;
 
+        input = "Please enter item ID: ";
+        error = "Item " + ID + " has not been registered yet";
 
     }
 
@@ -147,9 +143,9 @@ public class ReviewOptions {/*
     }
 
     // 4
-    public double printMeanGradeItem(String ID){
+    public void printMeanGradeItem(String ID){
         Item item = findItemObject(ID);
-        return item.getItemMeanGrade();
+        System.out.println(item.getItemMeanGrade());
 
     }
     //5
@@ -248,43 +244,22 @@ public List<Integer> getNumberOfReviews(String ID) {
     List<Integer> numberOfReviews = new ArrayList<>();
     if (findItemObject(ID) == null) {
         return numberOfReviews;
+    } else {
+        for (Reviews reviews : findItemObject(ID).getReviewList()) {
+            if (!reviews.getReviewComment().isEmpty()) {
+                numberOfReviews.add(reviews.getReviewComment());
+            }
+        }
     }
-    numberOfReviews.add(findItemObject(ID).getReviewList().size());
     return numberOfReviews;
 }
 
 public List<String> getMostReviewedItems(){
-        List<String> mostReviewedItems = new ArrayList<>();
-        int numberOfReviews = 0;
-        // you make this variable at the top
-    // when you add to the List<String> you update this variable whenever the for loop finds a reviewslist bigger than the variable
-        for (Item item : items) {
-            String ID = item.getId();
-            if (item.reviewsList.size() > numberOfReviews) {
-                mostReviewedItems.add(item.toString());
-                numberOfReviews = item.reviewsList.size();
-            } else if (item.reviewsList.size() == numberOfReviews) {
-                mostReviewedItems.add(item.toString());
-            }
-        }
-        return mostReviewedItems;
+        return null;
 }
 
 public List<String> getLeastReviewedItems(){
-    List<String> leastReviewedItems = new ArrayList<>();
-    int minReview = 0;
-    // you make this variable at the top
-    // when you add to the List<String> you update this variable whenever the for loop finds a reviewslist bigger than the variable
-    for (Item item : items) {
-        // Set a minimum value, which is the first item you get in the for loop
-        minReview = item.getReviewList().size();
-        if (item.reviewsList.size() == minReview) {
-            leastReviewedItems.add(item.toString());
-        } else if (item.reviewsList.size() < minReview) {
-            leastReviewedItems.add(item.toString());
-        }
-    }
-    return leastReviewedItems;
+        return null;
     }
 */
 }

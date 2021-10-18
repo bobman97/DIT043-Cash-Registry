@@ -54,7 +54,4 @@ public class Item {
          return sumOfGrades / getReviewList().size();
     }
 
-    public String toString(){
-         return getId() + ": " + getName() + ". " + getPrice() + "SEK";
-    }
 }

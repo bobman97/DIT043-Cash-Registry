@@ -93,5 +93,4 @@ public class CashRegister {
         readIn.closeScanner();
         System.exit(0);
     }
-
 }
