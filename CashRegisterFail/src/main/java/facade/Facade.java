@@ -5,12 +5,14 @@ import java.util.Map;
 import ItemOptions.ItemOptions;
 import ReviewOptions.ReviewOptions;
 import TransacHistory.TransacHistory;
+import Employees.EmployeeOptions;
 
 public class Facade {
     TransacHistory trans;
     ItemOptions shop;
     ReviewOptions reviews;
     final boolean test;
+    EmployeeOptions employee;
 
     // This class only has the skeleton of the methods used by the test.
     // You must fill in this class with your own code. You can (and should) create more classes
@@ -21,6 +23,9 @@ public class Facade {
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
         trans.itemsData = shop;
+        //reviews = new ReviewOptions();
+        employee = new EmployeeOptions();
+
         //reviews = new ReviewOptions(shop);
     }
 
@@ -162,19 +167,19 @@ public class Facade {
 
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary) throws Exception {
-        return "";
+        return employee.createEmployee(employeeID,employeeName,grossSalary);
     }
 
     public String printEmployee(String employeeID) throws Exception {
-        return "";
+        return employee.printEmployee(employeeID);
     }
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary, String degree) throws Exception {
-        return "";
+        return employee.createEmployee(employeeID,employeeName,grossSalary,degree);
     }
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary, int gpa) throws Exception {
-        return "";
+        return employee.createEmployee(employeeID,employeeName,grossSalary,gpa);
     }
 
     public double getNetSalary(String employeeID) throws Exception {
@@ -182,23 +187,23 @@ public class Facade {
     }
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary, String degree, String dept) throws Exception {
-        return "";
+        return employee.createEmployee(employeeID,employeeName,grossSalary,degree,dept);
     }
 
     public String removeEmployee(String empID) throws Exception {
-        return "";
+        return employee.removeEmployee(empID);
     }
 
     public String printAllEmployees() throws Exception {
-        return "";
+        return employee.printAllEmployees();
     }
 
     public double getTotalNetSalary() throws Exception {
-        return -1.0;
+        return employee.getTotalNetSalary();
     }
 
     public String printSortedEmployees() throws Exception {
-        return "";
+        return employee.printSortedEmployees();
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {

@@ -25,7 +25,7 @@ public class EmployeeOptions {
             do{
                 printMenu.employeeMenu();
                 choice=this.readIn.getUserOption(9,"Enter an option! ","Wrong option, try again a number between 0-10!"+ln);
-            }while(choice>8||choice<(0));
+            }while(choice>9||choice<(0));
 
             switch (choice){
                 case 0:
@@ -59,7 +59,7 @@ public class EmployeeOptions {
                     break;
 
                 case 9:
-
+                    System.out.println(printSortedEmployees());
                     break;
             }
         } while(choice!=0);
@@ -167,13 +167,29 @@ public class EmployeeOptions {
     }
 
     public String printSortedEmployees() throws Exception {
-        String result= "";
-        int temp = 0;
+        String result= "Employees sorted by gross salary (ascending order):"+ln;
+        double temp = 0;
+        double [] grossSort = new double[employeeList.size()];
+        for(int i = 0;i<employeeList.size();i++){
+            grossSort[i]=employeeList.get(i).getGrossSalary();
+        }
         for(int i=0; i < employeeList.size(); i++){
             for(int j=1; j < (employeeList.size()-i); j++){
-
+                if(grossSort[j-1] > grossSort[j]){
+                    temp = grossSort[j-1];
+                    grossSort[j-1] = grossSort[j];
+                    grossSort[j] = temp;
+                }
 
             }
+        }
+        for(int i = 0; i<employeeList.size();i++){
+            for (int j = 0; j<employeeList.size();j++){
+                if (grossSort[i]==employeeList.get(j).getGrossSalary()){
+                    result+=employeeList.get(j).toString()+ln;
+                }
+            }
+
         }
         return result;
     }
