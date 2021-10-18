@@ -9,7 +9,7 @@ import ItemOptions.Item;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewOptions {/*
+public class ReviewOptions {
     String ln = System.lineSeparator();
     SystemOutput systemOut;
     UserInput takeIn;
@@ -42,7 +42,11 @@ public class ReviewOptions {/*
                     int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
                     String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
                     ID = takeIn.inputID("Enter item ID: ", "Please input a valid item ID");
-                    reviewItem(ID, reviewGrade, reviewComment);
+                    if (!reviewComment.isEmpty()) {
+                        reviewItem(ID, reviewGrade, reviewComment);
+                        } else {
+                        reviewItem(ID, reviewGrade);
+                    }
                     break;
                 case 2: //Print specific review
                     ID = takeIn.inputID("Enter an item ID: ", "Please input a valid item ID.");
@@ -286,7 +290,7 @@ public List<String> getLeastReviewedItems(){
     }
     return leastReviewedItems;
     }
-*/
+
 }
 
 

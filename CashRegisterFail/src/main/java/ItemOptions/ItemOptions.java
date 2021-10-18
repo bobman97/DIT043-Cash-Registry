@@ -389,7 +389,9 @@ public class ItemOptions {
             price = items.get(i).getPrice();
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
-        
+
+       // System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
+        //+ "Faktiskt arraylist: " + items.size());
         return itemsCopy;
     }
 
@@ -398,6 +400,8 @@ public class ItemOptions {
         itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
         return itemID;
     }
+
+
     
 }
 
