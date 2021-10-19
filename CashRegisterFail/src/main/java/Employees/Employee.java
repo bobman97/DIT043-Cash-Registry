@@ -13,47 +13,47 @@ public class Employee {
     Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
-        this.grossSalary = grossSalary;
+        this.grossSalary = (double)((long)(grossSalary * 100))/100;
         sout=new SystemOutput();
     }
 
 
 
-    public String getEmployeeID() {
+    protected String getEmployeeID() {
         return employeeID;
     }
 
-    public String getEmployeeName() {
+    protected String getEmployeeName() {
         return employeeName;
     }
 
-    public void setEmployeeName(String employeeName) {
+    protected void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
     }
 
-    public void setTaxPercentage(double taxPercentage){this.taxPercentage = taxPercentage;}
+    protected void setTaxPercentage(double taxPercentage){this.taxPercentage = taxPercentage;}
 
-    public double getTaxPercentage(double taxPercentage){return taxPercentage;}
+    protected double getTaxPercentage(){return taxPercentage;}
 
-    public double getGrossSalary() {
+    protected double getGrossSalary() {
         return grossSalary;
     }
 
-    public void setGrossSalary(double grossSalary) {
+    protected void setGrossSalary(double grossSalary) {
         this.grossSalary = grossSalary;
     }
 
-    public void setNetSalary(double netSalary){this.netSalary=netSalary;}
+    protected void setNetSalary(double netSalary){this.netSalary=netSalary;}
 
-    public double getNetSalary(){return netSalary;}
+    protected double getNetSalary(){return netSalary;}
 
-    public boolean getAlreadyExcected(){return alreadyExcecuted;}
+    protected boolean getAlreadyExcected(){return alreadyExcecuted;}
 
-    public void setAlreadyExcecuted(){alreadyExcecuted=true;}
+    protected void setAlreadyExcecuted(){alreadyExcecuted=true;}
 
-    public double calculateGrossSalary(){return grossSalary;}
+    protected double calculateGrossSalary(){return grossSalary;}
 
-    public double calculateSalary(){return netSalary = grossSalary - (grossSalary * taxPercentage);}
+    protected double calculateSalary(){return netSalary = grossSalary - (grossSalary * taxPercentage);}
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 

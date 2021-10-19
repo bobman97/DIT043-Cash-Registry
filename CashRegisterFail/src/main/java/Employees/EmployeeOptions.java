@@ -138,6 +138,7 @@ public class EmployeeOptions {
         return netSalary;
     }
 
+
     public String removeEmployee(String empID) throws Exception {
         int indexTemp = findIndex(empID);
         employeeList.remove(indexTemp);
@@ -154,11 +155,13 @@ public class EmployeeOptions {
     }
 
     public double getTotalNetSalary() throws Exception {
+
         double totalNetSalary=0.00;
         for(int i =0;i<employeeList.size();i++){
             totalNetSalary+=employeeList.get(i).calculateSalary();
         }
-        return totalNetSalary;
+
+        return roundDecimal(totalNetSalary);
     }
 
     public String printSortedEmployees() throws Exception {
@@ -370,6 +373,7 @@ public class EmployeeOptions {
         }
     }
 
+    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
 
     //WILLIAM BELOW HERE

@@ -23,13 +23,17 @@ public class Director extends Manager{
 
         if(getGrossSalary()<30000){
             setTaxPercentage(0.1);
-            super.calculateSalary();
+            return super.calculateSalary();
         }else if(30000<=getGrossSalary()&&getGrossSalary()<50000){
             setTaxPercentage(0.2);
+            return super.calculateSalary();
         }else{
-            setTaxPercentage(0.35);
+            setGrossSalary(getGrossSalary()-30000);
+            setTaxPercentage(0.4);
+            setNetSalary(super.calculateSalary()+24000);
+            return getNetSalary();
         }
-        return super.calculateSalary();
+
     }
 
     public String getDept(){return dept;}
