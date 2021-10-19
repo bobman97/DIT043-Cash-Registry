@@ -13,12 +13,10 @@ public class Director extends Manager{
     public double calculateGrossSalary(){
         if(!super.getAlreadyExcected()){
             setBonus(5000);
-            super.setAlreadyExcecuted();
             return super.calculateGrossSalary();
         }else {
             return super.getGrossSalary();
         }
-
     }
 
     public double calculateSalary() {

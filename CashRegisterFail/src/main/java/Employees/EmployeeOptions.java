@@ -56,7 +56,7 @@ public class EmployeeOptions {
                     double grossSalary = readIn.readDouble("Please give gross-salary of the employee: ", "You have given a invalid gross-salary");
                     String degree = validDegree();
                     String dept = newDept();
-                    System.out.println(createEmployee(employeeID,employeeID,grossSalary,degree,dept));
+                    System.out.println(createEmployee(employeeID,employeeName,grossSalary,degree,dept));
                     break;
                 }
                 case 4:{
