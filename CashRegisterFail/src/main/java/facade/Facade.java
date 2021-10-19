@@ -182,7 +182,7 @@ public class Facade {
     }
 
     public double getNetSalary(String employeeID) throws Exception {
-        return -1.0;
+        return employee.getNetSalary(employeeID);
     }
 
     public String createEmployee(String employeeID, String employeeName, double grossSalary, String degree, String dept) throws Exception {

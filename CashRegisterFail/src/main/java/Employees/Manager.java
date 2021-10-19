@@ -11,13 +11,18 @@ public class Manager extends Employee{
     public String toString(){return (degree+" "+super.toString());}
 
     public double calculateGrossSalary(){
-
-        if(degree.equals("BSc.")){
-            setGrossSalary(getGrossSalary()*1.1+bonus);
-        }else if(degree.equals("MSc.")){
-            setGrossSalary(getGrossSalary()*1.2+bonus);
+        if(!super.getAlreadyExcected()){
+            if(degree.equals("BSc")){
+                setGrossSalary(getGrossSalary()*1.1+bonus);
+            }else if(degree.equals("MSc")){
+                setGrossSalary(getGrossSalary()*1.2+bonus);
+            }else{
+                setGrossSalary(getGrossSalary()*1.35+bonus);
+            }
+            setAlreadyExcecuted();
+            return super.getGrossSalary();
         }else{
-            setGrossSalary(getGrossSalary()*1.35+bonus);
+
         }
         return super.getGrossSalary();
     }

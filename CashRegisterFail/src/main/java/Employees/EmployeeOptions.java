@@ -12,11 +12,14 @@ public class EmployeeOptions {
     UserInput readIn;
     private List<Employee> employeeList;
     String ln= System.lineSeparator();
+    SystemOutput sout;
+    private int bonus = 0;
 
     public EmployeeOptions(){
         printMenu = new SystemOutput();
         readIn= new UserInput();
         employeeList = new ArrayList<>();
+        sout=new SystemOutput();
     }
 
     public void runEmployee() throws Exception {
@@ -92,28 +95,32 @@ public class EmployeeOptions {
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty) throws Exception{
 
         employeeList.add(new Employee(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty));
-        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
+        updateSalary();
+        String result = "Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty) throws Exception{
 
         employeeList.add(new Manager(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty));
-        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
+        updateSalary();
+        String result = "Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty, int gpaEmpty) throws Exception{
 
         employeeList.add(new Intern(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,gpaEmpty));
-        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
+        updateSalary();
+        String result = "Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty, String deptEmpty) throws Exception{
 
         employeeList.add(new Director(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty,deptEmpty));
-        String result = ln+"Employee "+ employeeIDEmpty+" was registered successfully.";
+        updateSalary();
+        String result = "Employee "+ employeeIDEmpty+" was registered successfully.";
         return result;
     }
 
@@ -123,6 +130,11 @@ public class EmployeeOptions {
 
     public double getNetSalary(String employeeID){
         double netSalary=0.00;
+        for(int i = 0;i<employeeList.size();i++){
+            if(employeeID.equals(employeeList.get(i).getEmployeeID())){
+                netSalary=employeeList.get(i).calculateSalary();
+            }
+        }
         return netSalary;
     }
 
@@ -150,7 +162,7 @@ public class EmployeeOptions {
     }
 
     public String printSortedEmployees() throws Exception {
-        String result= "Employees sorted by gross salary (ascending order)"+ln;
+        String result= "Employees sorted by gross salary (ascending order):"+ln;
         double temp = 0;
         double [] grossSort= new double[employeeList.size()];
         for(int i=0; i < employeeList.size(); i++){
@@ -350,6 +362,12 @@ public class EmployeeOptions {
             }
         }
         return index;
+    }
+
+    public void updateSalary(){
+        for(int i = 0;i<employeeList.size();i++){
+            employeeList.get(i).calculateGrossSalary();
+        }
     }
 
 
