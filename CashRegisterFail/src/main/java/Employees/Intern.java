@@ -9,18 +9,26 @@ public class Intern extends Employee{
 
     public String toString(){return super.toString()+" GPA: "+GPA;}
 
+    public double calculateGrossSalary() {
+        if(!super.getAlreadyExcected()){
+            if (GPA <= 5) {
+                super.setGrossSalary(0);
+                super.setNetSalary(0);
+                super.calculateSalary();
+            } else if (5 < GPA && GPA <= 8) {
+                super.calculateSalary();
+            } else if (GPA > 8) {
+                super.setGrossSalary(super.getGrossSalary() + 1000);
+            }
+            setAlreadyExcecuted();
+            return getGrossSalary();
+        }else {
+            return getGrossSalary();
+        }
+    }
     public double calculateSalary() {
         setTaxPercentage(0);
-        if(GPA<=5){
-            super.setGrossSalary(0);
-            super.setNetSalary(0);
-        }else if(5<GPA&&GPA<8){
-            super.calculateSalary();
-        }else{
-            super.setNetSalary(super.getGrossSalary()+1000);
-        }
-
-        return super.getNetSalary();
+        return super.calculateSalary();
     }
 
     public int getGPA(){return GPA;}

@@ -2,6 +2,7 @@ package Employees;
 
 public class Manager extends Employee{
     private String degree;
+    private int bonus=0;
     Manager(String employeeID, String employeeName, double grossSalary, String degree) {
         super(employeeID, employeeName, grossSalary);
         this.degree= degree;
@@ -10,35 +11,32 @@ public class Manager extends Employee{
     public String toString(){return (degree+" "+super.toString());}
 
     public double calculateGrossSalary(){
-        if(degree.equals("BSc.")){
-            setGrossSalary(getGrossSalary()*1.1);
-        }else if(degree.equals("MSc.")){
-            setGrossSalary(getGrossSalary()*1.2);
+        if(!super.getAlreadyExcected()){
+            if(degree.equals("BSc")){
+                setGrossSalary(getGrossSalary()*1.1+bonus);
+            }else if(degree.equals("MSc")){
+                setGrossSalary(getGrossSalary()*1.2+bonus);
+            }else{
+                setGrossSalary(getGrossSalary()*1.35+bonus);
+            }
+            setAlreadyExcecuted();
+            return super.getGrossSalary();
         }else{
-            setGrossSalary(getGrossSalary()*1.35);
+
         }
         return super.getGrossSalary();
     }
 
     public double calculateSalary(){
         calculateGrossSalary();
-        return super.calculateSalary();}
+        return super.calculateSalary();
+    }
 
     public String getDegree(){return degree;}
 
     public void setDegree(){this.degree=degree;}
 
-    /*public double calculateSalary() {//Needs to be double checked: degree can be changed and in turn netSalary.
-        if(degree.equals("BSc.")){
-            calculateGrossSalary();
-            this.setNetSalary(super.calculateSalary());
-        }else if(degree.equals("MSc.")){
-            setGrossSalary(getGrossSalary()*1.2);
-            this.setNetSalary(super.calculateSalary());
-        }else{
-            setGrossSalary(getGrossSalary()*1.35);
-            this.setNetSalary(super.calculateSalary());
-        }
-        return super.getNetSalary();
-    }*/
+    public void setBonus(int bonus){this.bonus=bonus;}
+
+
 }

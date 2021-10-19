@@ -1,4 +1,5 @@
 package Employees;
+import CashRegister.SystemOutput;
 
 public class Employee {
     private final String employeeID;
@@ -6,11 +7,14 @@ public class Employee {
     private double grossSalary;
     private double netSalary;
     private double taxPercentage=0.1;//<- does this work?
+    SystemOutput sout;
+    private boolean alreadyExcecuted = false;
 
     Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = grossSalary;
+        sout=new SystemOutput();
     }
 
 
@@ -43,7 +47,20 @@ public class Employee {
 
     public double getNetSalary(){return netSalary;}
 
+    public boolean getAlreadyExcected(){return alreadyExcecuted;}
+
+    public void setAlreadyExcecuted(){alreadyExcecuted=true;}
+
+    public double calculateGrossSalary(){return grossSalary;}
+
     public double calculateSalary(){return netSalary = grossSalary - (grossSalary * taxPercentage);}
 
-    public String toString(){return (employeeName+"`s gross salary is "+grossSalary+" SEK per month.");}
+
+    public String toString(){
+        String soutGrossSalary = sout.decimalFix(grossSalary);
+        if(grossSalary==0.0){
+            soutGrossSalary="0.00";
+        }
+        return (employeeName+"'s gross salary is "+soutGrossSalary+" SEK per month.");
+    }
 }

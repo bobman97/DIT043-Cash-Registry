@@ -10,21 +10,31 @@ public class Director extends Manager{
 
     public String toString(){return (super.toString()+" Dept: "+dept);}
 
+    public double calculateGrossSalary(){
+        if(!super.getAlreadyExcected()){
+            setBonus(5000);
+            //super.setAlreadyExcecuted();
+            return super.calculateGrossSalary();
+        }else {
+            return super.getGrossSalary();
+        }
+
+    }
+
     public double calculateSalary() {
-        setGrossSalary(super.calculateGrossSalary()+5000);
+
         if(getGrossSalary()<30000){
+            setTaxPercentage(0.1);
             super.calculateSalary();
         }else if(30000<=getGrossSalary()&&getGrossSalary()<50000){
             setTaxPercentage(0.2);
-            setNetSalary(super.calculateGrossSalary());
         }else{
             setTaxPercentage(0.35);
-            setNetSalary(super.calculateGrossSalary());
         }
         return super.calculateSalary();
     }
 
     public String getDept(){return dept;}
 
-    public void setDept(){this.dept =dept;}
+    public void setDept(String dept){this.dept =dept;}
 }
