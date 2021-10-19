@@ -400,7 +400,19 @@ public class ItemOptions {
         itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
         return itemID;
     }
+    public int getIndex(String id){
+        int index = 0;
+        for(int i = 0; i<items.size();i++){
+            if(id.equals(items.get(i).getId())){
+                index=i;
+            }
+        }
+        return index;
+    }
 
+    public Item findItemObject(String ID) {
+        return items.get(getIndex(ID));
+    }
 
     
 }

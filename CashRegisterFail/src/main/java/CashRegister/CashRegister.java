@@ -30,7 +30,7 @@ public class CashRegister {
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
         employee = new EmployeeOptions();
-        //reviews = new ReviewOptions(shop);
+        reviews = new ReviewOptions(shop);
         // Here were initializing the itemsData reference in TransacHistory and assigning it to already created object shop
         trans.itemsData = shop;
         int menuChoice;
@@ -57,7 +57,7 @@ public class CashRegister {
                     itemOptions(); // This calls the item options menu
                     break;
                 case 2:
-                    //reviewOptions(); // This calls the review options menu
+                    reviewOptions(); // This calls the review options menu
                     break;
                 case 3:
                     TransacHistory();
@@ -77,7 +77,7 @@ public class CashRegister {
         shop.runProgram();
     }
 
-    //static void reviewOptions() {reviews.runReviews();}
+    static void reviewOptions() {reviews.runReviews();}
 
     static void TransacHistory()   {trans.runHistory();}
 

@@ -21,7 +21,7 @@ public class Facade {
         trans = new TransacHistory();
         shop = new ItemOptions(trans, test);
         trans.itemsData = shop;
-        //reviews = new ReviewOptions(shop);
+        reviews = new ReviewOptions(shop);
     }
 
     public String createItem(String itemID, String itemName, double unitPrice){
