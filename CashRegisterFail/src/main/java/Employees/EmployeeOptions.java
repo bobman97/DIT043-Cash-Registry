@@ -68,12 +68,12 @@ public class EmployeeOptions {
                     break;
                 }
                 case 5:{
-                    String employeeID=existingID();
+                    String employeeID=validID();
                     System.out.println(removeEmployee(employeeID));
                     break;
                 }
                 case 6:{
-                    String employeeID=existingID();
+                    String employeeID=validID();
                     System.out.println(printEmployee(employeeID));
                     break;
                 }
@@ -267,32 +267,35 @@ public class EmployeeOptions {
         return userIn;
     }
 
-    public String existingID(){
+    public String validID(){
         boolean duplicate = true;
-        String userIn="";
-        int tempIndex=0;
+        String userIn;
+        String valid="";
         do{
             userIn=readIn.readString("Please give ID of the employee: ","You have given a wrong ID");
 
-            for(int i = 0;i<employeeList.size();i++){
-                if(!userIn.equals(employeeList.get(i).getEmployeeID())){
+            for(int i =0;i<employeeList.size();i++){
+                if(userIn.equals(employeeList.get(i).getEmployeeID())){
+                    valid=userIn;
                     duplicate=false;
-                    tempIndex=i;
                 }
             }
-            if(!duplicate){
-                if (userIn.equals(employeeList.get(tempIndex).getEmployeeID())){
-                    duplicate=true;
+            if(duplicate){
+                System.out.println("You have given a non-existing ID, please try again!");
+            }
+            if(duplicate){
+                for(int i =0;i<employeeList.size();i++){
+                    if(!userIn.equals(employeeList.get(i).getEmployeeID())){
+                        duplicate=true;
+                    }
                 }
             }
-            if (!duplicate){
-                System.out.println(ln+"You have given a non-existing ID, please give a existing one!"+ln);
-            }
 
-        }while(!duplicate);
-
-        return userIn;
+        }while(duplicate);
+        return valid;
     }
+
+    
 
     public int validGPA(){
         int gpa;
@@ -310,10 +313,10 @@ public class EmployeeOptions {
         boolean degreeConditions=false;
         do {
             degree=readIn.readString("Please give degree of the employee: ","You have given a wrong degree");
-            if (!degree.equals("BSc.")||!degree.equals("MSc.")||!degree.equals("PhD")){
+            if (!degree.equals("BSc")||!degree.equals("MSc")||!degree.equals("PhD")){
                 degreeConditions=true;
             }
-            if (degree.equals("BSc.")||degree.equals("MSc.")||degree.equals("PhD")){
+            if (degree.equals("BSc")||degree.equals("MSc")||degree.equals("PhD")){
                 degreeConditions=false;
             }
             if(degreeConditions){
