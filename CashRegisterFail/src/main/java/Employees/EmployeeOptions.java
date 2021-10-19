@@ -146,7 +146,7 @@ public class EmployeeOptions {
     }
 
     public String printAllEmployees() throws Exception {
-        String result= "All registered employees: "+ln;
+        String result= "All registered employees:"+ln;
         for(int i = 0;i<employeeList.size();i++){
             result+=employeeList.get(i).toString()+ln;
         }

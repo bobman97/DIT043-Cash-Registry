@@ -55,9 +55,10 @@ public class Employee {
 
     public double calculateSalary(){return netSalary = grossSalary - (grossSalary * taxPercentage);}
 
+    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
     public String toString(){
-        String soutGrossSalary = sout.decimalFix(grossSalary);
+        String soutGrossSalary = sout.decimalFix(roundDecimal(grossSalary));
         if(grossSalary==0.0){
             soutGrossSalary="0.00";
         }
