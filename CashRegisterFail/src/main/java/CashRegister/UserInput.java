@@ -159,6 +159,34 @@ public class UserInput {
         return stringID;
     }
 
+    public String validID(){
+        boolean duplicate = true;
+        String userIn;
+        String valid="";
+        do{
+            userIn=readString("Please give ID of the item: ","You have given a wrong ID");
+
+            for(int i =0;i<items.size();i++){
+                if(userIn.equals(items.get(i).getId())){
+                    valid=userIn;
+                    duplicate=false;
+                }
+            }
+            if(duplicate){
+                System.out.println("You have given a non-existing ID, please try again!");
+            }
+            if(duplicate){
+                for(int i =0;i<items.size();i++){
+                    if(!userIn.equals(items.get(i).getId())){
+                        duplicate=true;
+                    }
+                }
+            }
+
+        }while(duplicate);
+        return valid;
+    }
+
     public void closeScanner()   {
         readIn.close();
     }

@@ -295,7 +295,7 @@ public class EmployeeOptions {
         return valid;
     }
 
-    
+
 
     public int validGPA(){
         int gpa;

@@ -50,16 +50,16 @@ public class TransacHistory {
                     System.out.println(printAllTrans());
                     break;
                 case 5:
-                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    ID= readIn.validID();
                     System.out.println(itemHistoryProfit(ID));
                     break;
                 case 6:
-                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    ID= readIn.validID();
                     System.out.println(itemHistoryUnitsSold(ID));
                     break;
 
                 case 7:
-                    ID= readIn.readID("Please give ID of the item: ", "You have given a non-existent ID");
+                    ID= readIn.validID();
                     System.out.println(printAllItemTrans(ID));
                     break;
                 case 8:
