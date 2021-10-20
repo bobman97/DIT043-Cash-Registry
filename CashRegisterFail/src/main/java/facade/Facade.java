@@ -25,7 +25,7 @@ public class Facade {
         shop = new ItemOptions(trans, test);
         trans.itemsData = shop;
         employee=new EmployeeOptions();
-        //reviews = new ReviewOptions(shop);
+        reviews = new ReviewOptions(shop);
     }
 
     public String createItem(String itemID, String itemName, double unitPrice){
@@ -48,14 +48,14 @@ public class Facade {
         return shop.buyItem(itemID, amount);
     }
 
-    public String reviewItem(String itemID, String reviewComment, int reviewGrade) {return "";}
+    public String reviewItem(String itemID, String reviewComment, int reviewGrade) {return reviews.reviewItem(itemID, reviewComment, reviewGrade);}
 
     public String reviewItem(String itemID, int reviewGrade) {
-        return "";
+        return reviews.reviewItem(itemID, reviewGrade);
     }
 
     public String getItemCommentsPrinted(String itemID) {
-        return "";
+        return reviews.getItemCommentsPrinted(itemID);
     }
 
     public List<String> getItemComments(String itemID) {
@@ -70,28 +70,24 @@ public class Facade {
         return -1;
     }
 
-    public String getPrintedItemReview(String itemID, int reviewNumber) {
-        return "";
-    }
+    public String getPrintedItemReview(String itemID, int reviewNumber) {return reviews.printSpecificReview(itemID, reviewNumber);}
 
     public String getPrintedReviews(String itemID) {
-        return "";
+        return reviews.getPrintedReviews();
     }
 
     public String printMostReviewedItems() {
-        return "";
+        return reviews.printMostRevs();
     }
 
-    public List<String> getMostReviewedItems() {
-        return null;
-    }
+    public List<String> getMostReviewedItems() {return reviews.getMostReviewedItems();}
 
     public List<String> getLeastReviewedItems() {
-        return null;
+        return reviews.getLeastReviewedItems();
     }
 
     public String printLeastReviewedItems() {
-        return "";
+        return reviews.printLeastRevs();
     }
 
     public double getTotalProfit() {
@@ -124,12 +120,10 @@ public class Facade {
         return trans.printAllTrans();// trans.printAllTransac();
     }
 
-    public String printWorseReviewedItems() {
-        return "";
-    }
+    public String printWorseReviewedItems() {return reviews.printWorstMeanGrade();}
 
     public String printBestReviewedItems() {
-        return "";
+        return reviews.printBestMeanGrade();
     }
 
     public List<String> getWorseReviewedItems() {
@@ -141,7 +135,7 @@ public class Facade {
     }
 
     public String printAllReviews() {
-        return "";
+        return reviews.getPrintedReviews();
     }
 
     public String updateItemName(String itemID, String newName) {
