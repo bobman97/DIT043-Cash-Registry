@@ -40,32 +40,33 @@ public class ReviewOptions {
                 case 0: //Return to main menu
                     break;
                 case 1: //Create review
-                    ID = takeIn.readString("Enter item ID: ", "Please input a valid item ID");
+                    ID = takeIn.readID("Enter item ID: ", "Please input a valid item ID");
                     int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
                     String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
                     if (!reviewComment.isEmpty()) {
-                        reviewItem(ID, reviewGrade, reviewComment);
+                        reviewItem(ID, reviewComment, reviewGrade);
                         } else {
                         reviewItem(ID, reviewGrade);
                     }
                     break;
                 case 2: //Print specific review
-                    ID = takeIn.readString("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
                     Item item = itemRegistry.findItemObject(ID);
                     int reviewNumber = takeIn.readInt("Enter review number: ","");
                     System.out.println(printSpecificReview(ID, reviewNumber));
 
                     break;
                 case 3: //Print all reviews of an item
-                    ID = takeIn.readString("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
+                    item = itemRegistry.findItemObject(ID);
                     System.out.println(getPrintedItemReview(ID));
                     break;
                 case 4: //Print mean grade of an item
-                    ID = takeIn.readString("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
                     System.out.println(printMeanGradeItem(ID));
                     break;
                 case 5: //Print all comments of an item
-                    ID = takeIn.readString("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
                     System.out.println(getItemCommentsPrinted(ID));
                     break;
                 case 6: //Print all registered reviews
@@ -91,24 +92,24 @@ public class ReviewOptions {
 
 
     // 1
-    public void reviewItem(String ID, int reviewGrade, String reviewComment) {
+    public String reviewItem(String ID, String reviewComment, int reviewGrade) {
 
         Item item = itemRegistry.findItemObject(ID);
         if (item.reviewsList.isEmpty()) {
-            System.out.println("Item " + ID + " was not registered yet.");
+            return "Item " + ID + " was not registered yet.";
         } else {
             item.getReviewList().add(new Reviews(reviewGrade, reviewComment));
-            System.out.println("Your item review was registered successfully.");
+            return "Your item review was registered successfully.";
         }
     }
 
-    public void reviewItem(String ID, int reviewGrade) {
+    public String reviewItem(String ID, int reviewGrade) {
         Item item = itemRegistry.findItemObject(ID);
         if (item.getId().isEmpty()) {
-            System.out.println("Item " + ID + " was not registered yet.");
+            return "Item " + ID + " was not registered yet.";
         } else {
             item.getReviewList().add(new Reviews(reviewGrade, ""));
-            System.out.println("Your item review was registered successfully.");
+            return "Your item review was registered successfully.";
         }
     }
 
@@ -216,17 +217,19 @@ public class ReviewOptions {
 
 
     // 8
-    public void printLeastRevs(){
+    public String printLeastRevs(){
+        return "";
     }
 
     // 9
-    public void printBestMeanGrade(){
+    public String printBestMeanGrade(){
 
+        return "";
     }
 
     // 10
-    public void printWorstMeanGrade(){
-
+    public String printWorstMeanGrade(){
+    return "";
         }
 //Getter methods
 
@@ -286,6 +289,7 @@ public List<String> getLeastReviewedItems(){
     }
     return leastReviewedItems;
     }
+
 
 }
 
