@@ -160,6 +160,7 @@ public class UserInput {
     }
 
     public String validID(){
+        items = itemData.copyItems();
         boolean duplicate = true;
         String userIn;
         String valid="";
