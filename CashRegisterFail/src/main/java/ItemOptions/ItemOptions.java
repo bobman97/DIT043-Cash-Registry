@@ -1,11 +1,13 @@
 package ItemOptions;
 import CashRegister.SystemOutput;
 import CashRegister.UserInput;
+import ReviewOptions.Reviews;
 import TransacHistory.TransacHistory;
 import TransacHistory.Transaction;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemOptions {
 
@@ -387,8 +389,10 @@ public class ItemOptions {
             name = items.get(i).getName();
             price = items.get(i).getPrice();
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
+            for (int j = 0; j < items.get(i).reviewsList.size(); j++) { //Also copies item reviews
+                itemsCopy.get(i).reviewsList.add(new Reviews(items.get(i).getReviewList().get(j).getReviewGrade(), items.get(i).getReviewList().get(j).getReviewComment()));
+            }
         }
-
         return itemsCopy;
     }
 
@@ -405,32 +409,25 @@ public class ItemOptions {
      ***********************
      */
 
-    // Literally does the same as findItem //William
-    public int getIndex(String id){
-        int index = 0;
-        for(int i = 0; i<items.size();i++){
-            if(id.equals(items.get(i).getId())){
-                index=i;
-            }
-        }
-        return index;
-    }
 
     // John Essential Methods:
+    // Finds and item object by its ID
     public Item findItemObject(String ID) {
-        return items.get(getIndex(ID));
+        return items.get(findItem(ID));
     }
 
+
     // Why not use findItem instead? / William
-    public boolean existanceChecker (String id){//Checks if such item currently exists
-        boolean existance = false;
+    public boolean existenceChecker (String id){//Checks if such item currently exists
+        boolean existence = false;
         for(Item currentItem : items){
             if(id.equals(currentItem.getId())){
-                existance = true;
+                existence = true;
             }
         }
-        return existance;
+        return existence;
     }
+
 
 }
 

@@ -60,4 +60,5 @@ public class Item {
          int truncatedGrade = (int) (value * roundedNumber);
          return truncatedGrade / roundedNumber;
      }
+
 }
