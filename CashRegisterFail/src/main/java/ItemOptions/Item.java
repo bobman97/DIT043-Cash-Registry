@@ -39,8 +39,11 @@ public class Item {
         this.price = price;
     }
 
+    public String toString(){
+        return getId() + ": " + getName() + ". " + getPrice() + "SEK";
+    }
 
-    //John
+    //John Webb:
 
     public List<Reviews> getReviewList() {
         return reviewsList;
@@ -57,10 +60,4 @@ public class Item {
          int truncatedGrade = (int) (value * roundedNumber);
          return truncatedGrade / roundedNumber;
      }
-
-    public String toString(){
-         return getId() + ": " + getName() + ". " + getPrice() + "SEK";
-    }
-
-
 }

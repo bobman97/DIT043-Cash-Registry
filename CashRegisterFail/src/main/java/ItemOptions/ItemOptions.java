@@ -243,6 +243,7 @@ public class ItemOptions {
     }
 
     // property: 1 == name, 2 == price
+    // This method is only called from newItemname() or newItemPrice()
     public String changeItem(String itemID, String newName, double newPrice, int property)    {
         int index;
         double price;
@@ -334,8 +335,6 @@ public class ItemOptions {
      ***********************
      */
 
-
-
     // This method will check if id exists then return the index of item in our ArrayList.
     private int findItem(String searchQuery)  {
         int index;
@@ -372,7 +371,7 @@ public class ItemOptions {
         return id;
     }
 
-    // Removes any decimals over #.00.
+    // Removes any decimals over #.00. Doesnt work for #.00 so use decimalFormat to fix printing
     private double roundDecimal(double value)  {
         return (double)((long)(value * 100))/100;
     }
@@ -390,8 +389,6 @@ public class ItemOptions {
             itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
         }
 
-       // System.out.println("Kopia av arrayList " + itemsCopy.size() + System.lineSeparator()
-        //+ "Faktiskt arraylist: " + items.size());
         return itemsCopy;
     }
 
@@ -400,6 +397,15 @@ public class ItemOptions {
         itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
         return itemID;
     }
+
+
+    /*
+     ***********************
+     *      John Webb      *
+     ***********************
+     */
+
+    // Literally does the same as findItem //William
     public int getIndex(String id){
         int index = 0;
         for(int i = 0; i<items.size();i++){
@@ -410,11 +416,12 @@ public class ItemOptions {
         return index;
     }
 
-    // John Essential Methods
+    // John Essential Methods:
     public Item findItemObject(String ID) {
         return items.get(getIndex(ID));
     }
 
+    // Why not use findItem instead? / William
     public boolean existanceChecker (String id){//Checks if such item currently exists
         boolean existance = false;
         for(Item currentItem : items){
