@@ -410,11 +410,21 @@ public class ItemOptions {
         return index;
     }
 
+    // John Essential Methods
     public Item findItemObject(String ID) {
         return items.get(getIndex(ID));
     }
 
-    
+    public boolean existanceChecker (String id){//Checks if such item currently exists
+        boolean existance = false;
+        for(Item currentItem : items){
+            if(id.equals(currentItem.getId())){
+                existance = true;
+            }
+        }
+        return existance;
+    }
+
 }
 
 

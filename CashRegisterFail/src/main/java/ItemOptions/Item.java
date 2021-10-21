@@ -3,6 +3,7 @@ package ItemOptions;
 import ReviewOptions.ReviewOptions;
 import ReviewOptions.Reviews;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,10 +52,15 @@ public class Item {
          for (Reviews reviews : getReviewList()) {
              sumOfGrades += reviews.getReviewGrade();
          }
-         return sumOfGrades / getReviewList().size();
-    }
+         double value = sumOfGrades / getReviewList().size();
+         double roundedNumber = (int) Math.pow(10, 1);
+         int truncatedGrade = (int) (value * roundedNumber);
+         return truncatedGrade / roundedNumber;
+     }
 
     public String toString(){
          return getId() + ": " + getName() + ". " + getPrice() + "SEK";
     }
+
+
 }

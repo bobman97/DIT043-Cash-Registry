@@ -59,21 +59,21 @@ public class Facade {
     }
 
     public List<String> getItemComments(String itemID) {
-        return null;
+        return reviews.getItemComments(itemID);
     }
 
     public double getItemMeanGrade(String itemID) {
-        return -1.0;
+        return shop.findItemObject(itemID).getItemMeanGrade();
     }
 
     public int getNumberOfReviews(String itemID) {
-        return -1;
+        return reviews.getNumberOfReviews(itemID);
     }
 
     public String getPrintedItemReview(String itemID, int reviewNumber) {return reviews.printSpecificReview(itemID, reviewNumber);}
 
     public String getPrintedReviews(String itemID) {
-        return reviews.getPrintedReviews();
+        return reviews.getPrintedItemReviews(itemID);
     }
 
     public String printMostReviewedItems() {

@@ -29,6 +29,10 @@ public class Reviews {
         this.reviewComment = reviewComment;
     }
 
+    public String toString() {
+        return reviewGrade + " " + reviewComment;
+    }
+
 
     }
 

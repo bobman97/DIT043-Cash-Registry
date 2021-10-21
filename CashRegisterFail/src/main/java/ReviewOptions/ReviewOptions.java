@@ -33,40 +33,37 @@ public class ReviewOptions {
         do{
             do{
                 systemOut.reviewMenu();
-                choice=this.takeIn.getUserOption(10,"Enter an option! ","Wrong option, try again a number between 0-10!");
+                choice=this.takeIn.getUserOption(10,"Enter an option: ","Wrong option, try again a number between 0-10!");
             }while(choice>10||choice<(0));
 
             switch (choice){
                 case 0: //Return to main menu
                     break;
                 case 1: //Create review
-                    ID = takeIn.readID("Enter item ID: ", "Please input a valid item ID");
+                    ID = takeIn.readID("Please enter an item ID: ", "Please input a valid ID.");
                     int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
                     String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
                     if (!reviewComment.isEmpty()) {
-                        reviewItem(ID, reviewComment, reviewGrade);
+                        System.out.println(reviewItem(ID, reviewComment, reviewGrade));
                         } else {
-                        reviewItem(ID, reviewGrade);
+                        System.out.println(reviewItem(ID, reviewGrade));
                     }
                     break;
                 case 2: //Print specific review
-                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
-                    Item item = itemRegistry.findItemObject(ID);
-                    int reviewNumber = takeIn.readInt("Enter review number: ","");
+                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    int reviewNumber = takeIn.readInt("Enter review number: ","Please enter an integer.");
                     System.out.println(printSpecificReview(ID, reviewNumber));
-
                     break;
                 case 3: //Print all reviews of an item
-                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
-                    item = itemRegistry.findItemObject(ID);
-                    System.out.println(getPrintedItemReview(ID));
+                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    System.out.println(getPrintedItemReviews(ID));
                     break;
                 case 4: //Print mean grade of an item
-                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
                     System.out.println(printMeanGradeItem(ID));
                     break;
                 case 5: //Print all comments of an item
-                    ID = takeIn.readID("Enter an item ID: ", "Please input a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
                     System.out.println(getItemCommentsPrinted(ID));
                     break;
                 case 6: //Print all registered reviews
@@ -93,23 +90,30 @@ public class ReviewOptions {
 
     // 1
     public String reviewItem(String ID, String reviewComment, int reviewGrade) {
-
-        Item item = itemRegistry.findItemObject(ID);
-        if (item.reviewsList.isEmpty()) {
-            return "Item " + ID + " was not registered yet.";
-        } else {
-            item.getReviewList().add(new Reviews(reviewGrade, reviewComment));
+        if (itemRegistry.existanceChecker(ID)) {
+            if (reviewGrade < 1 || reviewGrade > 5) {
+                return "Grade values must be between 1 and 5.";
+            }
+            Item item = itemRegistry.findItemObject(ID);
+            System.out.println(item.reviewsList.size());
+            item.reviewsList.add(new Reviews(reviewGrade, reviewComment));
+            System.out.println(item.reviewsList.size());
             return "Your item review was registered successfully.";
+        } else {
+            return "Item " + ID + " was not registered yet.";
         }
     }
 
     public String reviewItem(String ID, int reviewGrade) {
-        Item item = itemRegistry.findItemObject(ID);
-        if (item.getId().isEmpty()) {
-            return "Item " + ID + " was not registered yet.";
-        } else {
-            item.getReviewList().add(new Reviews(reviewGrade, ""));
+        if (itemRegistry.existanceChecker(ID)) {
+            if (reviewGrade < 1 || reviewGrade > 5) {
+                return "Grade values must be between 1 and 5.";
+            }
+            Item item = itemRegistry.findItemObject(ID);
+            item.reviewsList.add(new Reviews(reviewGrade, ""));
             return "Your item review was registered successfully.";
+        } else {
+            return "Item " + ID + " was not registered yet.";
         }
     }
 
@@ -117,41 +121,51 @@ public class ReviewOptions {
 
     // 2
     public String printSpecificReview(String ID, int reviewNumber) {
-        Item item = itemRegistry.findItemObject(ID);
-        if (item.reviewsList.isEmpty()){
-            return "Item " + item.getName() + " has not been reviewed yet.";
-        } else if (reviewNumber < 1 || reviewNumber > item.reviewsList.size()){
-            return "Invalid review number. Choose between 1 and " + getNumberOfReviews(ID);
+        if (itemRegistry.existanceChecker(ID)) {
+            Item item = itemRegistry.findItemObject(ID);
+            if (item.reviewsList.isEmpty()) {
+                return "Item " + item.getName() + " has not been reviewed yet.";
+            } else if (reviewNumber < 1 || reviewNumber > item.reviewsList.size()) {
+                return "Invalid review number. Choose between 1 and " + getNumberOfReviews(ID) + ".";
+            } else {
+                reviewNumber = reviewNumber - 1;
+                return "Grade: " + item.reviewsList.get(reviewNumber).getReviewGrade() + "." + item.reviewsList.get(reviewNumber).getReviewComment();
+            }
         } else {
-            reviewNumber = reviewNumber - 1;
-            item.reviewsList.get(reviewNumber);
-            return "Grade: " + item.reviewsList.get(reviewNumber).getReviewGrade() + ". " + item.reviewsList.get(reviewNumber).getReviewComment();
+            return "Item " + ID + " was not registered yet.";
         }
-
 
     }
 
     // 3
-    public String getPrintedItemReview(String ID) {
+    public String getPrintedItemReviews(String ID) {
+        if (itemRegistry.existanceChecker(ID)) {
         Item item = itemRegistry.findItemObject(ID);
-        String printReviews = "Reviews(s) for " + ID + ": " + item.getName() + ". " + item.getPrice() + " SEK " + ln;
-        String noReviewsError = "Item " + item.getName() + " has not been reviewed yet.";
+        String printReviews = "Review(s) for " + ID + ": " + item.getName() + ". " + String.format("%.2f", item.getPrice()) + " SEK" + ln;
+        String noReviewsError = "The item " + item.getName() + " has not been reviewed yet.";
+
+        if (item.getReviewList().isEmpty()) {
+            return printReviews + noReviewsError;
+        }
 
         for (Reviews reviews : item.getReviewList()) {
-            if (item.reviewsList.isEmpty()) {
-                return noReviewsError;
-            } else {
-                printReviews += "Grade: " + reviews.getReviewGrade() + ". " + reviews.getReviewComment() +ln;
-            }
+            printReviews += "Grade: " + reviews.getReviewGrade() + ". " + reviews.getReviewComment() + ln;
         }
         return printReviews;
+        } else {
+            return "Item " + ID + " was not registered yet.";
+        }
     }
 
     // 4
     public double printMeanGradeItem(String ID){
-        Item item = itemRegistry.findItemObject(ID);
-        return item.getItemMeanGrade();
-
+        if (itemRegistry.existanceChecker(ID)) {
+            Item item = itemRegistry.findItemObject(ID);
+            return item.getItemMeanGrade();
+        } else {
+            System.out.println("Item " + ID + " was not registered yet.");
+            return 0;
+        }
     }
     //5
     public String getItemCommentsPrinted(String ID) {
@@ -168,11 +182,11 @@ public class ReviewOptions {
 
     // 6
     public String getPrintedReviews() {
-    StringBuilder allReviews = new StringBuilder(ln + "All registered reviews: " +ln + "------------------------------" +ln);
+    StringBuilder allReviews = new StringBuilder("All registered reviews:" +ln + "------------------------------------" +ln);
     String noRegisteredReviewsError = "No items were reviewed yet";
 
     for (Item item : items) {
-        String printReviews = "Reviews(s) for " + item.getId() + ": " + item.getName() + ". " + item.getPrice() + " + SEK " + ln;
+        String printReviews = "Reviews(s) for " + item.getId() + ": " + item.getName() + ". " + (int) item.getPrice() + " + SEK " + ln;
         allReviews.append(printReviews);
         if (item.reviewsList.isEmpty()) {
             return noRegisteredReviewsError;
@@ -218,21 +232,20 @@ public class ReviewOptions {
 
     // 8
     public String printLeastRevs(){
-        return "";
+        return getLeastReviewedItems().toString();
     }
 
     // 9
     public String printBestMeanGrade(){
-
-        return "";
+        return getBestReviewedItems().toString();
     }
 
     // 10
     public String printWorstMeanGrade(){
     return "";
         }
-//Getter methods
 
+//Getter methods and ID methods
     public List<String> getItemComments(String ID) {
         List<String> comments = new ArrayList<>();
         if (itemRegistry.findItemObject(ID) == null) {
@@ -247,12 +260,12 @@ public class ReviewOptions {
         return comments;
     }
 
-public List<Integer> getNumberOfReviews(String ID) {
-    List<Integer> numberOfReviews = new ArrayList<>();
+public int getNumberOfReviews(String ID) {
+    int numberOfReviews = 0;
     if (itemRegistry.findItemObject(ID) == null) {
         return numberOfReviews;
     }
-    numberOfReviews.add(itemRegistry.findItemObject(ID).getReviewList().size());
+    numberOfReviews = itemRegistry.findItemObject(ID).getReviewList().size();
     return numberOfReviews;
 }
 
@@ -289,6 +302,17 @@ public List<String> getLeastReviewedItems(){
     }
     return leastReviewedItems;
     }
+
+
+
+    public List<String> getWorseReviewedItems() {
+        return null;
+    }
+
+    public List<String> getBestReviewedItems() {
+        return null;
+    }
+
 
 
 }

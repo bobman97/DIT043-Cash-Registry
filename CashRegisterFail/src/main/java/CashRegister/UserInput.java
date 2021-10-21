@@ -74,9 +74,9 @@ public class UserInput {
             id = readIn.nextLine();
             id = (id.startsWith("ID") ? id : "ID" + id); // Removes ID from input.
             validInput = isNumber(id.substring(2));
-            if(validInput == false)
+            if(!validInput)
                 System.out.println(this.informUserError);
-        } while(validInput == false);
+        } while(!validInput);
         return id;
     }
 
@@ -173,7 +173,7 @@ public class UserInput {
                 }
             }
             if(duplicate){
-                System.out.println("You have given a non-existing ID, please try again!");
+                System.out.println("Item " + userIn + " was not registered yet.");
             }
             if(duplicate){
                 for(int i =0;i<items.size();i++){
