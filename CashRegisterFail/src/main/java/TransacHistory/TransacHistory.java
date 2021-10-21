@@ -260,6 +260,35 @@ public class TransacHistory {
         return existance;
     }
 
+    public String validID(){
+        items = itemsData.copyItems();
+        boolean duplicate = true;
+        String userIn;
+        String valid="";
+        do{
+            userIn=readIn.readString("Please give ID of the item: ","You have given a wrong ID");
+
+            for(int i =0;i<items.size();i++){
+                if(userIn.equals(items.get(i).getId())){
+                    valid=userIn;
+                    duplicate=false;
+                }
+            }
+            if(duplicate){
+                System.out.println("You have given a non-existing ID, please try again!");
+            }
+            if(duplicate){
+                for(int i =0;i<items.size();i++){
+                    if(!userIn.equals(items.get(i).getId())){
+                        duplicate=true;
+                    }
+                }
+            }
+
+        }while(duplicate);
+        return valid;
+    }
+
 
 
     private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
