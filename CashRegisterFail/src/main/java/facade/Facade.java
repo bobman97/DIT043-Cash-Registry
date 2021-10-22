@@ -120,18 +120,18 @@ public class Facade {
         return trans.printAllTrans();// trans.printAllTransac();
     }
 
-    public String printWorseReviewedItems() {return reviews.printWorstMeanGrade();}
+    public String printWorseReviewedItems() {return reviews.printWorstReviewedItems();}
 
     public String printBestReviewedItems() {
-        return reviews.printBestMeanGrade();
+        return reviews.printBestReviewedItems();
     }
 
     public List<String> getWorseReviewedItems() {
-        return null;
+        return reviews.getWorstReviewedItems();
     }
 
     public List<String> getBestReviewedItems() {
-        return null;
+        return getBestReviewedItems();
     }
 
     public String printAllReviews() {
