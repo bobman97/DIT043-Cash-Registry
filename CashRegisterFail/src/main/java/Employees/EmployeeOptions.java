@@ -263,9 +263,12 @@ public class EmployeeOptions {
                     PhD++;
             }
         }
-        map.put("BSc", (BSc == 0 ? null : BSc));
-        map.put("MSc", (MSc == 0 ? null : MSc));
-        map.put("PhD", (PhD == 0 ? null : PhD));
+        if(BSc > 0)
+            map.put("BSc", BSc);
+        if(MSc > 0)
+            map.put("MSc", MSc);
+        if(PhD > 0)
+            map.put("PhD", PhD);
         return map;
     }
 
