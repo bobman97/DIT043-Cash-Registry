@@ -180,26 +180,36 @@ public class ReviewOptions {
          return result.toString();
     }
 
-
-
     // 6
     public String getPrintedReviews() {
         items = itemRegistry.copyItems();
+        List<List<Reviews>> reviews = new ArrayList<>();
         String allReviews = "All registered reviews:" +ln + "------------------------------------" +ln;
         String reviewSeparation = "------------------------------------" + ln;
-
+        if (items.isEmpty()){
+            return "No items registered yet.";
+        } else {
+            for (int j = 0; j < items.size(); j++) {
+                if (!items.get(j).getReviewList().isEmpty()) {
+                    reviews.add(items.get(j).getReviewList());
+                }
+            }
+            if (reviews.isEmpty()) {
+                return "No items were reviewed yet.";
+            }
             for (Item item : items) {
                 if (item.reviewsList.isEmpty()) {
                     allReviews += "";
                 } else {
-                    allReviews += "Review(s) for " + item.getId() + ": " + item.getName() + ". " + String.format("%.2f", item.getPrice() ) + " SEK" + ln;
+                    allReviews += "Review(s) for " + item.getId() + ": " + item.getName() + ". " + String.format("%.2f", item.getPrice()) + " SEK" + ln;
 
                     for (int i = 0; i < item.getReviewList().size(); i++) {
-                            allReviews += "Grade: " + item.reviewsList.get(i).getReviewGrade() + "." + item.reviewsList.get(i).getReviewComment() + ln;
+                        allReviews += "Grade: " + item.reviewsList.get(i).getReviewGrade() + "." + item.reviewsList.get(i).getReviewComment() + ln;
                     }
                     allReviews += reviewSeparation;
                 }
             }
+        }
             return allReviews;
         }
 
@@ -324,10 +334,24 @@ public int getNumberOfReviews(String ID) {
 public List<String> getMostReviewedItems(){
         items = itemRegistry.copyItems();
         List<String> mostReviewedItems = new ArrayList<>();
+        List<List<Reviews>> reviews = new ArrayList<>();
         int numberOfReviews = 0;
-        // you make this variable at the top
-    // when you add to the List<String> you update this variable whenever the for loop finds a reviewslist bigger than the variable
+
+    if (items.isEmpty()) {
+        //  worstReviewedItems.add("No items registered yet.");
+        return mostReviewedItems;
+    }
+
         for (Item item : items) {
+            for (int j = 0; j < items.size(); j++) {
+                if (!items.get(j).getReviewList().isEmpty()) {
+                    reviews.add(items.get(j).getReviewList());
+                }
+            }
+            if (reviews.isEmpty()) {
+                //worstReviewedItems.add("No items were reviewed yet.");
+                return mostReviewedItems;
+            }
             if (item.reviewsList.size() > numberOfReviews) {
                 mostReviewedItems.add(item.getId());
                 numberOfReviews = item.reviewsList.size();
@@ -343,8 +367,22 @@ public List<String> getLeastReviewedItems() {
     List<Item> reviewedItems = new ArrayList<>();
     List<String> leastReviewedItems = new ArrayList<>();
     int minReviews;
+    List<List<Reviews>> reviews = new ArrayList<>();
+
+    if (items.isEmpty()) {
+        
+        return leastReviewedItems;
+    }
     for (Item item : items) {
-        if (item.getReviewList().size() != 0) {
+        for (int j = 0; j < items.size(); j++) {
+            if (!items.get(j).getReviewList().isEmpty()) {
+                reviews.add(items.get(j).getReviewList());
+            }
+        }
+        if (reviews.isEmpty()) {
+            return leastReviewedItems;
+        }
+        else if (item.getReviewList().size() != 0) {
             reviewedItems.add(item);
         }
     }
@@ -364,8 +402,21 @@ public List<String> getLeastReviewedItems() {
     public List<String> getBestReviewedItems() {
         items = itemRegistry.copyItems();
         List<String> bestReviewedItems = new ArrayList<>();
+        List<List<Reviews>> reviews = new ArrayList<>();
         double minGrade = 0.0;
+
+        if (items.isEmpty()) {
+            return bestReviewedItems;
+        }
         for (Item item : items) {
+            for (int j = 0; j < items.size(); j++) {
+                if (!items.get(j).getReviewList().isEmpty()) {
+                    reviews.add(items.get(j).getReviewList());
+                }
+            }
+            if (reviews.isEmpty()) {
+                return bestReviewedItems;
+            }
                 if (item.getItemMeanGrade() > minGrade) {
                     bestReviewedItems.add(item.getId());
                     minGrade = item.getItemMeanGrade();
@@ -381,12 +432,27 @@ public List<String> getLeastReviewedItems() {
         List<Item> reviewedItems = new ArrayList<>();
         List<String> worstReviewedItems = new ArrayList<>();
         double minGrade;
+        List<List<Reviews>> reviews = new ArrayList<>();
+
+        if (items.isEmpty()) {
+            return worstReviewedItems;
+        }
+
         for (Item item : items) {
-            if (item.getItemMeanGrade() != 0.0) {
+            for (int j = 0; j < items.size(); j++) {
+                if (!items.get(j).getReviewList().isEmpty()) {
+                    reviews.add(items.get(j).getReviewList());
+                }
+            }
+            if (reviews.isEmpty()) {
+                return worstReviewedItems;
+            }
+            else if (item.getItemMeanGrade() != 0.0) {
                 reviewedItems.add(item);
             }
         }
-        minGrade = reviewedItems.get(0).getItemMeanGrade();
+            minGrade = reviewedItems.get(0).getItemMeanGrade();
+
 
         for (Item item : reviewedItems) {
             if (minGrade > item.getItemMeanGrade()) {
