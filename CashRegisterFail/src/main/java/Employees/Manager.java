@@ -34,7 +34,7 @@ public class Manager extends Employee{
 
     public String getDegree(){return degree;}
 
-    public void setDegree(){this.degree=degree;}
+    public void setDegree(String degree){this.degree=degree;}
 
     public void setBonus(int bonus){this.bonus=bonus;}
 

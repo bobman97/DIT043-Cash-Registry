@@ -7,13 +7,14 @@ public class Employee {
     private double grossSalary;
     private double netSalary;
     private double taxPercentage=0.1;//<- does this work?
+    private double rawSalary;
     SystemOutput sout;
     private boolean alreadyExcecuted = false;
 
     Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
-        this.grossSalary = (double)((long)(grossSalary * 100))/100;
+        this.rawSalary = this.grossSalary = (double)((long)(grossSalary * 100))/100;
         sout=new SystemOutput();
     }
 
@@ -39,9 +40,9 @@ public class Employee {
         return grossSalary;
     }
 
-    protected void setGrossSalary(double grossSalary) {
-        this.grossSalary = grossSalary;
-    }
+    protected double getRawSalary() { return rawSalary; }
+
+    protected void setGrossSalary(double grossSalary) { this.grossSalary = grossSalary; }
 
     protected void setNetSalary(double netSalary){this.netSalary=netSalary;}
 
