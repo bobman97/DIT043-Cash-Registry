@@ -39,4 +39,5 @@ public class Director extends Manager{
     public String getDept(){return dept;}
 
     public void setDept(String dept){this.dept =dept;}
+
 }

@@ -14,7 +14,9 @@ public class Employee {
     Employee(String employeeID, String employeeName, double grossSalary){
         this.employeeID = employeeID;
         this.employeeName = employeeName;
-        this.rawSalary = this.grossSalary = (double)((long)(grossSalary * 100))/100;
+        this.grossSalary = (double)((long)(grossSalary * 100))/100;
+        System.out.println("New reg employee Damon : " + grossSalary);
+        this.rawSalary = this.grossSalary;
         sout=new SystemOutput();
     }
 
