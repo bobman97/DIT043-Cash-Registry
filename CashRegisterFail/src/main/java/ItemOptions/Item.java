@@ -40,7 +40,7 @@ public class Item {
     }
 
     public String toString(){
-        return getId() + ": " + getName() + ". " + getPrice() + "SEK";
+        return getId() + ": " + getName() + ". " + String.format("%.2f", getPrice() )  + " SEK";
     }
 
     //John Webb:

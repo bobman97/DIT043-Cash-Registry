@@ -216,58 +216,86 @@ public class ReviewOptions {
             if (item.reviewsList.isEmpty()) {
                 mostReviews = "No items were reviewed yet.";
             } else {
-                mostReviews = "Most reviews: " + getNumberOfReviews(item.getId()) + " review(s) each." + ln;
-                for (String mostReviewedItems : getMostReviewedItems()) {
-                    mostReviews += item.toString();
+                mostReviews = "Most reviews: " + numberOfReviews + " review(s) each." + ln;
+                for (int i = 0; i < getMostReviewedItems().size(); i++) {
+                    numberOfReviews = getNumberOfReviews(getMostReviewedItems().get(i));
+                    mostReviews += itemRegistry.findItemObject(getMostReviewedItems().get(i)) +ln;
                 }
             }
         }
         return mostReviews;
     }
-    /*
-    public String printMostRevs() {
+
+    // 8
+    public String printLeastRevs(){
         items = itemRegistry.copyItems();
         int numberOfReviews = 0;
-        StringBuilder mostReviews = new StringBuilder("Most reviews: " + numberOfReviews + "review(s) each." + ln);
-        //StringBuilder mostReviews = new StringBuilder("Most reviews: " + numberOfReviews + "review(s) each." + ln);
+        String leastReviews = "Least reviews: " + numberOfReviews + "review(s) each." + ln;
 
         if (items.isEmpty()) {
             return "No items registered yet.";
         }
-
         for (Item item : items) {
-            numberOfReviews = item.reviewsList.size();
-            String printItem = item.getId() + ": " + item.getName() + ". " + item.getPrice() + " SEK ";
-            mostReviews.append(numberOfReviews);
-            mostReviews.append(printItem);
             if (item.reviewsList.isEmpty()) {
-                return "No items were reviewed yet";
+                leastReviews = "No items were reviewed yet.";
             } else {
-                for (int i = 0; i < item.reviewsList.size(); i++) {
-                    printItem = items.get(i).getId() + ": " + items.get(i).getName() + ". " + items.get(i).getPrice() + " SEK ";
-                    mostReviews.append(printItem);
+                leastReviews = "Least reviews: " + numberOfReviews + " review(s) each." + ln;
+                for (int i = 0; i < getLeastReviewedItems().size(); i++) {
+                    numberOfReviews = getNumberOfReviews(getLeastReviewedItems().get(i));
+                    leastReviews += itemRegistry.findItemObject(getLeastReviewedItems().get(i)) +ln;
                 }
             }
         }
-        return mostReviews.toString();
-    }
-        */
-
-
-    // 8
-    public String printLeastRevs(){
-        return getLeastReviewedItems().toString();
+        return leastReviews;
     }
 
     // 9
     public String printBestReviewedItems(){
-        return getBestReviewedItems().toString();
+        items = itemRegistry.copyItems();
+        double meanGrade = 0.0;
+        String bestReviews = "Items with best mean reviews:" +ln + "Grade: " + meanGrade;
+
+
+        if (items.isEmpty()) {
+            return "No items registered yet.";
+        }
+        for (Item item : items) {
+            if (item.reviewsList.isEmpty()) {
+                bestReviews = "No items were reviewed yet.";
+            } else {
+                bestReviews = "Items with best mean reviews:" +ln + "Grade: " + meanGrade + ln;
+                for (int i = 0; i < getBestReviewedItems().size(); i++) {
+                    meanGrade = itemRegistry.findItemObject(getBestReviewedItems().get(i)).getItemMeanGrade();
+                    bestReviews += itemRegistry.findItemObject(getBestReviewedItems().get(i)) +ln;
+                }
+            }
+        }
+        return bestReviews;
     }
 
     // 10
     public String printWorstReviewedItems(){
-    return "";
+        items = itemRegistry.copyItems();
+        double meanGrade = 0.0;
+        String worstReviews = "Items with worst mean reviews:" +ln + "Grade: " + meanGrade;
+
+
+        if (items.isEmpty()) {
+            return "No items registered yet.";
         }
+        for (Item item : items) {
+            if (item.reviewsList.isEmpty()) {
+                worstReviews = "No items were reviewed yet.";
+            } else {
+                worstReviews = "Items with worst mean reviews:" +ln + "Grade: " + meanGrade + ln;
+                for (int i = 0; i < getWorstReviewedItems().size(); i++) {
+                    meanGrade = itemRegistry.findItemObject(getWorstReviewedItems().get(i)).getItemMeanGrade();
+                    worstReviews += itemRegistry.findItemObject(getWorstReviewedItems().get(i)) +ln;
+                }
+            }
+        }
+        return worstReviews;
+    }
 
 //Getter methods and ID methods
     public List<String> getItemComments(String ID) {
@@ -333,21 +361,42 @@ public List<String> getLeastReviewedItems() {
     }
     return leastReviewedItems;
 }
-
-
     public List<String> getBestReviewedItems() {
+        items = itemRegistry.copyItems();
         List<String> bestReviewedItems = new ArrayList<>();
+        double minGrade = 0.0;
         for (Item item : items) {
-            for (int i = 0; i < item.reviewsList.size(); i++) {
-                for (int j = 0; j < item.reviewsList.size(); j++) ;
+                if (item.getItemMeanGrade() > minGrade) {
+                    bestReviewedItems.add(item.getId());
+                    minGrade = item.getItemMeanGrade();
+                } else if (item.getItemMeanGrade() == minGrade) {
+                    bestReviewedItems.add(item.getId());
+                }
             }
-
-        }
         return bestReviewedItems;
     }
 
     public List<String> getWorstReviewedItems() {
+        items = itemRegistry.copyItems();
+        List<Item> reviewedItems = new ArrayList<>();
         List<String> worstReviewedItems = new ArrayList<>();
+        double minGrade;
+        for (Item item : items) {
+            if (item.getItemMeanGrade() != 0.0) {
+                reviewedItems.add(item);
+            }
+        }
+        minGrade = reviewedItems.get(0).getItemMeanGrade();
+
+        for (Item item : reviewedItems) {
+            if (minGrade > item.getItemMeanGrade()) {
+                minGrade = item.getItemMeanGrade();
+                worstReviewedItems.clear();
+                worstReviewedItems.add(item.getId());
+            } else if (minGrade == item.getItemMeanGrade()) {
+                worstReviewedItems.add(item.getId());
+            }
+        }
         return worstReviewedItems;
     }
 }
