@@ -4,6 +4,7 @@ import CashRegister.SystemOutput;
 import TransacHistory.Transaction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -141,6 +142,8 @@ public class EmployeeOptions {
 
     public String removeEmployee(String empID) throws Exception {
         int indexTemp = findIndex(empID);
+        if(indexTemp == -1)
+            return "Employee " +empID + " was not created yet.";
         employeeList.remove(indexTemp);
         String result= "Employee "+empID+" was successfully removed.";
         return result;
@@ -193,48 +196,125 @@ public class EmployeeOptions {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not updated.";
+        employeeList.get(index).setEmployeeName(newName);
+        return "Employee " + empID + " was updated successfully";
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        Intern employee = (Intern) employeeList.get(index);
+        employee.setGPA(newGPA);
+        return "Employee " + empID + " was updated successfully";
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not created yet.";
+        Manager employee = (Manager) employeeList.get(index);
+        employee.setDegree(newDegree);
+        if(employee == employeeList.get(index))
+            return empID + " department was not successfully updated";
+        return empID + " department successfully updated";
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not created yet.";
+        Director employee = (Director) employeeList.get(index);
+        employee.setDept(newDepartment);
+        if(employee == employeeList.get(index))
+            return empID + " department was not successfully updated";
+        return empID + " department successfully updated";
     }
 
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1 || newSalary <= 0)
+            return "Employee " + empID + " was not created yet.";
+        employeeList.get(index).setGrossSalary(newSalary);
+
+        return "Employee " + empID + " salary was successfully updated.";
     }
 
     public Map<String, Integer> mapEachDegree() throws Exception {
-        return null;
+        Map<String, Integer> map = new HashMap();
+        int BSc = 0;
+        int MSc = 0;
+        int PhD = 0;
+        for(int i = 0; i < employeeList.size(); i++)    {
+            String deg = "";
+            if(employeeList.get(i) instanceof Manager)
+                deg = ((Manager) employeeList.get(i)).getDegree();
+            else if(employeeList.get(i) instanceof Director)
+                deg = ((Director) employeeList.get(i)).getDegree();
+            switch(deg) {
+                case "BSc":
+                    BSc++;
+                    break;
+                case "MSc":
+                    MSc++;
+                    break;
+                case "PhD":
+                    PhD++;
+            }
+        }
+        map.put("BSc", (BSc == 0 ? null : BSc));
+        map.put("MSc", (MSc == 0 ? null : MSc));
+        map.put("PhD", (PhD == 0 ? null : PhD));
+        return map;
     }
 
     public String promoteToManager(String empID, String degree) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not created yet";
+        Employee employee = employeeList.get(index);
+        String name = employee.getEmployeeName();
+        double gs = employee.getRawSalary();
+        employeeList.set(index, new Manager(empID, name, gs, degree));
+        updateSalary();
+        if(employeeList.get(index) != employee)
+            return empID + " promoted successfully to Manager.";
+        else
+            return empID + " was not promoted.";
 
     }
 
     public String promoteToDirector(String empID, String degree, String department) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not created yet";
+        Employee employee = employeeList.get(index);
+        String id = employee.getEmployeeID();
+        String name = employee.getEmployeeName();
+        double gs = employee.getRawSalary();
+        employeeList.set(index, new Director(id, name, gs, degree, department));
+        updateSalary();
+        if(employeeList.get(index) != employee)
+            return empID + " promoted successfully to Director.";
+        else
+            return empID + " was not promoted.";
     }
 
     public String promoteToIntern(String empID, int gpa) throws Exception {
-        String result= "";
-        return result;
+        int index = findIndex(empID);
+        if(index == -1)
+            return "Employee " + empID + " was not created yet";
+        Employee employee = employeeList.get(index);
+        String id = employee.getEmployeeID();
+        String name = employee.getEmployeeName();
+        double gs = employee.getRawSalary();
+        employeeList.set(index, new Intern(id, name, gs, gpa));
+        updateSalary();
+        if(employeeList.get(index) != employee)
+            return empID + " promoted successfully to Intern.";
+        else
+            return empID + " was not promoted.";
     }
 
     //GENERAL UTILITY CODE**************************************************************
@@ -380,4 +460,41 @@ public class EmployeeOptions {
 
 
     //WILLIAM BELOW HERE
+/*
+    modifyRegular() {
+
+    }
+
+    promoteToManager() {
+
+    }
+
+    promoteToDirector()    {
+
+    }
+
+    promoteToIntern()  {
+
+    }*/
+
+    public String modifyEmployee(String empID, String degree, String department, int gpa, int userStory) throws Exception {
+
+        switch(userStory)   {
+            case 0: // Normal run
+                break;
+            case 1: // Regular employee
+                break;
+            case 2: // Manager
+                break;
+            case 3: // Director
+                break;
+            case 4: // Intern
+                updateInternGPA(empID, gpa);
+                break;
+            default:
+                System.exit(2);
+        }
+
+        return "";
+    }
 }

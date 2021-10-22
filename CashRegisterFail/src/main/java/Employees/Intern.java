@@ -33,5 +33,5 @@ public class Intern extends Employee{
 
     public int getGPA(){return GPA;}
 
-    public void setGPA(){this.GPA=GPA;}
+    public void setGPA(int GPA){this.GPA=GPA;}
 }

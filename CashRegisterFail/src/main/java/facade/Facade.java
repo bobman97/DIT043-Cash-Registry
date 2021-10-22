@@ -200,39 +200,41 @@ public class Facade {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
-        return "";
+        String returned =  employee.updateEmployeeName(empID, newName);
+        System.out.println(returned);
+        return returned;
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
-        return "";
+        return employee.updateInternGPA(empID, newGPA);
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
-        return "";
+        return updateManagerDegree(empID, newDegree);
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
-        return "";
+        return employee.updateDirectorDept(empID, newDepartment);
     }
 
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
-        return "";
+        return employee.updateGrossSalary(empID, newSalary);
     }
 
     public Map<String, Integer> mapEachDegree() throws Exception {
-        return null;
+        return employee.mapEachDegree();
     }
 
     public String promoteToManager(String empID, String degree) throws Exception {
-        return "";
+        return employee.promoteToManager(empID, degree);
 
     }
 
     public String promoteToDirector(String empID, String degree, String department) throws Exception {
-        return "";
+        return employee.promoteToDirector(empID, degree, department);
     }
 
     public String promoteToIntern(String empID, int gpa) throws Exception {
-        return "";
+        return employee.promoteToIntern(empID, gpa);
     }
 }
