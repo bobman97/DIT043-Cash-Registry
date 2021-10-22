@@ -42,9 +42,7 @@ public class Employee {
 
     protected double getRawSalary() { return rawSalary; }
 
-    protected void setGrossSalary(double grossSalary) {
-        this.grossSalary = grossSalary;
-    }
+    protected void setGrossSalary(double grossSalary) { this.grossSalary = grossSalary; }
 
     protected void setNetSalary(double netSalary){this.netSalary=netSalary;}
 

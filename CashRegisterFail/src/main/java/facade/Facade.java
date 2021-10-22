@@ -200,9 +200,7 @@ public class Facade {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
-        String returned =  employee.updateEmployeeName(empID, newName);
-        System.out.println(returned);
-        return returned;
+        return employee.updateEmployeeName(empID, newName);
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
@@ -210,7 +208,7 @@ public class Facade {
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
-        return updateManagerDegree(empID, newDegree);
+        return employee.updateManagerDegree(empID, newDegree);
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {

@@ -126,6 +126,7 @@ public class EmployeeOptions {
     }
 
     public String printEmployee(String employeeID) throws Exception{
+        updateSalary();
         return employeeList.get(findIndex(employeeID)).toString();
     }
 
@@ -150,6 +151,7 @@ public class EmployeeOptions {
     }
 
     public String printAllEmployees() throws Exception {
+        updateSalary();
         String result= "All registered employees:"+ln;
         for(int i = 0;i<employeeList.size();i++){
             result+=employeeList.get(i).toString()+ln;
@@ -214,31 +216,64 @@ public class EmployeeOptions {
         int index = findIndex(empID);
         if(index == -1)
             return "Employee " + empID + " was not created yet.";
-        Manager employee = (Manager) employeeList.get(index);
-        employee.setDegree(newDegree);
-        if(employee == employeeList.get(index))
-            return empID + " department was not successfully updated";
-        return empID + " department successfully updated";
+        Manager tempEmply = (Manager) employeeList.get(index);
+        String name = tempEmply.getEmployeeName();
+        double gs = tempEmply.getRawSalary();
+
+        employeeList.set(index, new Manager(empID, name, gs, newDegree));
+        return "Employee " + empID + " was updated successfully";
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
         int index = findIndex(empID);
         if(index == -1)
             return "Employee " + empID + " was not created yet.";
-        Director employee = (Director) employeeList.get(index);
-        employee.setDept(newDepartment);
-        if(employee == employeeList.get(index))
-            return empID + " department was not successfully updated";
-        return empID + " department successfully updated";
+        System.out.println("ID: " + empID + ". Index: " + index + ". Name: " + employeeList.get(index).getEmployeeName() + ". Type is: ");
+        if(employeeList.get(index) instanceof Manager)
+            System.out.println("Manager inside Direcotr!");
+        else if(employeeList.get(index) instanceof Director)
+            System.out.println("Director in director");
+        Director tempEmply = (Director) employeeList.get(index);
+
+        String name = tempEmply.getEmployeeName();
+        String deg = tempEmply.getDegree();
+        double gs = tempEmply.getRawSalary();
+
+        employeeList.set(index, new Director(empID, name, gs, deg, newDepartment));
+        return "Employee " + empID + " was updated successfully";
     }
 
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
         int index = findIndex(empID);
-        if(index == -1 || newSalary <= 0)
+        System.out.println("Testing " + empID + ". At index: " + index);
+        if(index == -1)
             return "Employee " + empID + " was not created yet.";
-        employeeList.get(index).setGrossSalary(newSalary);
-
-        return "Employee " + empID + " salary was successfully updated.";
+        System.out.println("ID is: " + empID + " Index is : " + index);
+        System.out.println("Name :" + employeeList.get(index).getEmployeeName() + " id is: " + employeeList.get(index).getEmployeeID());
+        if(employeeList.get(index) instanceof Manager) {
+            System.out.println("Manager");
+            Manager tempEmply = (Manager) employeeList.get(index);
+            String name = tempEmply.getEmployeeName();
+            String deg = tempEmply.getDegree();
+            employeeList.set(index, new Manager(empID, name, newSalary, deg));
+        }
+        else if(employeeList.get(index) instanceof Director) {
+            System.out.println("Director");
+            Director tempEmply = (Director) employeeList.get(index);
+            String name = tempEmply.getEmployeeName();
+            String deg = tempEmply.getDegree();
+            String dep = tempEmply.getDept();
+            employeeList.set(index, new Director(empID, name, newSalary, deg, dep));
+        }
+        else if(employeeList.get(index) instanceof Intern) {
+            System.out.println("Intern");
+            Intern tempEmply = (Intern) employeeList.get(index);
+            String name = tempEmply.getEmployeeName();
+            int gpa = tempEmply.getGPA();
+            employeeList.set(index, new Intern(empID, name, newSalary, gpa));
+        }
+        updateSalary();
+        return "Employee " + empID + " was updated successfully";
     }
 
     public Map<String, Integer> mapEachDegree() throws Exception {
