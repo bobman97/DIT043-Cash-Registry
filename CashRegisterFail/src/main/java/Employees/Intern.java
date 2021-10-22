@@ -2,8 +2,11 @@ package Employees;
 
 public class Intern extends Employee{
     int GPA;
-    Intern(String employeeID, String employeeName, double grossSalary, int GPA) {
+    Intern(String employeeID, String employeeName, double grossSalary, int GPA) throws Exception{
         super(employeeID, employeeName, grossSalary);
+        if (GPA < 0 || GPA > 10) {
+            throw new Exception(GPA + " outside range. Must be between 0-10");
+        }
         this.GPA = GPA;
     }
 

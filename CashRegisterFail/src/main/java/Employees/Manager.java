@@ -3,8 +3,11 @@ package Employees;
 public class Manager extends Employee{
     private String degree;
     private int bonus=0;
-    Manager(String employeeID, String employeeName, double grossSalary, String degree) {
+    Manager(String employeeID, String employeeName, double grossSalary, String degree) throws Exception{
         super(employeeID, employeeName, grossSalary);
+        if (!degree.equals("BSc") && !degree.equals("MSc") && !degree.equals("PhD")){
+            throw new Exception("Degree must be one of the options: BSc, MSc or PhD.");
+        }
         this.degree= degree;
     }
 

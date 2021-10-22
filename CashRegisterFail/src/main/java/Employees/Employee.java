@@ -11,7 +11,16 @@ public class Employee {
     SystemOutput sout;
     private boolean alreadyExcecuted = false;
 
-    Employee(String employeeID, String employeeName, double grossSalary){
+    Employee(String employeeID, String employeeName, double grossSalary) throws Exception {
+        if (employeeID.isBlank()) {
+            throw new Exception("ID cannot be blank.");
+        }
+        if (employeeName.isBlank()){
+            throw new Exception("Name cannot be blank.");
+        }
+        if (grossSalary <= 0){
+            throw new Exception("Salary must be greater than zero.");
+        }
         this.employeeID = employeeID;
         this.employeeName = employeeName;
         this.grossSalary = (double)((long)(grossSalary * 100))/100;

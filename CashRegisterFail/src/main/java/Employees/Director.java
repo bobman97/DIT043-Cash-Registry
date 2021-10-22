@@ -3,8 +3,11 @@ package Employees;
 public class Director extends Manager{
     private String dept;
 
-    Director(String employeeID, String employeeName, double grossSalary, String degree, String dept) {
+    Director(String employeeID, String employeeName, double grossSalary, String degree, String dept) throws Exception {
         super(employeeID, employeeName, grossSalary, degree);
+        if (!dept.equals("Business") && !dept.equals("Human Resources") && !dept.equals("Technical")){
+            throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
+        }
         this.dept = dept; //Example: BSc, MSc, pHD
     }
 

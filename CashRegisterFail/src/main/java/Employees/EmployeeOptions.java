@@ -145,11 +145,17 @@ public class EmployeeOptions {
     }
 
     public String printEmployee(String employeeID) throws Exception{
+        if (employeeList.isEmpty()){
+            throw new Exception("Employee " + employeeID + " was not registered yet.");
+        }
         updateSalary();
         return employeeList.get(findIndex(employeeID)).toString();
     }
 
-    public double getNetSalary(String employeeID){
+    public double getNetSalary(String employeeID) throws Exception{
+        if (employeeList.isEmpty()){
+            throw new Exception("Employee " + employeeID + " was not registered yet.");
+        }
         double netSalary=0.00;
         for(int i = 0;i<employeeList.size();i++){
             if(employeeID.equals(employeeList.get(i).getEmployeeID())){
@@ -161,6 +167,9 @@ public class EmployeeOptions {
 
 
     public String removeEmployee(String empID) throws Exception {
+        if (employeeList.isEmpty()){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
         int indexTemp = findIndex(empID);
         if(indexTemp == -1)
             return "Employee " +empID + " was not created yet.";
@@ -170,15 +179,21 @@ public class EmployeeOptions {
     }
 
     public String printAllEmployees() throws Exception {
-        String result= "All registered employees:"+ln;
-        for(int i = 0;i<employeeList.size();i++){
-            result+=employeeList.get(i).toString()+ln;
+        if (employeeList.isEmpty()){
+            throw new Exception("No employeespppppppppp registered yet.");
+        } else {
+            String result = "All registered employees:" + ln;
+            for (int i = 0; i < employeeList.size(); i++) {
+                result += employeeList.get(i).toString() + ln;
+            }
+            return result;
         }
-        return result;
     }
 
     public double getTotalNetSalary() throws Exception {
-
+    if (employeeList.isEmpty()){
+        throw new Exception("No employees registered yeeeeeeeeet.");
+    }
         double totalNetSalary=0.00;
         for(int i =0;i<employeeList.size();i++){
             totalNetSalary+=employeeList.get(i).calculateSalary();
@@ -188,41 +203,51 @@ public class EmployeeOptions {
     }
 
     public String printSortedEmployees() throws Exception {
-        String result= "Employees sorted by gross salary (ascending order):"+ln;
-        double temp = 0;
-        double [] grossSort= new double[employeeList.size()];
-        for(int i=0; i < employeeList.size(); i++){
-            grossSort[i]=employeeList.get(i).getGrossSalary();
-        }
-        for(int i=0; i < employeeList.size(); i++){
-            for(int j=1; j < (employeeList.size()-i); j++){
-                if(grossSort[j-1] > grossSort[j]){
-                    temp = grossSort[j-1];
-                    grossSort[j-1] = grossSort[j];
-                    grossSort[j] = temp;
-                }
-
+        if (employeeList.isEmpty()){
+            throw new Exception("No employeesfgjfjdjdjd registereddddddd yet.");
+        } else {
+            String result = "Employees sorted by gross salary (ascending order):" + ln;
+            double temp = 0;
+            double[] grossSort = new double[employeeList.size()];
+            for (int i = 0; i < employeeList.size(); i++) {
+                grossSort[i] = employeeList.get(i).getGrossSalary();
             }
-        }
-        for(int i = 0; i<employeeList.size();i++) {
-            for (int j = 0; j < employeeList.size(); j++) {
-                if (grossSort[i] == employeeList.get(j).getGrossSalary()) {
-                    result += employeeList.get(j).toString() + ln;
+            for (int i = 0; i < employeeList.size(); i++) {
+                for (int j = 1; j < (employeeList.size() - i); j++) {
+                    if (grossSort[j - 1] > grossSort[j]) {
+                        temp = grossSort[j - 1];
+                        grossSort[j - 1] = grossSort[j];
+                        grossSort[j] = temp;
+                    }
+
                 }
             }
-        }
+            for (int i = 0; i < employeeList.size(); i++) {
+                for (int j = 0; j < employeeList.size(); j++) {
+                    if (grossSort[i] == employeeList.get(j).getGrossSalary()) {
+                        result += employeeList.get(j).toString() + ln;
+                    }
+                }
+            }
 
-        return result;
+            return result;
+        }
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
         int modify = getModifyValue(empID);
 
+        if (newName.isBlank()){
+            throw new Exception("Name cannot be blank");
+        }
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
+        if (newGPA < 0 || newGPA > 10) {
+            throw new Exception(newGPA + " outside range. Must be between 0-10");
+        }
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, newGPA, modifyIntern);
         return "Employee " + empID + " was updated successfully";
     }

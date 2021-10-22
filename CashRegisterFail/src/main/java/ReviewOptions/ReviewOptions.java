@@ -171,8 +171,6 @@ public class ReviewOptions {
     }
     //5
     public String getItemCommentsPrinted(String ID) {
-        // When retrieving all comments, users must specify an item ID.
-        // They must only retrieve written comments and they can be iterated as a collection of Strings.
           StringBuilder result = new StringBuilder();
          for (String comments : getItemComments(ID)) {
            result.append(comments).append(ln);
@@ -370,7 +368,6 @@ public List<String> getLeastReviewedItems() {
     List<List<Reviews>> reviews = new ArrayList<>();
 
     if (items.isEmpty()) {
-        
         return leastReviewedItems;
     }
     for (Item item : items) {
@@ -444,13 +441,14 @@ public List<String> getLeastReviewedItems() {
                     reviews.add(items.get(j).getReviewList());
                 }
             }
+
             if (reviews.isEmpty()) {
                 return worstReviewedItems;
-            }
-            else if (item.getItemMeanGrade() != 0.0) {
+            } else if (item.getItemMeanGrade() != 0.0) {
                 reviewedItems.add(item);
             }
         }
+
             minGrade = reviewedItems.get(0).getItemMeanGrade();
 
 
