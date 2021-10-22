@@ -217,6 +217,7 @@ public class EmployeeOptions {
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
         int modify = getModifyValue(empID);
+        // test doesn't change name on director/manager so we dont need to send prefilled department / degree.
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -254,6 +255,8 @@ public class EmployeeOptions {
 
         deg = dep = null;
 
+
+         // Since only Director has department and degree, and only manager has degree we need to send these values:
         if(modify == 2) {
             Manager temp = (Manager) employeeList.get(index);
             deg = temp.getDegree();
@@ -310,8 +313,7 @@ public class EmployeeOptions {
     }
 
     public String promoteToIntern(String empID, int gpa) throws Exception {
-        double salary = employeeList.get(findIndex(empID)).getRawSalary();
-        modifyEmployee(empID, emptyName, emptyDeg, emptyDep, salary, gpa, modifyIntern);
+        modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, gpa, modifyIntern);
         return empID + " promoted successfully to Intern.";
     }
 
