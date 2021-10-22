@@ -16,6 +16,25 @@ public class EmployeeOptions {
     SystemOutput sout;
     private int bonus = 0;
 
+    final int modifyReg = 0;
+    final int modifyIntern = 1;
+    final int modifyManager = 2;
+    final int modifyDirector  = 3;
+    final int modifyName = 0;
+    final int modifyPromote = 1;
+    final int modifySalary = 2;
+    final int modifyDep = 3;
+    final int modifyDeg = 4;
+    final int modifyGPA = 5;
+
+    final String emptyDeg = null;
+    final String emptyDep = null;
+    final String emptyName = null;
+    final int emptyGPA = -1;
+    final int emptySalary = -1;
+
+
+
     public EmployeeOptions(){
         printMenu = new SystemOutput();
         readIn= new UserInput();
@@ -151,7 +170,6 @@ public class EmployeeOptions {
     }
 
     public String printAllEmployees() throws Exception {
-        updateSalary();
         String result= "All registered employees:"+ln;
         for(int i = 0;i<employeeList.size();i++){
             result+=employeeList.get(i).toString()+ln;
@@ -198,81 +216,55 @@ public class EmployeeOptions {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
-        int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not updated.";
-        employeeList.get(index).setEmployeeName(newName);
+        int modify = setModifyValue(empID);
+        modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
-        int index = findIndex(empID);
-        Intern employee = (Intern) employeeList.get(index);
-        employee.setGPA(newGPA);
+        modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, newGPA, modifyIntern);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
+        int modify = setModifyValue(empID);
         int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet.";
-        Manager tempEmply = (Manager) employeeList.get(index);
-        String name = tempEmply.getEmployeeName();
-        double gs = tempEmply.getRawSalary();
-
-        employeeList.set(index, new Manager(empID, name, gs, newDegree));
+        String dep = emptyDep;
+        if(modify == 3) {
+            Director temp = (Director) employeeList.get(index);
+            dep = temp.getDept();
+        }
+        modifyEmployee(empID, emptyName, newDegree, dep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
         int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet.";
-        System.out.println("ID: " + empID + ". Index: " + index + ". Name: " + employeeList.get(index).getEmployeeName() + ". Type is: ");
-        if(employeeList.get(index) instanceof Manager)
-            System.out.println("Manager inside Direcotr!");
-        else if(employeeList.get(index) instanceof Director)
-            System.out.println("Director in director");
-        Director tempEmply = (Director) employeeList.get(index);
-
-        String name = tempEmply.getEmployeeName();
-        String deg = tempEmply.getDegree();
-        double gs = tempEmply.getRawSalary();
-
-        employeeList.set(index, new Director(empID, name, gs, deg, newDepartment));
+        Director temp = (Director) employeeList.get(index);
+        String deg = temp.getDegree();
+        System.out.println("Get Deg: " + temp.getDegree() + " Get dept: " + temp.getDept());
+        modifyEmployee(empID, emptyName, deg, newDepartment, emptySalary, emptyGPA, modifyDirector);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
+        String deg, dep;
         int index = findIndex(empID);
-        System.out.println("Testing " + empID + ". At index: " + index);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet.";
-        System.out.println("ID is: " + empID + " Index is : " + index);
-        System.out.println("Name :" + employeeList.get(index).getEmployeeName() + " id is: " + employeeList.get(index).getEmployeeID());
-        if(employeeList.get(index) instanceof Manager) {
-            System.out.println("Manager");
-            Manager tempEmply = (Manager) employeeList.get(index);
-            String name = tempEmply.getEmployeeName();
-            String deg = tempEmply.getDegree();
-            employeeList.set(index, new Manager(empID, name, newSalary, deg));
+        int modify = setModifyValue(empID);
+
+        deg = dep = null;
+
+        if(modify == 2) {
+            Manager temp = (Manager) employeeList.get(index);
+            deg = temp.getDegree();
         }
-        else if(employeeList.get(index) instanceof Director) {
-            System.out.println("Director");
-            Director tempEmply = (Director) employeeList.get(index);
-            String name = tempEmply.getEmployeeName();
-            String deg = tempEmply.getDegree();
-            String dep = tempEmply.getDept();
-            employeeList.set(index, new Director(empID, name, newSalary, deg, dep));
+        else if(modify == 3)    {
+            Director temp = (Director) employeeList.get(index);
+            deg = temp.getDegree();
+            dep = temp.getDept();
         }
-        else if(employeeList.get(index) instanceof Intern) {
-            System.out.println("Intern");
-            Intern tempEmply = (Intern) employeeList.get(index);
-            String name = tempEmply.getEmployeeName();
-            int gpa = tempEmply.getGPA();
-            employeeList.set(index, new Intern(empID, name, newSalary, gpa));
-        }
-        updateSalary();
+
+        modifyEmployee(empID, emptyName, deg, dep, newSalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
@@ -308,51 +300,19 @@ public class EmployeeOptions {
     }
 
     public String promoteToManager(String empID, String degree) throws Exception {
-        int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet";
-        Employee employee = employeeList.get(index);
-        String name = employee.getEmployeeName();
-        double gs = employee.getRawSalary();
-        employeeList.set(index, new Manager(empID, name, gs, degree));
-        updateSalary();
-        if(employeeList.get(index) != employee)
-            return empID + " promoted successfully to Manager.";
-        else
-            return empID + " was not promoted.";
-
+        modifyEmployee(empID, emptyName, degree, emptyDep, emptySalary, emptyGPA, modifyManager);
+        return empID + " promoted successfully to Manager.";
     }
 
     public String promoteToDirector(String empID, String degree, String department) throws Exception {
-        int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet";
-        Employee employee = employeeList.get(index);
-        String id = employee.getEmployeeID();
-        String name = employee.getEmployeeName();
-        double gs = employee.getRawSalary();
-        employeeList.set(index, new Director(id, name, gs, degree, department));
-        updateSalary();
-        if(employeeList.get(index) != employee)
-            return empID + " promoted successfully to Director.";
-        else
-            return empID + " was not promoted.";
+        modifyEmployee(empID, emptyName, degree, department, emptySalary, emptyGPA, modifyDirector);
+        return empID + " promoted successfully to Director.";
     }
 
     public String promoteToIntern(String empID, int gpa) throws Exception {
-        int index = findIndex(empID);
-        if(index == -1)
-            return "Employee " + empID + " was not created yet";
-        Employee employee = employeeList.get(index);
-        String id = employee.getEmployeeID();
-        String name = employee.getEmployeeName();
-        double gs = employee.getRawSalary();
-        employeeList.set(index, new Intern(id, name, gs, gpa));
-        updateSalary();
-        if(employeeList.get(index) != employee)
-            return empID + " promoted successfully to Intern.";
-        else
-            return empID + " was not promoted.";
+        double salary = employeeList.get(findIndex(empID)).getRawSalary();
+        modifyEmployee(empID, emptyName, emptyDeg, emptyDep, salary, gpa, modifyIntern);
+        return empID + " promoted successfully to Intern.";
     }
 
     //GENERAL UTILITY CODE**************************************************************
@@ -498,41 +458,58 @@ public class EmployeeOptions {
 
 
     //WILLIAM BELOW HERE
-/*
-    modifyRegular() {
 
-    }
 
-    promoteToManager() {
+    // Since there is an issue with set methods that were created in all the employeer classes
+    // I had to work around it by creating a new object everytime I want to modify someting about an employee
+    // Therefor I have one central method for handling this.
+    public void modifyEmployee(String empID, String name, String degree, String department, double salary, int gpa, int empType) throws Exception {
+        String newName, newDeg, newDep;
+        int newGPA, index;
+        double newSalary;
+        Employee tempEmploy;
 
-    }
+        // create a temporary reference to existing object to fetch existing values
+        index = findIndex(empID);
+        tempEmploy = employeeList.get(index);
 
-    promoteToDirector()    {
+         // Check if new attributes were sent as parameters, else fetch old ones:
+        newName = (name != null ? name : tempEmploy.getEmployeeName());
+        newSalary = (salary > 0 ? salary : tempEmploy.getRawSalary());
 
-    }
+        // Check if new attributes were sent as parameters, else initialize as null/-1
+        newDeg = (degree != null ? degree : emptyDeg);
+        newDep = (department != null ? department : emptyDep);
+        newGPA = (gpa > 0 ? gpa : emptyGPA);
 
-    promoteToIntern()  {
 
-    }*/
-
-    public String modifyEmployee(String empID, String degree, String department, int gpa, int userStory) throws Exception {
-
-        switch(userStory)   {
-            case 0: // Normal run
+        switch(empType) {
+            case modifyReg: // Modify regular
+                employeeList.set(index, new Employee(empID, newName, newSalary));
                 break;
-            case 1: // Regular employee
+            case modifyIntern: // Modify intern or promote to intern
+                employeeList.set(index, new Intern(empID, newName, newSalary, newGPA));
                 break;
-            case 2: // Manager
+            case modifyManager: // Modify Manager or promote to Manager
+                employeeList.set(index, new Manager(empID, newName, newSalary, newDeg));
                 break;
-            case 3: // Director
+            case modifyDirector: // Modify Director or promote to Director
+                employeeList.set(index, new Director(empID, newName, newSalary, newDeg, newDep));
                 break;
-            case 4: // Intern
-                updateInternGPA(empID, gpa);
-                break;
-            default:
-                System.exit(2);
         }
+        // Update salary to calculate gross after creating new objects
+        updateSalary();
+    }
 
-        return "";
+    public int setModifyValue(String empID) {
+        int index = findIndex(empID);
+        if(employeeList.get(index) instanceof Director)
+            return modifyDirector;
+        else if(employeeList.get(index) instanceof Intern)
+            return modifyIntern;
+        if(employeeList.get(index) instanceof Manager)
+            return modifyManager;
+        else
+            return modifyReg;
     }
 }
