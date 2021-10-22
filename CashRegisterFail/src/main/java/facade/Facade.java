@@ -131,7 +131,7 @@ public class Facade {
     }
 
     public List<String> getBestReviewedItems() {
-        return getBestReviewedItems();
+        return reviews.getBestReviewedItems();
     }
 
     public String printAllReviews() {
