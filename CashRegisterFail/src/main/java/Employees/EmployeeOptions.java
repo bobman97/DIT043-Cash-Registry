@@ -216,7 +216,7 @@ public class EmployeeOptions {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
-        int modify = setModifyValue(empID);
+        int modify = getModifyValue(empID);
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -227,7 +227,7 @@ public class EmployeeOptions {
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
-        int modify = setModifyValue(empID);
+        int modify = getModifyValue(empID);
         int index = findIndex(empID);
         String dep = emptyDep;
         if(modify == 3) {
@@ -250,7 +250,7 @@ public class EmployeeOptions {
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
         String deg, dep;
         int index = findIndex(empID);
-        int modify = setModifyValue(empID);
+        int modify = getModifyValue(empID);
 
         deg = dep = null;
 
@@ -460,9 +460,9 @@ public class EmployeeOptions {
     //WILLIAM BELOW HERE
 
 
-    // Since there is an issue with set methods that were created in all the employeer classes
-    // I had to work around it by creating a new object everytime I want to modify someting about an employee
-    // Therefor I have one central method for handling this.
+    // Since there is an issue with set methods that were created in all the employee classes
+    // I had to work around it by creating a new object everytime I want to modify something about an employee
+    // Therefore I might as well have only one central method for handling all the updates and changes to employees
     public void modifyEmployee(String empID, String name, String degree, String department, double salary, int gpa, int empType) throws Exception {
         String newName, newDeg, newDep;
         int newGPA, index;
@@ -482,7 +482,7 @@ public class EmployeeOptions {
         newDep = (department != null ? department : emptyDep);
         newGPA = (gpa > 0 ? gpa : emptyGPA);
 
-
+        // Which employee type to create:
         switch(empType) {
             case modifyReg: // Modify regular
                 employeeList.set(index, new Employee(empID, newName, newSalary));
@@ -497,11 +497,12 @@ public class EmployeeOptions {
                 employeeList.set(index, new Director(empID, newName, newSalary, newDeg, newDep));
                 break;
         }
+
         // Update salary to calculate gross after creating new objects
         updateSalary();
     }
 
-    public int setModifyValue(String empID) {
+    public int getModifyValue(String empID) {
         int index = findIndex(empID);
         if(employeeList.get(index) instanceof Director)
             return modifyDirector;
