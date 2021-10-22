@@ -206,10 +206,23 @@ public class ReviewOptions {
     // 7
     public String printMostRevs() {
         items = itemRegistry.copyItems();
-        for (Item item : items) {
-            String mostReviews = "Most reviews: " + getNumberOfReviews(item.getId()) + "review(s) each." + ln;
+        int numberOfReviews = 0;
+        String mostReviews = "Most reviews: " + numberOfReviews + "review(s) each." + ln;
+
+        if (items.isEmpty()) {
+            return "No items registered yet.";
         }
-        return "";
+        for (Item item : items) {
+            if (item.reviewsList.isEmpty()) {
+                mostReviews = "No items were reviewed yet.";
+            } else {
+                mostReviews = "Most reviews: " + getNumberOfReviews(item.getId()) + " review(s) each." + ln;
+                for (String mostReviewedItems : getMostReviewedItems()) {
+                    mostReviews += item.toString();
+                }
+            }
+        }
+        return mostReviews;
     }
     /*
     public String printMostRevs() {
