@@ -217,7 +217,7 @@ public class EmployeeOptions {
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
         int modify = getModifyValue(empID);
-        // test doesn't change name on director/manager so we dont need to send prefilled department / degree.
+
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -228,23 +228,14 @@ public class EmployeeOptions {
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
-        int modify = getModifyValue(empID);
-        int index = findIndex(empID);
-        String dep = emptyDep;
-        if(modify == 3) {
-            Director temp = (Director) employeeList.get(index);
-            dep = temp.getDept();
-        }
-        modifyEmployee(empID, emptyName, newDegree, dep, emptySalary, emptyGPA, modify);
+        int modify = getModifyValue(empID); // This method used by both director and manager.
+
+        modifyEmployee(empID, emptyName, newDegree, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
-        int index = findIndex(empID);
-        Director temp = (Director) employeeList.get(index);
-        String deg = temp.getDegree();
-        System.out.println("Get Deg: " + temp.getDegree() + " Get dept: " + temp.getDept());
-        modifyEmployee(empID, emptyName, deg, newDepartment, emptySalary, emptyGPA, modifyDirector);
+        modifyEmployee(empID, emptyName, emptyDeg, newDepartment, emptySalary, emptyGPA, modifyDirector);
         return "Employee " + empID + " was updated successfully";
     }
 
@@ -253,21 +244,7 @@ public class EmployeeOptions {
         int index = findIndex(empID);
         int modify = getModifyValue(empID);
 
-        deg = dep = null;
-
-
-         // Since only Director has department and degree, and only manager has degree we need to send these values:
-        if(modify == 2) {
-            Manager temp = (Manager) employeeList.get(index);
-            deg = temp.getDegree();
-        }
-        else if(modify == 3)    {
-            Director temp = (Director) employeeList.get(index);
-            deg = temp.getDegree();
-            dep = temp.getDept();
-        }
-
-        modifyEmployee(empID, emptyName, deg, dep, newSalary, emptyGPA, modify);
+        modifyEmployee(empID, emptyName, emptyDeg, emptyDep, newSalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
@@ -479,10 +456,10 @@ public class EmployeeOptions {
         newName = (name != null ? name : tempEmploy.getEmployeeName());
         newSalary = (salary > 0 ? salary : tempEmploy.getRawSalary());
 
-        // Check if new attributes were sent as parameters, else initialize as null/-1
-        newDeg = (degree != null ? degree : emptyDeg);
-        newDep = (department != null ? department : emptyDep);
-        newGPA = (gpa > 0 ? gpa : emptyGPA);
+        // Check if new attributes were sent as parameters, else initialize as current value if manager/director or null/-1
+        newDeg = (degree != null ? degree : (empType > 1 ? (empType == 2 ? ((Manager) tempEmploy).getDegree() : ((Director) tempEmploy).getDegree()) : emptyDeg));
+        newDep = (department != null ? department : (empType == 3 ? ((Director) tempEmploy).getDept() : emptyDep));
+        newGPA = (gpa > 0 ? gpa : (empType == 1 ? ((Intern)tempEmploy).getGPA() : emptyGPA));
 
         // Which employee type to create:
         switch(empType) {
