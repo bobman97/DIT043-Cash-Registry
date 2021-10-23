@@ -336,7 +336,6 @@ public List<String> getMostReviewedItems(){
         int numberOfReviews = 0;
 
     if (items.isEmpty()) {
-        //  worstReviewedItems.add("No items registered yet.");
         return mostReviewedItems;
     }
 
@@ -347,7 +346,6 @@ public List<String> getMostReviewedItems(){
                 }
             }
             if (reviews.isEmpty()) {
-                //worstReviewedItems.add("No items were reviewed yet.");
                 return mostReviewedItems;
             }
             if (item.reviewsList.size() > numberOfReviews) {

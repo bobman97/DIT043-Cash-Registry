@@ -145,11 +145,12 @@ public class EmployeeOptions {
     }
 
     public String printEmployee(String employeeID) throws Exception{
-        if (employeeList.isEmpty()){
+        if (fetchEmployee(employeeID)==null){
             throw new Exception("Employee " + employeeID + " was not registered yet.");
+        } else {
+            updateSalary();
+            return fetchEmployee(employeeID).toString();
         }
-        updateSalary();
-        return employeeList.get(findIndex(employeeID)).toString();
     }
 
     public double getNetSalary(String employeeID) throws Exception{
@@ -167,20 +168,19 @@ public class EmployeeOptions {
 
 
     public String removeEmployee(String empID) throws Exception {
-        if (employeeList.isEmpty()){
+        if (fetchEmployee(empID) == null) {
             throw new Exception("Employee " + empID + " was not registered yet.");
+        } else {
+            employeeList.remove(fetchEmployee(empID));
+            String result = "Employee " + empID + " was successfully removed.";
+            return result;
         }
-        int indexTemp = findIndex(empID);
-        if(indexTemp == -1)
-            return "Employee " +empID + " was not created yet.";
-        employeeList.remove(indexTemp);
-        String result= "Employee "+empID+" was successfully removed.";
-        return result;
     }
+
 
     public String printAllEmployees() throws Exception {
         if (employeeList.isEmpty()){
-            throw new Exception("No employeespppppppppp registered yet.");
+            throw new Exception("No employees registered yet.");
         } else {
             String result = "All registered employees:" + ln;
             for (int i = 0; i < employeeList.size(); i++) {
@@ -192,7 +192,7 @@ public class EmployeeOptions {
 
     public double getTotalNetSalary() throws Exception {
     if (employeeList.isEmpty()){
-        throw new Exception("No employees registered yeeeeeeeeet.");
+        throw new Exception("No employees registered yet.");
     }
         double totalNetSalary=0.00;
         for(int i =0;i<employeeList.size();i++){
@@ -204,7 +204,7 @@ public class EmployeeOptions {
 
     public String printSortedEmployees() throws Exception {
         if (employeeList.isEmpty()){
-            throw new Exception("No employeesfgjfjdjdjd registereddddddd yet.");
+            throw new Exception("No employees registered yet.");
         } else {
             String result = "Employees sorted by gross salary (ascending order):" + ln;
             double temp = 0;
@@ -235,24 +235,36 @@ public class EmployeeOptions {
     }
 
     public String updateEmployeeName(String empID, String newName) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
         int modify = getModifyValue(empID);
 
         if (newName.isBlank()){
-            throw new Exception("Name cannot be blank");
+            throw new Exception("Name cannot be blank.");
         }
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateInternGPA(String empID, int newGPA) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
         if (newGPA < 0 || newGPA > 10) {
-            throw new Exception(newGPA + " outside range. Must be between 0-10");
+            throw new Exception(newGPA + " outside range. Must be between 0-10.");
         }
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, newGPA, modifyIntern);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateManagerDegree(String empID, String newDegree) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (!newDegree.equals("BSc") && !newDegree.equals("MSc") && !newDegree.equals("PhD")){
+            throw new Exception("Degree must be one of the options: BSc, MSc or PhD.");
+        }
         int modify = getModifyValue(empID); // This method used by both director and manager.
 
         modifyEmployee(empID, emptyName, newDegree, emptyDep, emptySalary, emptyGPA, modify);
@@ -260,11 +272,23 @@ public class EmployeeOptions {
     }
 
     public String updateDirectorDept(String empID, String newDepartment) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (!newDepartment.equals("Business") && !newDepartment.equals("Human Resources") && !newDepartment.equals("Technical")){
+            throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
+        }
         modifyEmployee(empID, emptyName, emptyDeg, newDepartment, emptySalary, emptyGPA, modifyDirector);
         return "Employee " + empID + " was updated successfully";
     }
 
     public String updateGrossSalary(String empID, double newSalary) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (newSalary <= 0){
+            throw new Exception("Salary must be greater than zero.");
+        }
         String deg, dep;
         int index = findIndex(empID);
         int modify = getModifyValue(empID);
@@ -274,6 +298,9 @@ public class EmployeeOptions {
     }
 
     public Map<String, Integer> mapEachDegree() throws Exception {
+        if (employeeList.isEmpty()) {
+            throw new Exception("No employees registered yet.");
+        }
         Map<String, Integer> map = new HashMap();
         int BSc = 0;
         int MSc = 0;
@@ -305,16 +332,34 @@ public class EmployeeOptions {
     }
 
     public String promoteToManager(String empID, String degree) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (!degree.equals("BSc") && !degree.equals("MSc") && !degree.equals("PhD")){
+            throw new Exception("Degree must be one of the options: BSc, MSc or PhD.");
+        }
         modifyEmployee(empID, emptyName, degree, emptyDep, emptySalary, emptyGPA, modifyManager);
         return empID + " promoted successfully to Manager.";
     }
 
     public String promoteToDirector(String empID, String degree, String department) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (!department.equals("Business") && !department.equals("Human Resources") && !department.equals("Technical")){
+            throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
+        }
         modifyEmployee(empID, emptyName, degree, department, emptySalary, emptyGPA, modifyDirector);
         return empID + " promoted successfully to Director.";
     }
 
     public String promoteToIntern(String empID, int gpa) throws Exception {
+        if (fetchEmployee(empID)==null){
+            throw new Exception("Employee " + empID + " was not registered yet.");
+        }
+        if (gpa < 0 || gpa > 10) {
+            throw new Exception(gpa + " outside range. Must be between 0-10.");
+        }
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, gpa, modifyIntern);
         return empID + " promoted successfully to Intern.";
     }
@@ -450,6 +495,15 @@ public class EmployeeOptions {
             }
         }
         return index;
+    }
+
+    public Employee fetchEmployee(String empID){
+        for (Employee employees : employeeList) {
+            if (employees.getEmployeeID().equals(empID)) {
+                return employees;
+            }
+        }
+        return null;
     }
 
     public void updateSalary(){
