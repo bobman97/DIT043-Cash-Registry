@@ -5,11 +5,9 @@ import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
 import ItemOptions.Item;
 
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class ReviewOptions {
     String ln = System.lineSeparator();
