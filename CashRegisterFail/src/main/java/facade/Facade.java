@@ -139,15 +139,11 @@ public class Facade {
     }
 
     public String updateItemName(String itemID, String newName) {
-        double fakePrice = 0.0;
-        int property = 1;
-        return shop.changeItem(itemID, newName, fakePrice, property);
+        return shop.newItemName(itemID, newName);
     }
 
     public String updateItemPrice(String itemID, double newPrice) {
-        String fakeName = "";
-        int property = 2;
-        return shop.changeItem(itemID, fakeName, newPrice, property);
+        return shop.newItemPrice(itemID, newPrice);
     }
 
     public String printAllItems() {

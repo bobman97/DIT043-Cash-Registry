@@ -3,11 +3,8 @@ import CashRegister.SystemOutput;
 import CashRegister.UserInput;
 import ReviewOptions.Reviews;
 import TransacHistory.TransacHistory;
-import TransacHistory.Transaction;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemOptions {
 
@@ -19,12 +16,12 @@ public class ItemOptions {
     final boolean FACADE;
 
     // Constants
-    final int MAX_MENU_VALUE = 6;
+    final int MAX_MENU_VALUE = 7;
     final int ZERO = 0;
     final int CHANGE_NAME = 1;
     final int CHANGE_PRICE = 2;
+    final int NULL_POINTER = -1;
     final String PURCHASE_NOT_SUCCESSFUL = "Purchase was not successful.";
-    final String PURCHASE_SUCCESSFUL = "Purchase was successful.";
     final String DATA_UPDATE_SUCCESFUL = "Updated items data.";
     final String NO_ITEMS_REGISTERED = "No items registered yet.";
     final String INVALID_DATA = "Invalid data for item.";
@@ -34,8 +31,8 @@ public class ItemOptions {
     final String ASK_ITEM_NAME = "Enter items name: ";
     final String ASK_ITEM_PRICE = "Enter items price: ";
     final String ASK_ITEM_QUANTITY = "Enter quantity of item: ";
-    final String NAME_NULL = "";
-    final String ID_NULL = "";
+    final String NAME_NULL = null;
+    final String ID_NULL = null;
     final double PRICE_NULL = 0.00;
 
 
@@ -72,7 +69,6 @@ public class ItemOptions {
                 case 0: // returns to main menu
                     break;
                 case 1:
-                    //addItem(ID_NULL, NAME_NULL, PRICE_NULL);
                     addItem(ID_NULL, NAME_NULL, PRICE_NULL);
                     break;
                 case 2:
@@ -85,10 +81,13 @@ public class ItemOptions {
                     buyItem(ID_NULL, ZERO);
                     break;
                 case 5:
-                    newItemName();
+                    newItemName(ID_NULL, NAME_NULL);
                     break;
                 case 6:
-                    newItemPrice();
+                    newItemPrice(ID_NULL, PRICE_NULL);
+                    break;
+                case 7:
+                    printItem(ID_NULL);
                     break;
                 default:
                     //CashRegister.callError();
@@ -106,72 +105,50 @@ public class ItemOptions {
 
     public String addItem(String itemID, String itemName, double unitPrice) {
         double price;
-        String name, input, success, id;
-        boolean checkItems;
-        id = "";
-        name = "";
-        price = 0;
-        if(FACADE) {
-            checkItems = itemTest(itemID, itemName, unitPrice);
-        }
-        else {
-            // Asks user for an ID and checks if duplicate.
-            id = lookUpItem(ASK_ITEM_ID, INVALID_DATA);
+        String name, success, id;
 
-            // Reads the name of Item
-            name = readIn.readString(ASK_ITEM_NAME, INVALID_DATA);
+        // Assign values depending on if it's a FACADE test or user run.
+        id = (FACADE ? itemID : lookUpItem(ASK_ITEM_ID, INVALID_DATA));
+        name = (FACADE ? itemName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
+        price = (FACADE ? unitPrice : roundDecimal(readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA)));
 
-            // Reads the price of Item
-            price = readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA);
-
-            // All above methods will take care of errors
-            checkItems = true;
+        if(!itemTest(id, name, price)) {
+            System.out.println(INVALID_DATA);
+            return INVALID_DATA;
         }
 
-        if(checkItems) {
-            // If it's a test assign applied values to inner-scope values.
-            if(FACADE) {
-                id = itemID;
-                name = itemName;
-                price = unitPrice;
-            }
-            price = roundDecimal(price);
-            // Adds item to our ArrayList
-            items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
+        // Adds item to our ArrayList
+        items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
 
-            // Print and return success message.
-            success = "Item " + id + " was registered successfully.";
-            System.out.println(success);
-            saveTransaction.hasRegistered();
-            return success;
-        }
-        System.out.println(INVALID_DATA);
-
-        return INVALID_DATA;
+        // Print and return success message.
+        success = "Item " + id + " was registered successfully.";
+        System.out.println(success);
+        saveTransaction.hasRegistered();
+        return success;
     }
 
     public String delItem(String itemID) {
         int index;
-        String error, success, searchQuery, id;
+        String error, success, id;
 
         // If not a facade then ask user for ID else use the ID from the facade.
-        searchQuery = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
+        id = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
 
         // Lookup if ID exists and return index in ArrayList
-        index = findItem(searchQuery);
+        index = findItem(id);
 
-        //If ID Exists then proceed with removing
-        if (index != -1) {
-            id = items.get(index).getId();
-            items.remove(index);
-            success = "Item " + id + " was successfully removed.";
-            System.out.println(success);
-            return success;
-        }
         //If ID does not exist then we print error.
-        error = "Item " + searchQuery + " could not be removed.";
-        System.out.println(error);
-        return error;
+        if (index == -1) {
+            error = "Item " + id + " could not be removed.";
+            System.out.println(error);
+            return error;
+        }
+
+        // ID Exists
+        items.remove(index);
+        success = "Item " + id + " was successfully removed.";
+        System.out.println(success);
+        return success;
     }
 
     public String printAllItems() {
@@ -183,40 +160,41 @@ public class ItemOptions {
             System.out.println(NO_ITEMS_REGISTERED);
             return NO_ITEMS_REGISTERED;
         }
+
         System.out.println(headline); // Print the headline
+
         for(int i = 0; i < items.size(); i++)   { // Loop through all items and print the info
-            itemInfo = items.get(i).getId() + ": " + items.get(i).getName() + ". " + sysOut.decimalFix(items.get(i).getPrice()) + " SEK";
+            itemInfo = items.get(i).getId() + ": " +
+                    items.get(i).getName() + ". " +
+                    sysOut.decimalFix(items.get(i).getPrice()) + " SEK";
             System.out.println(itemInfo);
             allItems += itemInfo + System.lineSeparator();
         }
+
         return allItems;
     }
 
     public double buyItem(String itemID, int amount) {
         int quantity, index, discounted, totalItems;
-        String success, id;
+        String success, id, error;
         double totalPrice, itemPrice;
 
-        if(FACADE) {
-            // Check if test sent a number for ID.
-            if(!readIn.isNumber(itemID)) {
-                System.out.println(INVALID_DATA);
-                return -1;
-            }
-            id = itemID;
-            quantity = amount;
+        if(items.size() == 0) {
+            System.out.println(NO_ITEMS_REGISTERED);
+            return NULL_POINTER;
         }
-        else    {
-            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
-            quantity = readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA);
-        }
+
+        id = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
+        quantity = (FACADE ? amount : readIn.readInt(ASK_ITEM_QUANTITY, INVALID_DATA));
 
         index = findItem(id);
+        error = "Item " + id + " was not registered yet.";
 
         if(index == -1) {
-            System.out.println(PURCHASE_NOT_SUCCESSFUL);
+            System.out.println(error);
             return index;
         }
+
         itemPrice = items.get(index).getPrice();
 
         if (quantity > 4) {
@@ -228,25 +206,29 @@ public class ItemOptions {
 
         totalItems = discounted + quantity;
         totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
-        success = "Successfully purchased " + totalItems + " x Item " + id + ": " + sysOut.decimalFix(totalPrice) + " SEK.";
+
+        success = "Successfully purchased " + totalItems +
+                " x Item " + id + ": " +
+                sysOut.decimalFix(totalPrice) + " SEK.";
+
         System.out.println(success);
+
         saveTransaction.purchaseSave(id, totalItems, totalPrice);
         return totalPrice;
     }
 
-    public void newItemName() {
-        changeItem(ID_NULL,NAME_NULL,PRICE_NULL,CHANGE_NAME);
-        //System.out.println("Item's name was updated successfully.");
+    public String newItemName(String itemID, String itemName) {
+        return changeItem(itemID,itemName,PRICE_NULL,CHANGE_NAME);
+
     }
 
-    public void newItemPrice() {
-        changeItem(ID_NULL,NAME_NULL,PRICE_NULL,CHANGE_PRICE);
-        //System.out.println("Item's price was updated successfully.");
+    public String newItemPrice(String itemID, double itemPrice) {
+        return changeItem(itemID,NAME_NULL,itemPrice,CHANGE_PRICE);
     }
 
     // property: 1 == name, 2 == price
     // This method is only called from newItemname() or newItemPrice()
-    public String changeItem(String itemID, String newName, double newPrice, int property)    {
+    private String changeItem(String itemID, String newName, double newPrice, int property)    {
         int index;
         double price;
         String name, error, success, id;
@@ -290,44 +272,38 @@ public class ItemOptions {
         return success;
     }
 
-    /*
-     ************************
-     *      FACADE RUN      *
-     ************************
-     */
-
-    // Tests if all items pass the requirements.
-    private boolean itemTest(String id, String name, double price)  {
-        if(!readIn.isNumber(id) || name.isEmpty() || price < 0)
-            return false;
-        else
-            return true;
-    }
-
     public String printItem(String itemID) {
-        String error, itemInfo, itemName, id;
+        String error, itemInfo, id;
         int index;
-        double itemPrice;
-        error = "Item " + itemID + " was not registered yet.";
 
-        if (items.isEmpty() == true || !readIn.isNumber(itemID)) {
-            System.out.println(error);
-            return error;
-        }
-
-        id = itemID;
+        id = (FACADE ? itemID : readIn.readID(ASK_ITEM_ID, INVALID_DATA));
+        error = "Item " + id + " was not registered yet.";
         index = findItem(id);
 
         if (index == -1) {
             System.out.println(error);
             return error;
         }
-        id = items.get(index).getId();
-        itemName = items.get(index).getName();
-        itemPrice = items.get(index).getPrice();
-        itemInfo = id + ": " + itemName + ". " + sysOut.decimalFix(itemPrice) + " SEK";
+
+        itemInfo = items.get(index).toString();
+
         System.out.println(itemInfo);
         return itemInfo;
+    }
+
+    /*
+     ************************
+     *    FACADE METHODS    *
+     ************************
+     */
+
+    // Tests if all items pass the requirements.
+    private boolean itemTest(String id, String name, double price)  {
+        id = (id.startsWith("ID") ? id.substring(2) : id);
+        if(FACADE && (!readIn.isNumber(id) || name.isEmpty() || price < 0))
+            return false;
+        else
+            return true;
     }
 
 
@@ -378,7 +354,7 @@ public class ItemOptions {
         return (double)((long)(value * 100))/100;
     }
 
-    // returns a copy of all the items in the shop.
+    // returns a deep copy of all the items in the shop.
     public ArrayList<Item> copyItems()  {
         String name, id;
         double price;
@@ -388,18 +364,20 @@ public class ItemOptions {
             id = items.get(i).getId();
             name = items.get(i).getName();
             price = items.get(i).getPrice();
-            itemsCopy.add(new Item(id, name, price)); // Create a new object with same values and add to new arraylist
+            itemsCopy.add(
+                    new Item(id, name, price)
+            ); // Create a new object with same values and add to new arraylist
+
             for (int j = 0; j < items.get(i).reviewsList.size(); j++) { //Also copies item reviews
-                itemsCopy.get(i).reviewsList.add(new Reviews(items.get(i).getReviewList().get(j).getReviewGrade(), items.get(i).getReviewList().get(j).getReviewComment()));
+                itemsCopy.get(i).reviewsList.add(
+                        new Reviews(
+                                items.get(i).getReviewList().get(j).getReviewGrade(),
+                                items.get(i).getReviewList().get(j).getReviewComment()
+                        )
+                );
             }
         }
         return itemsCopy;
-    }
-
-    // remove ID part of itemID
-    private String removeID(String itemID)  {
-        itemID = (itemID.startsWith("ID") ? itemID.substring(2, itemID.length()) : itemID);
-        return itemID;
     }
 
 
@@ -427,8 +405,4 @@ public class ItemOptions {
         }
         return existence;
     }
-
-
 }
-
-

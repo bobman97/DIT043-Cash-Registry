@@ -82,7 +82,7 @@ public class UserInput {
 
 
     // Gets user input as a number
-    public String getNumber()   {
+    private String getNumber()   {
         String input;
         do {
             System.out.print(this.askUserFor);
@@ -97,9 +97,6 @@ public class UserInput {
     public boolean isNumber(String number)   {
         if(number == null) {
             return false;
-        }
-        else if(number.startsWith("ID")) {
-            number = number.substring(2, number.length());
         }
         // skipping else since return would stop the method.
         try {
