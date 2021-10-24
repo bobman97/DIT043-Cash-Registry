@@ -208,7 +208,7 @@ public class EmployeeOptions {
             totalNetSalary+=employeeList.get(i).calculateSalary();
         }
 
-        return roundDecimal(totalNetSalary);
+        return sout.roundDecimal(totalNetSalary);
     }
 
     //PRINTS ALL EMPLOYEES SORTED BY NETSALARY 9
@@ -377,6 +377,8 @@ public class EmployeeOptions {
     //GENERAL UTILITY CODE**************************************************************
 
     //ASKAN BELOW HERE
+
+    //ASKS FOR A BRAND NEW ID
     public String newID(){
         boolean duplicate = false;
         String userIn="";
@@ -404,6 +406,7 @@ public class EmployeeOptions {
         return userIn;
     }
 
+    //ASKS FOR A EXISTING ID
     public String validID(){
         boolean duplicate = true;
         String userIn;
@@ -433,7 +436,7 @@ public class EmployeeOptions {
     }
 
 
-
+    //ASKS FOR A INT BETWEEN 1-10
     public int validGPA(){
         int gpa;
         do {
@@ -445,6 +448,7 @@ public class EmployeeOptions {
         return gpa;
     }
 
+    //ASKS FOR A 1 OF THE 3 TYPES OF DEGREES
     public String validDegree(){
         String degree;
         boolean degreeConditions=false;
@@ -464,6 +468,7 @@ public class EmployeeOptions {
         return degree;
     }
 
+    //ASKS FOR A NOT ALREADY ASSIGNED DEPARTMENT
     public String newDept(){// MAKE IT SO THAT NO OVERLAPPING DIRECTORS FOR SAME DEPARTMENT
         boolean duplicate = false;
         String userIn="";
@@ -497,6 +502,7 @@ public class EmployeeOptions {
         return userIn;
     }
 
+    //FINDS POSITION OF A EMPLOYEE IN LIST
     public int findIndex(String id){
         int index=0;
         for(int i = 0;i<employeeList.size();i++){
@@ -507,6 +513,7 @@ public class EmployeeOptions {
         return index;
     }
 
+    //FETCHES EMPLOYEE FROM LIST
     public Employee fetchEmployee(String empID){
         for (Employee employees : employeeList) {
             if (employees.getEmployeeID().equals(empID)) {
@@ -516,13 +523,13 @@ public class EmployeeOptions {
         return null;
     }
 
+    //UPDATES SALARY OF EMPLOYEE
     public void updateSalary(){
         for(int i = 0;i<employeeList.size();i++){
             employeeList.get(i).calculateGrossSalary();
         }
     }
-
-    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
+    
 
 
     //WILLIAM BELOW HERE
