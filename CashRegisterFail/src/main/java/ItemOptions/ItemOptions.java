@@ -382,7 +382,7 @@ public class ItemOptions {
 
 
     // John Essential Methods:
-    // Finds an item object by its ID
+    // Finds and returns an item object by its ID
     public Item findItemObject(String ID) {
         return items.get(findItem(ID));
     }
