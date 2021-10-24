@@ -14,18 +14,13 @@ public class EmployeeOptions {
     private List<Employee> employeeList;
     String ln= System.lineSeparator();
     SystemOutput sout;
-    private int bonus = 0;
+
 
     final int modifyReg = 0;
     final int modifyIntern = 1;
     final int modifyManager = 2;
     final int modifyDirector  = 3;
-    final int modifyName = 0;
-    final int modifyPromote = 1;
-    final int modifySalary = 2;
-    final int modifyDep = 3;
-    final int modifyDeg = 4;
-    final int modifyGPA = 5;
+    
 
     final String emptyDeg = null;
     final String emptyDep = null;
