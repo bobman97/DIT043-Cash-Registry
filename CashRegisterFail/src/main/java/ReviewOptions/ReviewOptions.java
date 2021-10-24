@@ -17,9 +17,6 @@ public class ReviewOptions {
     ArrayList<Item> items;
 
 
-
-    // Constructor YGM
-
     public ReviewOptions(ItemOptions itemID)  {
         systemOut = new SystemOutput();
         takeIn = new UserInput();
@@ -41,7 +38,7 @@ public class ReviewOptions {
                     break;
                 case 1: //Create review
                     ID = takeIn.readID("Please enter an item ID: ", "Please input a valid ID.");
-                    int reviewGrade = takeIn.getUserOption(5, "Enter an item grade:", "Grade values must be between 1 and 5");
+                    int reviewGrade = takeIn.readInt("Enter an item grade:", "Grade values must be between 1 and 5");
                     String reviewComment = takeIn.readComment("Enter an item comment (Optional): ");
                     if (!reviewComment.isEmpty()) {
                         System.out.println(reviewItem(ID, reviewComment, reviewGrade));
@@ -50,36 +47,36 @@ public class ReviewOptions {
                     }
                     break;
                 case 2: //Print specific review
-                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID: ", "Error. Please enter a valid item ID.");
                     int reviewNumber = takeIn.readInt("Enter review number: ","Please enter an integer.");
                     System.out.println(printSpecificReview(ID, reviewNumber));
                     break;
                 case 3: //Print all reviews of an item
-                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID: ", "Error. Please enter a valid item ID.");
                     System.out.println(getPrintedItemReviews(ID));
                     break;
                 case 4: //Print mean grade of an item
-                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID: ", "Error. Please enter a valid item ID.");
                     System.out.println(printMeanGradeItem(ID));
                     break;
                 case 5: //Print all comments of an item
-                    ID = takeIn.readID("Please enter an item ID.", "Error. Please enter a valid item ID.");
+                    ID = takeIn.readID("Please enter an item ID: ", "Error. Please enter a valid item ID.");
                     System.out.println(getItemCommentsPrinted(ID));
                     break;
                 case 6: //Print all registered reviews
-                    getPrintedReviews();
+                    System.out.println(getPrintedReviews());
                     break;
                 case 7: //Print item(s) w the most reviews
-                    printMostRevs();
+                    System.out.println(printMostRevs());
                     break;
                 case 8: //Print item(s) w the least reviews
-                    printLeastRevs();
+                    System.out.println(printLeastRevs());
                     break;
                 case 9: //Print item(s) w best mean grade
-                    printBestReviewedItems();
+                    System.out.println(printBestReviewedItems());
                     break;
                 case 10: //Print item(s) w worst mean grade
-                    printWorstReviewedItems();
+                    System.out.println(printWorstReviewedItems());
                     break;
             }
         } while(choice!=0);
@@ -95,9 +92,7 @@ public class ReviewOptions {
                 return "Grade values must be between 1 and 5.";
             }
             Item item = itemRegistry.findItemObject(ID);
-            System.out.println(item.reviewsList.size());
             item.reviewsList.add(new Reviews(reviewGrade, reviewComment));
-            System.out.println(item.reviewsList.size());
             return "Your item review was registered successfully.";
         } else {
             return "Item " + ID + " was not registered yet.";
@@ -149,7 +144,7 @@ public class ReviewOptions {
         }
 
         for (Reviews reviews : item.getReviewList()) {
-            printReviews += "Grade: " + reviews.getReviewGrade() + "." + reviews.getReviewComment() + ln;
+            printReviews += "Grade: " + reviews.toString() + ln;
         }
         return printReviews;
         } else {
@@ -197,7 +192,7 @@ public class ReviewOptions {
                 if (item.reviewsList.isEmpty()) {
                     allReviews += "";
                 } else {
-                    allReviews += "Review(s) for " + item.getId() + ": " + item.getName() + ". " + String.format("%.2f", item.getPrice()) + " SEK" + ln;
+                    allReviews += "Review(s) for " + item.toString() + ln;
 
                     for (int i = 0; i < item.getReviewList().size(); i++) {
                         allReviews += "Grade: " + item.reviewsList.get(i).getReviewGrade() + "." + item.reviewsList.get(i).getReviewComment() + ln;

@@ -386,13 +386,12 @@ public class ItemOptions {
 
 
     // John Essential Methods:
-    // Finds and item object by its ID
+    // Finds an item object by its ID
     public Item findItemObject(String ID) {
         return items.get(findItem(ID));
     }
 
 
-    // Why not use findItem instead? / William
     public boolean existenceChecker (String id){//Checks if such item currently exists
         boolean existence = false;
         for(Item currentItem : items){

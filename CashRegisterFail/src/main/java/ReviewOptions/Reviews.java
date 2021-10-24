@@ -30,7 +30,7 @@ public class Reviews {
     }
 
     public String toString() {
-        return reviewGrade + " " + reviewComment;
+        return reviewGrade + "." + reviewComment;
     }
 
 
