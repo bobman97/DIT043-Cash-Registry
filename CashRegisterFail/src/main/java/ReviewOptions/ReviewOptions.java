@@ -85,7 +85,7 @@ public class ReviewOptions {
 
 
 
-    // 1
+    // 1. CREATES A REVIEW WITH A COMMENT AND ADDS IT TO THE REVIEWS LIST
     public String reviewItem(String ID, String reviewComment, int reviewGrade) {
         if (itemRegistry.existenceChecker(ID)) {
             if (reviewGrade < 1 || reviewGrade > 5) {
@@ -98,7 +98,7 @@ public class ReviewOptions {
             return "Item " + ID + " was not registered yet.";
         }
     }
-
+    // CREATES A REVIEW WITHOUT A COMMENT AND ADDS IT TO THE REVIEWS LIST
     public String reviewItem(String ID, int reviewGrade) {
         if (itemRegistry.existenceChecker(ID)) {
             if (reviewGrade < 1 || reviewGrade > 5) {
@@ -114,7 +114,7 @@ public class ReviewOptions {
 
 
 
-    // 2
+    // 2. PRINTS A SPECIFIC REVIEW FOR AN ITEM BY TAKING ITEM ID AND THE NUMBER OF THE REVIEW AS INPUT
     public String printSpecificReview(String ID, int reviewNumber) {
         if (itemRegistry.existenceChecker(ID)) {
             Item item = itemRegistry.findItemObject(ID);
@@ -132,11 +132,11 @@ public class ReviewOptions {
 
     }
 
-    // 3
+    // 3. PRINTS ALL REVIEWS FOR A SINGLE ITEM
     public String getPrintedItemReviews(String ID) {
         if (itemRegistry.existenceChecker(ID)) {
         Item item = itemRegistry.findItemObject(ID);
-        String printReviews = "Review(s) for " + ID + ": " + item.getName() + ". " + String.format("%.2f", item.getPrice()) + " SEK" + ln;
+        String printReviews = "Review(s) for " + item.toString() + ln;
         String noReviewsError = "The item " + item.getName() + " has not been reviewed yet.";
 
         if (item.getReviewList().isEmpty()) {
@@ -152,7 +152,7 @@ public class ReviewOptions {
         }
     }
 
-    // 4
+    // 4. PRINTS THE MEAN GRADE OF AN ITEM
     public double printMeanGradeItem(String ID){
         if (itemRegistry.existenceChecker(ID)) {
             Item item = itemRegistry.findItemObject(ID);
@@ -162,7 +162,7 @@ public class ReviewOptions {
             return 0;
         }
     }
-    //5
+    // 5. GETS ALL COMMENTS FOR AN ITEM AND PRINTS THEM.
     public String getItemCommentsPrinted(String ID) {
           StringBuilder result = new StringBuilder();
          for (String comments : getItemComments(ID)) {
@@ -171,7 +171,7 @@ public class ReviewOptions {
          return result.toString();
     }
 
-    // 6
+    // 6. PRINTS ALL REGISTERED REVIEWS FOR ALL REGISTERED ITEMS
     public String getPrintedReviews() {
         items = itemRegistry.copyItems();
         List<List<Reviews>> reviews = new ArrayList<>();
@@ -204,7 +204,7 @@ public class ReviewOptions {
             return allReviews;
         }
 
-    // 7
+    // 7. PRINTS ITEMS WITH THE MOST REVIEWS
     public String printMostRevs() {
         items = itemRegistry.copyItems();
         int numberOfReviews = 0;
@@ -227,7 +227,7 @@ public class ReviewOptions {
         return mostReviews;
     }
 
-    // 8
+    // 8. PRINTS ITEMS WITH THE LEAST REVIEWS
     public String printLeastRevs(){
         items = itemRegistry.copyItems();
         int numberOfReviews = 0;
@@ -250,7 +250,7 @@ public class ReviewOptions {
         return leastReviews;
     }
 
-    // 9
+    // 9. PRINTS ITEMS WITH THE BEST REVIEWS
     public String printBestReviewedItems(){
         items = itemRegistry.copyItems();
         double meanGrade = 0.0;
@@ -274,7 +274,7 @@ public class ReviewOptions {
         return bestReviews;
     }
 
-    // 10
+    // 10. PRINTS ITEMS WITH THE WORST REVIEWS
     public String printWorstReviewedItems(){
         items = itemRegistry.copyItems();
         double meanGrade = 0.0;
@@ -299,6 +299,8 @@ public class ReviewOptions {
     }
 
 //Getter methods and ID methods
+
+    // GETS ALL COMMENTS FOR A PARTICULAR ITEM AND ADDS THEM TO AN ARRAYLIST.
     public List<String> getItemComments(String ID) {
         List<String> comments = new ArrayList<>();
         if (itemRegistry.findItemObject(ID) == null) {
@@ -313,6 +315,7 @@ public class ReviewOptions {
         return comments;
     }
 
+    // GETS THE NUMBER OF REVIEWS FOR A PARTICULAR ITEM.
 public int getNumberOfReviews(String ID) {
     int numberOfReviews = 0;
     if (itemRegistry.findItemObject(ID) == null) {
@@ -322,6 +325,7 @@ public int getNumberOfReviews(String ID) {
     return numberOfReviews;
 }
 
+    // GETS ITEMS WITH THE MOST REVIEWS AND ADDS THEIR IDS TO AN ARRAYLIST
 public List<String> getMostReviewedItems(){
         items = itemRegistry.copyItems();
         List<String> mostReviewedItems = new ArrayList<>();
@@ -350,7 +354,7 @@ public List<String> getMostReviewedItems(){
         }
         return mostReviewedItems;
 }
-
+    // GETS ITEMS WITH THE LEAST REVIEWS AND ADDS THEIR IDS TO AN ARRAYLIST
 public List<String> getLeastReviewedItems() {
     items = itemRegistry.copyItems();
     List<Item> reviewedItems = new ArrayList<>();
@@ -387,6 +391,7 @@ public List<String> getLeastReviewedItems() {
     }
     return leastReviewedItems;
 }
+    // GETS ITEMS WITH THE BEST REVIEWS AND ADDS THEIR IDS TO AN ARRAYLIST
     public List<String> getBestReviewedItems() {
         items = itemRegistry.copyItems();
         List<String> bestReviewedItems = new ArrayList<>();
@@ -414,7 +419,7 @@ public List<String> getLeastReviewedItems() {
             }
         return bestReviewedItems;
     }
-
+    // GETS ITEMS WITH THE WORST REVIEWS AND ADDS THEIR IDS TO AN ARRAYLIST
     public List<String> getWorstReviewedItems() {
         items = itemRegistry.copyItems();
         List<Item> reviewedItems = new ArrayList<>();
