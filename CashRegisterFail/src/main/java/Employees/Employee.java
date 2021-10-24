@@ -6,7 +6,7 @@ public class Employee {
     private String employeeName;
     private double grossSalary;
     private double netSalary;
-    private double taxPercentage=0.1;//<- does this work?
+    private double taxPercentage=0.1;
     private double rawSalary;
     SystemOutput sout;
     private boolean alreadyExcecuted = false;

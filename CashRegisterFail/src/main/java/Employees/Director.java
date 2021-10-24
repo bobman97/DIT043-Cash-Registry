@@ -13,6 +13,7 @@ public class Director extends Manager{
 
     public String toString(){return (super.toString()+" Dept: "+dept);}
 
+    //CALCULATES GROSS SALARY DEPENDING ON DEGREE AND RECEIVES BONUS
     public double calculateGrossSalary(){
         if(!super.getAlreadyExcected()){
             setBonus(5000);
@@ -22,6 +23,7 @@ public class Director extends Manager{
         }
     }
 
+    //CALCULATES TAX AND NET SALARY ACCORDING TO GROSS_SALARY
     public double calculateSalary() {
 
         if(getGrossSalary()<30000){

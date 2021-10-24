@@ -523,13 +523,13 @@ public class EmployeeOptions {
         return null;
     }
 
-    //UPDATES SALARY OF EMPLOYEE
+    //UPDATES SALARY OF EMPLOYEE AFTER CREATION TO GET PROPER GROSS_SALARY
     public void updateSalary(){
         for(int i = 0;i<employeeList.size();i++){
             employeeList.get(i).calculateGrossSalary();
         }
     }
-    
+
 
 
     //WILLIAM BELOW HERE
