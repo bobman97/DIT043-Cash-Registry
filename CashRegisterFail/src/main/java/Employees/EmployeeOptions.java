@@ -112,6 +112,8 @@ public class EmployeeOptions {
     }
 
     // FACADE TEST REQUIRED METHODS
+
+    //CREATE REGULAR EMPLOYEE 1
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty) throws Exception{
 
         employeeList.add(new Employee(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty));
@@ -120,6 +122,7 @@ public class EmployeeOptions {
         return result;
     }
 
+    //CREATE MANAGER EMPLOYEE 2
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty) throws Exception{
 
         employeeList.add(new Manager(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty));
@@ -128,6 +131,7 @@ public class EmployeeOptions {
         return result;
     }
 
+    //CREATE INTERN EMPLOYEE 4
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty, int gpaEmpty) throws Exception{
 
         employeeList.add(new Intern(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,gpaEmpty));
@@ -136,6 +140,7 @@ public class EmployeeOptions {
         return result;
     }
 
+    //CREATE DIRECTOR EMPLOYEE 3
     public String createEmployee(String employeeIDEmpty, String employeeNameEmpty, double grossSalaryEmpty,String degreeEmpty, String deptEmpty) throws Exception{
 
         employeeList.add(new Director(employeeIDEmpty,employeeNameEmpty,grossSalaryEmpty,degreeEmpty,deptEmpty));
@@ -144,6 +149,7 @@ public class EmployeeOptions {
         return result;
     }
 
+    //RETURN EMPLOYEE.TOSTRING 6
     public String printEmployee(String employeeID) throws Exception{
         if (fetchEmployee(employeeID)==null){
             throw new Exception("Employee " + employeeID + " was not registered yet.");
@@ -153,6 +159,7 @@ public class EmployeeOptions {
         }
     }
 
+    //RETURN NETSALARY OF A SINGLE EMPLOYEE
     public double getNetSalary(String employeeID) throws Exception{
         if (employeeList.isEmpty()){
             throw new Exception("Employee " + employeeID + " was not registered yet.");
@@ -167,6 +174,7 @@ public class EmployeeOptions {
     }
 
 
+    //REMOVE A GIVEN EMPLOYEE 5
     public String removeEmployee(String empID) throws Exception {
         if (fetchEmployee(empID) == null) {
             throw new Exception("Employee " + empID + " was not registered yet.");
@@ -177,7 +185,7 @@ public class EmployeeOptions {
         }
     }
 
-
+    //PRINTS ALL EMPLOYEE WITH TOSTRING 7
     public String printAllEmployees() throws Exception {
         if (employeeList.isEmpty()){
             throw new Exception("No employees registered yet.");
@@ -190,6 +198,7 @@ public class EmployeeOptions {
         }
     }
 
+    //FETCHES THE SUM OF ALL NETSALARIES COMBINED 8
     public double getTotalNetSalary() throws Exception {
     if (employeeList.isEmpty()){
         throw new Exception("No employees registered yet.");
@@ -202,6 +211,7 @@ public class EmployeeOptions {
         return roundDecimal(totalNetSalary);
     }
 
+    //PRINTS ALL EMPLOYEES SORTED BY NETSALARY 9
     public String printSortedEmployees() throws Exception {
         if (employeeList.isEmpty()){
             throw new Exception("No employees registered yet.");
