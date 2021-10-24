@@ -93,7 +93,8 @@ public class SystemOutput {
         return decimals.format(value);
     }
 
-    // truncates.
+    // Removes any decimals over #.00. Doesn't work for #.00 so use decimalFormat to fix printing
+    public double roundDecimal(double value)  {return (double)((long)(value * 100))/100;}
 
 
 }

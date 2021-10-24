@@ -108,7 +108,7 @@ public class ItemOptions {
         // Assign values depending on if it's a FACADE test or user run.
         id = (FACADE ? itemID : lookUpItem());
         name = (FACADE ? itemName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
-        price = (FACADE ? unitPrice : roundDecimal(readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA)));
+        price = (FACADE ? unitPrice : sysOut.roundDecimal(readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA)));
 
         if(!itemTest(id, name, price)) {
             System.out.println(INVALID_DATA);
@@ -205,7 +205,7 @@ public class ItemOptions {
         }
 
         totalItems = discounted + quantity;
-        totalPrice = roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
+        totalPrice = sysOut.roundDecimal((quantity * itemPrice) + (discounted * (itemPrice * (0.7))));
 
         success = "Successfully purchased " + totalItems +
                 " x Item " + id + ": " +
@@ -346,10 +346,6 @@ public class ItemOptions {
         return id;
     }
 
-    // Removes any decimals over #.00. Doesn't work for #.00 so use decimalFormat to fix printing
-    private double roundDecimal(double value)  {
-        return (double)((long)(value * 100))/100;
-    }
 
     // returns a deep copy of all the items in the shop.
     public ArrayList<Item> copyItems()  {

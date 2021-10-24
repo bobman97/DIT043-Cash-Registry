@@ -3,6 +3,7 @@ import CashRegister.UserInput;
 import CashRegister.SystemOutput;
 import ItemOptions.ItemOptions;
 import ItemOptions.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,16 +51,16 @@ public class TransacHistory {
                     System.out.println(printAllTrans());
                     break;
                 case 5:
-                    ID= readIn.validID();
+                    ID= readIn.readID("Please give valid ID", "You have given an invalid ID");
                     System.out.println(itemHistoryProfit(ID));
                     break;
                 case 6:
-                    ID= readIn.validID();
+                    ID= readIn.readID("Please give valid ID", "You have given an invalid ID");
                     System.out.println(itemHistoryUnitsSold(ID));
                     break;
 
                 case 7:
-                    ID= readIn.validID();
+                    ID= readIn.readID("Please give valid ID", "You have given an invalid ID");
                     System.out.println(printAllItemTrans(ID));
                     break;
                 case 8:
@@ -75,7 +76,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT EVER    1
-    public double allHistoryProfit(){return roundDecimal(allHistoryContent()[0]);}
+    public double allHistoryProfit(){return printMenu.roundDecimal(allHistoryContent()[0]);}
 
     //GIVES NUMBER OF UNITS SOLD EVER   2
     public int allHistoryUnitsSold(){
@@ -107,7 +108,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT FROM A SINGLE ITEM  5
-    public double itemHistoryProfit(String id){return roundDecimal(itemHistoryContent(id)[0]);}
+    public double itemHistoryProfit(String id){return printMenu.roundDecimal(itemHistoryContent(id)[0]);}
 
     //GIVES TOTAL UNITS SOLD OF A SINGLE ITEM  6
     public int itemHistoryUnitsSold(String id){return (int)itemHistoryContent(id)[1];}
@@ -117,6 +118,7 @@ public class TransacHistory {
 
     //OPERATES AND CALCULATES A ITEM`S HISTORY
     public double[] itemHistoryContent(String id){
+
         double[] itemHistory = new double[3];
         double totPrice = 0;
         double totTrans= 0;
@@ -138,7 +140,7 @@ public class TransacHistory {
     //PRINTS HISTORY OF ONE SINGLE ITEM   7
     public String printAllItemTrans(String id) {
         String result = "";
-        boolean itemExists = existanceChecker(id);
+        boolean itemExists = itemsData.existenceChecker(id);
         if(itemExists){//checks if item id exists
             result = "Transactions for item: "+ id + ": "+ getName(id)+". "+printMenu.decimalFix(getPrice(id))+" SEK"+ln; //Preps first line DONT
 
@@ -219,9 +221,9 @@ public class TransacHistory {
 
     // CHECKS IF ATLEAST ONE ITEM HAS EVER BEEN CREATED
     public void hasRegistered() {hasRegistered=true;}
-    // FETCHING INFORMATION FROM ITEMSCOPYARRAYLIST BELOW
 
 
+    //GETS INDEX OF ITEM IN ITEMSCOPYLIST
     public int getIndex(String id){
         items = itemsData.copyItems();
         int index = 0;
@@ -232,7 +234,7 @@ public class TransacHistory {
         }
         return index;
     }
-
+    //FETCHES NAME OF ITEM DEPENDING ON ID
     public String getName(String id){
         items = itemsData.copyItems();
         String name ="";
@@ -241,6 +243,7 @@ public class TransacHistory {
         return name;
     }
 
+    //GETS PRICE OF A ITEM
     public double getPrice(String id){
         items = itemsData.copyItems();
         double price = 0;
@@ -248,49 +251,5 @@ public class TransacHistory {
         price = items.get(index).getPrice();
         return price;
     }
-
-    public boolean existanceChecker (String id){//Checks if such item currently exists
-        items = itemsData.copyItems();
-        boolean existance = false;
-        for(Item currentItem : items){
-            if(id.equals(currentItem.getId())){
-                existance = true;
-            }
-        }
-        return existance;
-    }
-
-    public String validID(){
-        items = itemsData.copyItems();
-        boolean duplicate = true;
-        String userIn;
-        String valid="";
-        do{
-            userIn=readIn.readString("Please give ID of the item: ","You have given a wrong ID");
-
-            for(int i =0;i<items.size();i++){
-                if(userIn.equals(items.get(i).getId())){
-                    valid=userIn;
-                    duplicate=false;
-                }
-            }
-            if(duplicate){
-                System.out.println("You have given a non-existing ID, please try again!");
-            }
-            if(duplicate){
-                for(int i =0;i<items.size();i++){
-                    if(!userIn.equals(items.get(i).getId())){
-                        duplicate=true;
-                    }
-                }
-            }
-
-        }while(duplicate);
-        return valid;
-    }
-
-
-
-    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
 }
