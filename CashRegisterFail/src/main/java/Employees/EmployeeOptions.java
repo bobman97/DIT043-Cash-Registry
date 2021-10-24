@@ -1,7 +1,6 @@
 package Employees;
 import CashRegister.UserInput;
 import CashRegister.SystemOutput;
-import TransacHistory.Transaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +10,7 @@ import java.util.Map;
 public class EmployeeOptions {
     SystemOutput printMenu;
     UserInput readIn;
-    private List<Employee> employeeList;
+    private final List<Employee> employeeList;
     String ln= System.lineSeparator();
     SystemOutput sout;
 
@@ -248,6 +247,8 @@ public class EmployeeOptions {
         if (newName.isBlank()){
             throw new Exception("Name cannot be blank.");
         }
+
+        // Sends ID, and new employee name. Modify is which employee object that should be created.
         modifyEmployee(empID, newName, emptyDeg, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -259,6 +260,8 @@ public class EmployeeOptions {
         if (newGPA < 0 || newGPA > 10) {
             throw new Exception(newGPA + " outside range. Must be between 0-10.");
         }
+
+        // Sends ID, and new GPA. ModifyIntern is which employee object that should be created.
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, newGPA, modifyIntern);
         return "Employee " + empID + " was updated successfully";
     }
@@ -272,6 +275,7 @@ public class EmployeeOptions {
         }
         int modify = getModifyValue(empID); // This method used by both director and manager.
 
+        // Sends ID, and new employee degree. Modify is which employee object that should be created.
         modifyEmployee(empID, emptyName, newDegree, emptyDep, emptySalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -283,6 +287,8 @@ public class EmployeeOptions {
         if (!newDepartment.equals("Business") && !newDepartment.equals("Human Resources") && !newDepartment.equals("Technical")){
             throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
         }
+
+        // Sends ID, and new employee department. ModifyDirector is which employee object that should be created.
         modifyEmployee(empID, emptyName, emptyDeg, newDepartment, emptySalary, emptyGPA, modifyDirector);
         return "Employee " + empID + " was updated successfully";
     }
@@ -294,10 +300,10 @@ public class EmployeeOptions {
         if (newSalary <= 0){
             throw new Exception("Salary must be greater than zero.");
         }
-        String deg, dep;
-        int index = findIndex(empID);
+
         int modify = getModifyValue(empID);
 
+        // Sends ID, and new employee salary. Modify is which employee object that should be created.
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, newSalary, emptyGPA, modify);
         return "Employee " + empID + " was updated successfully";
     }
@@ -306,17 +312,23 @@ public class EmployeeOptions {
         if (employeeList.isEmpty()) {
             throw new Exception("No employees registered yet.");
         }
-        Map<String, Integer> map = new HashMap();
+        HashMap map = new HashMap();
         int BSc = 0;
         int MSc = 0;
         int PhD = 0;
-        for(int i = 0; i < employeeList.size(); i++)    {
+
+        // Loop through all employees
+        for (Employee employee : employeeList) {
             String deg = "";
-            if(employeeList.get(i) instanceof Manager)
-                deg = ((Manager) employeeList.get(i)).getDegree();
-            else if(employeeList.get(i) instanceof Director)
-                deg = ((Director) employeeList.get(i)).getDegree();
-            switch(deg) {
+
+            // Gets employees degree if they are a manager or director
+            if (employee instanceof Manager)
+                deg = ((Manager) employee).getDegree();
+            else if (employee instanceof Director)
+                deg = ((Director) employee).getDegree();
+
+            // Will only check for "BSc" || "MSc" || "PhD" and add one to respective integer.
+            switch (deg) {
                 case "BSc":
                     BSc++;
                     break;
@@ -325,8 +337,10 @@ public class EmployeeOptions {
                     break;
                 case "PhD":
                     PhD++;
+                    break;
             }
         }
+        // If any is 0 then this value won't be mapped(As required by test for null to be possible)
         if(BSc > 0)
             map.put("BSc", BSc);
         if(MSc > 0)
@@ -343,6 +357,8 @@ public class EmployeeOptions {
         if (!degree.equals("BSc") && !degree.equals("MSc") && !degree.equals("PhD")){
             throw new Exception("Degree must be one of the options: BSc, MSc or PhD.");
         }
+
+        // Sends ID, and which degree for employee. ModifyManager is which employee object that should be created.
         modifyEmployee(empID, emptyName, degree, emptyDep, emptySalary, emptyGPA, modifyManager);
         return empID + " promoted successfully to Manager.";
     }
@@ -354,6 +370,8 @@ public class EmployeeOptions {
         if (!department.equals("Business") && !department.equals("Human Resources") && !department.equals("Technical")){
             throw new Exception("Department must be one of the options: Business, Human Resources or Technical.");
         }
+
+        // Sends ID, and degree as well as department for employee. ModifyDirector is which employee object that should be created.
         modifyEmployee(empID, emptyName, degree, department, emptySalary, emptyGPA, modifyDirector);
         return empID + " promoted successfully to Director.";
     }
@@ -365,6 +383,8 @@ public class EmployeeOptions {
         if (gpa < 0 || gpa > 10) {
             throw new Exception(gpa + " outside range. Must be between 0-10.");
         }
+
+        // Sends ID, and what GPA. ModifyIntern is which employee object that should be created.
         modifyEmployee(empID, emptyName, emptyDeg, emptyDep, emptySalary, gpa, modifyIntern);
         return empID + " promoted successfully to Intern.";
     }
