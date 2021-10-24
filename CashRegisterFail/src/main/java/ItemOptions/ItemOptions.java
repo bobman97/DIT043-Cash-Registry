@@ -11,7 +11,7 @@ public class ItemOptions {
     // Constructor dependant variables
     SystemOutput sysOut;
     UserInput readIn;
-    private ArrayList<Item> items;
+    private final ArrayList<Item> items;
     TransacHistory saveTransaction;
     final boolean FACADE;
 
@@ -300,10 +300,7 @@ public class ItemOptions {
     // Tests if all items pass the requirements.
     private boolean itemTest(String id, String name, double price)  {
         id = (id.startsWith("ID") ? id.substring(2) : id);
-        if(FACADE && (!readIn.isNumber(id) || name.isEmpty() || price < 0))
-            return false;
-        else
-            return true;
+        return !FACADE || (readIn.isNumber(id) && !name.isEmpty() && !(price < 0));
     }
 
 
