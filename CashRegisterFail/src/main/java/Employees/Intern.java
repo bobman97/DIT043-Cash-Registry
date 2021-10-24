@@ -12,6 +12,7 @@ public class Intern extends Employee{
 
     public String toString(){return super.toString()+" GPA: "+GPA;}
 
+    //CALCULATES GROSS SALARY DEPENDING ON GPA AND SETS TAX
     public double calculateGrossSalary() {
         if(!super.getAlreadyExcected()){
             if (GPA <= 5) {

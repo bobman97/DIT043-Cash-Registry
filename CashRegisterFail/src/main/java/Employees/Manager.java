@@ -13,6 +13,7 @@ public class Manager extends Employee{
 
     public String toString(){return (degree+" "+super.toString());}
 
+    //CALCULATES GROSS SALARY ACCORDING TO DEGREE
     public double calculateGrossSalary(){
         if(!super.getAlreadyExcected()){
             if(degree.equals("BSc")){
