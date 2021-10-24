@@ -18,14 +18,11 @@ public class UserInput {
         items = new ArrayList<>();
     }
 
-    // Constructor 2
-    public UserInput(String input, String error)   {
-        setStrings(input, error);
-    }
 
     /*
     ***********************
     *       METHODS       *
+    *       WILLIAM       *
     ***********************
     */
 
@@ -87,9 +84,9 @@ public class UserInput {
         do {
             System.out.print(this.askUserFor);
             input = readIn.nextLine();
-            if(isNumber(input) == false)
+            if(!isNumber(input))
                 System.out.println(this.informUserError);
-        } while(isNumber(input) == false);
+        } while(!isNumber(input));
         return input;
     }
 
@@ -127,34 +124,22 @@ public class UserInput {
         this.askUserFor = input;
         this.informUserError = error;
     }
+
+    public void closeScanner()   {
+        readIn.close();
+    }
+
+
+    /*
+     **********************
+     *       METHODS      *
+     *    Burak / John    *
+     **********************
+     */
+
     public void setInputMsg(String input)  {
         this.askUserFor = input;
                }
-
-    public String inputID(String input, String error)    {
-        items = itemData.copyItems();
-        String id;
-        boolean checkExistance=false;
-
-        do {
-            id = readID(input, error);
-
-            for(int i = 0; i < items.size(); i++)   {
-                if(items.get(i).getId().equals(id)) {
-                    checkExistance=true;
-                }
-            }
-
-            if(!items.isEmpty() && !checkExistance) {
-                System.out.println(error);
-            }
-            else    {
-                checkExistance = false;
-            }
-        } while(checkExistance);
-        String stringID= id;
-        return stringID;
-    }
 
     public String validID(){
         items = itemData.copyItems();
@@ -183,9 +168,5 @@ public class UserInput {
 
         }while(duplicate);
         return valid;
-    }
-
-    public void closeScanner()   {
-        readIn.close();
     }
 }

@@ -1,9 +1,6 @@
 package ItemOptions;
 
-import ReviewOptions.ReviewOptions;
 import ReviewOptions.Reviews;
-
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -21,8 +21,6 @@ public class ItemOptions {
     final int CHANGE_NAME = 1;
     final int CHANGE_PRICE = 2;
     final int NULL_POINTER = -1;
-    final String PURCHASE_NOT_SUCCESSFUL = "Purchase was not successful.";
-    final String DATA_UPDATE_SUCCESFUL = "Updated items data.";
     final String NO_ITEMS_REGISTERED = "No items registered yet.";
     final String INVALID_DATA = "Invalid data for item.";
     final String INVALID_MENU_OPTION = "Invalid menu option. Please type another option";
@@ -45,7 +43,7 @@ public class ItemOptions {
     public ItemOptions(TransacHistory transactionHistory, boolean test) {
         sysOut = new SystemOutput();
         readIn = new UserInput();
-        items = new ArrayList<Item>();
+        items = new ArrayList<>();
         this.saveTransaction = transactionHistory;
         this.FACADE = test;
     }
@@ -108,7 +106,7 @@ public class ItemOptions {
         String name, success, id;
 
         // Assign values depending on if it's a FACADE test or user run.
-        id = (FACADE ? itemID : lookUpItem(ASK_ITEM_ID, INVALID_DATA));
+        id = (FACADE ? itemID : lookUpItem());
         name = (FACADE ? itemName : readIn.readString(ASK_ITEM_NAME, INVALID_DATA));
         price = (FACADE ? unitPrice : roundDecimal(readIn.readDouble(ASK_ITEM_PRICE, INVALID_DATA)));
 
@@ -118,7 +116,7 @@ public class ItemOptions {
         }
 
         // Adds item to our ArrayList
-        items.add(new Item(id, name, price)); // Object is stored in a list so we dont need reference.
+        items.add(new Item(id, name, price)); // Object is stored in a list, so we don't need a reference.
 
         // Print and return success message.
         success = "Item " + id + " was registered successfully.";
@@ -152,9 +150,11 @@ public class ItemOptions {
     }
 
     public String printAllItems() {
-        String itemInfo, headline, allItems;
+        String itemInfo;
+        String headline;
+        StringBuilder allItems;
         headline = "All registered items:";
-        allItems = headline + System.lineSeparator(); // allItems is our final String to RETURN
+        allItems = new StringBuilder(headline + System.lineSeparator()); // allItems is our final String to RETURN
 
         if(items.isEmpty()) { // If no items registered then print and return
             System.out.println(NO_ITEMS_REGISTERED);
@@ -163,15 +163,15 @@ public class ItemOptions {
 
         System.out.println(headline); // Print the headline
 
-        for(int i = 0; i < items.size(); i++)   { // Loop through all items and print the info
-            itemInfo = items.get(i).getId() + ": " +
-                    items.get(i).getName() + ". " +
-                    sysOut.decimalFix(items.get(i).getPrice()) + " SEK";
+        for (Item item : items) { // Loop through all items and print the info
+            itemInfo = item.getId() + ": " +
+                    item.getName() + ". " +
+                    sysOut.decimalFix(item.getPrice()) + " SEK";
             System.out.println(itemInfo);
-            allItems += itemInfo + System.lineSeparator();
+            allItems.append(itemInfo).append(System.lineSeparator());
         }
 
-        return allItems;
+        return allItems.toString();
     }
 
     public double buyItem(String itemID, int amount) {
@@ -227,7 +227,7 @@ public class ItemOptions {
     }
 
     // property: 1 == name, 2 == price
-    // This method is only called from newItemname() or newItemPrice()
+    // This method is only called from newItemName() or newItemPrice()
     private String changeItem(String itemID, String newName, double newPrice, int property)    {
         int index;
         double price;
@@ -328,25 +328,25 @@ public class ItemOptions {
     }
 
     // This method asks for and ID as input and checks if it's a duplicate
-    private String lookUpItem(String input, String error)    {
+    private String lookUpItem()    {
         String id;
         boolean checkDuplicate;
 
         do {
-            id = readIn.readID(input, error);
+            id = readIn.readID(ASK_ITEM_ID, INVALID_DATA);
 
-            if(items.isEmpty() == false && findItem(id) != -1) { // If list is not empty, then check if ID is duplicate:
-                System.out.println(error);
+            if(!items.isEmpty() && findItem(id) != -1) { // If list is not empty, then check if ID is duplicate:
+                System.out.println(INVALID_DATA);
                 checkDuplicate = true;
             }
             else    { // If list is empty or ID is not duplicate:
                 checkDuplicate = false;
             }
-        } while(checkDuplicate == true);
+        } while(checkDuplicate);
         return id;
     }
 
-    // Removes any decimals over #.00. Doesnt work for #.00 so use decimalFormat to fix printing
+    // Removes any decimals over #.00. Doesn't work for #.00 so use decimalFormat to fix printing
     private double roundDecimal(double value)  {
         return (double)((long)(value * 100))/100;
     }
