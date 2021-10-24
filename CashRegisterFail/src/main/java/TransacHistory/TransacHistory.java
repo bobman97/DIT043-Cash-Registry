@@ -76,7 +76,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT EVER    1
-    public double allHistoryProfit(){return roundDecimal(allHistoryContent()[0]);}
+    public double allHistoryProfit(){return printMenu.roundDecimal(allHistoryContent()[0]);}
 
     //GIVES NUMBER OF UNITS SOLD EVER   2
     public int allHistoryUnitsSold(){
@@ -108,7 +108,7 @@ public class TransacHistory {
     }
 
     //GIVES TOTAL PROFIT FROM A SINGLE ITEM  5
-    public double itemHistoryProfit(String id){return roundDecimal(itemHistoryContent(id)[0]);}
+    public double itemHistoryProfit(String id){return printMenu.roundDecimal(itemHistoryContent(id)[0]);}
 
     //GIVES TOTAL UNITS SOLD OF A SINGLE ITEM  6
     public int itemHistoryUnitsSold(String id){return (int)itemHistoryContent(id)[1];}
@@ -251,9 +251,5 @@ public class TransacHistory {
         price = items.get(index).getPrice();
         return price;
     }
-
-
-    //ROUNDS ITEMS PRICE
-    private double roundDecimal(double value)  {return ((double)((long)(value * 100)))/100;}
 
 }
