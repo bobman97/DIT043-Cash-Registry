@@ -164,9 +164,7 @@ public class ItemOptions {
         System.out.println(headline); // Print the headline
 
         for (Item item : items) { // Loop through all items and print the info
-            itemInfo = item.getId() + ": " +
-                    item.getName() + ". " +
-                    sysOut.decimalFix(item.getPrice()) + " SEK";
+            itemInfo = item.toString();
             System.out.println(itemInfo);
             allItems.append(itemInfo).append(System.lineSeparator());
         }
