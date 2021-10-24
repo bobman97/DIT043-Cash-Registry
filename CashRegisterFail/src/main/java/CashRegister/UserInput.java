@@ -68,7 +68,7 @@ public class UserInput {
         setStrings(input, error);
         do {
             System.out.print(this.askUserFor);
-            id = readIn.nextLine();
+            id = readIn.nextLine().trim(); // Handles if they enter "     " before a number to avoid "ID     1" for example
             id = (id.startsWith("ID") ? id : "ID" + id); // Removes ID from input.
             validInput = isNumber(id.substring(2));
             if(!validInput)
@@ -81,12 +81,14 @@ public class UserInput {
     // Gets user input as a number
     private String getNumber()   {
         String input;
+        boolean validNumber;
         do {
             System.out.print(this.askUserFor);
-            input = readIn.nextLine();
-            if(!isNumber(input))
+            input = readIn.nextLine().trim(); // .trim() handles "    " before a number which isn't caught by NumberFormatException
+            validNumber = isNumber(input);
+            if(!validNumber)
                 System.out.println(this.informUserError);
-        } while(!isNumber(input));
+        } while(!validNumber);
         return input;
     }
 
